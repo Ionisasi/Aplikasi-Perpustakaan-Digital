@@ -1,9 +1,49 @@
+import os
 import sys
+import hashlib
+import json
 from PySide6.QtWidgets import QApplication, QMessageBox, QMainWindow
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
-from _compiled_connector import login_action, register_action
 from view.Perpustakaan import Ui_MainWindow  # Hasil konversi dari Perpustakaan.ui
+
+# Path untuk menyimpan data pengguna
+DATA_AKUN = "users.json"
+
+# Fungsi untuk memuat data pengguna
+def load_users():
+    if os.path.exists(DATA_AKUN):
+        with open(DATA_AKUN, "r") as file:
+            return json.load(file)
+    return {}
+
+# Fungsi untuk menyimpan data pengguna
+def save_users(users):
+    with open(DATA_AKUN, "w") as file:
+        json.dump(users, file, indent=4)
+
+# Fungsi untuk menangani login
+def login_action(email, password):
+    users = load_users()
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+    if email in users and users[email]["password"] == hashed_password:
+        return True, "Login sukses! Selamat Datang."
+    elif email not in users:
+        return False, "Email tidak ditemukan. Silakan daftar terlebih dahulu."
+    else:
+        return False, "Password salah. Silakan coba lagi."
+
+# Fungsi untuk menangani registrasi
+def register_action(email, password):
+    users = load_users()
+    if email in users:
+        return False, "Email sudah terdaftar. Silakan login."
+
+    hashed_password = hashlib.sha256(password.encode()).hexdigest()
+    users[email] = {"password": hashed_password}
+    save_users(users)
+    return True, "Registrasi berhasil! Anda sekarang dapat login."
 
 class MainApp(QMainWindow):
     def __init__(self):
@@ -16,24 +56,24 @@ class MainApp(QMainWindow):
         self.ui.registerButton.clicked.connect(self.handle_signup)
 
     def handle_login(self):
-        username = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
+        email = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
         password = self.ui.passwordInput.text().strip()  # Mengambil input dari QLineEdit untuk password
 
-        success, message = login_action(username, password)
+        success, message = login_action(email, password)
         if success:
             QMessageBox.information(self, "Success", message)
         else:
             QMessageBox.critical(self, "Error", message)
 
     def handle_signup(self):
-        username = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk Username
+        email = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
         password = self.ui.passwordInput.text().strip()  # Mengambil input dari QLineEdit untuk password
 
-        if not username or not password:
-            QMessageBox.warning(self, "Error", "Username dan Password tidak boleh kosong!")
+        if not email or not password:
+            QMessageBox.warning(self, "Error", "Email dan password tidak boleh kosong!")
             return
 
-        success, message = register_action(username, password)
+        success, message = register_action(email, password)
         if success:
             QMessageBox.information(self, "Success", message)
         else:
