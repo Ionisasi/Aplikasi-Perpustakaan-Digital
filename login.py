@@ -7,8 +7,9 @@ from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from view.Perpustakaan import Ui_MainWindow  # Hasil konversi dari Perpustakaan.ui
 
-# Path untuk menyimpan data pengguna
-DATA_AKUN = "users.json"
+# Path untuk menyimpan data pengguna kemudian di konfirmasi
+DATA_AKUN = os.path.join(os.path.dirname(__file__), "database", "users.json")
+os.makedirs(os.path.join(os.path.dirname(__file__), "database"), exist_ok=True)
 
 # Fungsi untuk memuat data pengguna
 def load_users():
@@ -45,7 +46,7 @@ def register_action(email, password):
     save_users(users)
     return True, "Registrasi berhasil! Anda sekarang dapat login."
 
-class MainApp(QMainWindow):
+class Login(QMainWindow):
     def __init__(self):
         super().__init__()
         self.ui = Ui_MainWindow()
@@ -99,6 +100,6 @@ if __name__ == "__main__":
     app.setPalette(palette)
 
     # Menjalankan aplikasi
-    window = MainApp()
+    window = Login()
     window.show()
     sys.exit(app.exec())
