@@ -5,11 +5,17 @@ import json
 from PySide6.QtWidgets import QApplication, QMessageBox, QMainWindow
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
-from view.Perpustakaan import Ui_MainWindow  # Hasil konversi dari Perpustakaan.ui
+from view.UIPerpustakaan import Ui_MainWindow  # Hasil konversi dari Perpustakaan.ui
+from model.dashboard import Dashboard
 
 # Path untuk menyimpan data pengguna kemudian di konfirmasi
 DATA_AKUN = os.path.join(os.path.dirname(__file__), "database", "users.json")
 os.makedirs(os.path.join(os.path.dirname(__file__), "database"), exist_ok=True)
+
+# path model
+model_path = os.path.join(os.path.dirname(__file__), "model")
+if model_path not in sys.path:
+    sys.path.append(model_path)
 
 # Fungsi untuk memuat data pengguna
 def load_users():
@@ -63,6 +69,13 @@ class Login(QMainWindow):
         success, message = login_action(email, password)
         if success:
             QMessageBox.information(self, "Success", message)
+            
+            # Buka jendela Dashboard
+            self.dashboard = Dashboard()
+            self.dashboard.show()
+            
+            # Tutup jendela login
+            self.close()
         else:
             QMessageBox.critical(self, "Error", message)
 

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dashboard</class>
+ <widget class="QMainWindow" name="Dashboard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Digital Library Dashboard</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="labelHeader">
+      <property name="styleSheet">
+       <string notr="true">font-size: 24px; font-weight: bold; text-align: center; color: #0275d8;</string>
+      </property>
+      <property name="text">
+       <string>Dashboard - Aplikasi Perpustakaan Digital</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="summaryGroup">
+      <property name="title">
+       <string>Ringkasan</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_1">
+       <item>
+        <widget class="QLabel" name="totalBooksLabel">
+         <property name="styleSheet">
+          <string notr="true">font-size: 16px; color: #02C2D8;</string>
+         </property>
+         <property name="text">
+          <string>Total Buku: 0</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="borrowedBooksLabel">
+         <property name="styleSheet">
+          <string notr="true">font-size: 16px; color: #02C2D8
+</string>
+         </property>
+         <property name="text">
+          <string>Buku Yang Dipinjam: 0</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="navigationGroup">
+      <property name="title">
+       <string>Quick Navigation</string>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="bookListButton">
+         <property name="text">
+          <string>Daftar Buku</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="searchBooksButton">
+         <property name="text">
+          <string>Cari Buku</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="borrowedBooksButton">
+         <property name="text">
+          <string>Peminjaman Buku</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addBookButton">
+         <property name="text">
+          <string>Tambah Buku Baru</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QGroupBox" name="activitiesGroup">
+      <property name="title">
+       <string>Aktivitas Terbaru</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QTableWidget" name="activitiesTable">
+         <column>
+          <property name="text">
+           <string>Aktivitas</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Timestamp</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
