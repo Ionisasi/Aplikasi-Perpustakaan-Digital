@@ -18,7 +18,7 @@
     <item>
      <widget class="QLabel" name="titleLabel">
       <property name="styleSheet">
-       <string notr="true">font-size: 24px; font-weight: bold; color: #333;</string>
+       <string notr="true">font-size: 24px; font-weight: bold; color: #0275d8;</string>
       </property>
       <property name="text">
        <string>Perpustakaan Digital</string>
@@ -92,7 +92,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>33</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

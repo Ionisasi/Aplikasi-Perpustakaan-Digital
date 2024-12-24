@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'Perpustakaan.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.8.0
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.titleLabel = QLabel(self.centralwidget)
         self.titleLabel.setObjectName(u"titleLabel")
-        self.titleLabel.setStyleSheet(u"font-size: 24px; font-weight: bold; color: #333;")
+        self.titleLabel.setStyleSheet(u"font-size: 24px; font-weight: bold; color: #0275d8;")
         self.titleLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.titleLabel)
@@ -70,7 +70,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 400, 33))
+        self.menubar.setGeometry(QRect(0, 0, 400, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
