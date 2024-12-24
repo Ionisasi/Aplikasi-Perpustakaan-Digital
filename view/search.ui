@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Cari Buku</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="searchLayout">
+      <item>
+       <widget class="QLineEdit" name="searchBar">
+        <property name="placeholderText">
+         <string>Masukkan judul atau nama penulis...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="searchButton">
+        <property name="text">
+         <string>Cari</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="filterLayout">
+      <item>
+       <widget class="QComboBox" name="categoryDropdown">
+        <item>
+         <property name="text">
+          <string>Semua</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fiksi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Non-Fiksi</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sains</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sejarah</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="sortDropdown">
+        <item>
+         <property name="text">
+          <string>Populer</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Terbaru</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>A-Z</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Z-A</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTableWidget" name="resultsTable">
+      <column>
+       <property name="text">
+        <string>Judul</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Penulis</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Kategori</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Tahun Terbit</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="detailsButton">
+      <property name="text">
+       <string>Lihat Detail</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
