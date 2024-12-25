@@ -60,13 +60,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.registerButton)
 
-        self.logoutButton = QPushButton(self.centralwidget)
-        self.logoutButton.setObjectName(u"logoutButton")
-        self.logoutButton.setVisible(False)
-        self.logoutButton.setStyleSheet(u"background-color: #d9534f; color: white; padding: 10px; border: none; border-radius: 4px; font-size: 16px; font-weight: bold;")
-
-        self.verticalLayout.addWidget(self.logoutButton)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -88,6 +81,5 @@ class Ui_MainWindow(object):
         self.passwordInput.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your password", None))
         self.loginButton.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.registerButton.setText(QCoreApplication.translate("MainWindow", u"Register", None))
-        self.logoutButton.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
     # retranslateUi
 
