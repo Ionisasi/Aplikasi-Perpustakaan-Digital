@@ -1,11 +1,10 @@
+import os
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import (
     QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy,
     QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
 )
-import os
-
 
 def get_image_path(filename):
     """Mengembalikan jalur absolut ke gambar dalam folder 'asset'."""
@@ -68,7 +67,7 @@ class Ui_Dashboard(object):
 
         profile_info_layout = QVBoxLayout()
 
-        name_label = QLabel("Ryan")
+        name_label = QLabel("Admin")
         name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
         name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
