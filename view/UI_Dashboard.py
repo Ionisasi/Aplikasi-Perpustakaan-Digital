@@ -3,7 +3,7 @@ from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import (
     QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy,
-    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
+    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem, QButtonGroup
 )
 
 def get_image_path(filename):
@@ -129,6 +129,7 @@ class Ui_Dashboard(object):
         koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
         kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
         log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
+        logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
 
         sidebar_layout.addWidget(dashboard_button)
         sidebar_layout.addWidget(koleksi_button)
@@ -144,6 +145,14 @@ class Ui_Dashboard(object):
         logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
 
         sidebar_layout.addWidget(logout_button)
+
+        self.button_group = QButtonGroup()
+        self.button_group.setExclusive(True) 
+
+        self.button_group.addButton(dashboard_button)
+        self.button_group.addButton(koleksi_button)
+        self.button_group.addButton(kelola_button)
+        self.button_group.addButton(log_data_button)
 
         sidebar_layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
 
