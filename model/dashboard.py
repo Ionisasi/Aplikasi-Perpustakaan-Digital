@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QMainWindow
-from view.UIdashboard import Ui_Dashboard  # Import hasil konversi dari Dashboard.ui
-
+from view.UI_Dashboard import Ui_Dashboard
 class Dashboard(QMainWindow):
     def __init__(self):
         super().__init__()

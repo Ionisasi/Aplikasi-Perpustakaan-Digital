@@ -1,17 +1,24 @@
-import sys
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtWidgets import (
-    QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy, QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
-)
 from PySide6.QtGui import QPixmap, QIcon
+from PySide6.QtWidgets import (
+    QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
+)
+import os
 
-class Dashboard(QMainWindow):
-    def __init__(self):
-        super().__init__()
 
-        self.setWindowTitle("Perpustakaan Digital")
-        self.setGeometry(100, 100, 1080, 700)
-        self.setWindowIcon(QIcon("Buku.png"))
+def get_image_path(filename):
+    """Mengembalikan jalur absolut ke gambar dalam folder 'asset'."""
+    # Mengambil direktori parent dari folder 'view'
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_dir, "asset", filename)
+
+
+class Ui_Dashboard(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setWindowTitle("Perpustakaan Digital")
+        MainWindow.setGeometry(100, 100, 1080, 700)
+        MainWindow.setWindowIcon(QIcon(get_image_path("Buku.png")))
 
         # Main widget and layout
         main_widget = QWidget()
@@ -27,7 +34,7 @@ class Dashboard(QMainWindow):
 
         icon_label = QLabel()
         icon_label.setFixedSize(70, 70)
-        icon_label.setPixmap(QPixmap("Buku.png"))
+        icon_label.setPixmap(QPixmap(get_image_path("Buku.png")))
         icon_label.setScaledContents(True)
 
         title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
@@ -55,7 +62,7 @@ class Dashboard(QMainWindow):
 
         profile_icon = QLabel()
         profile_icon.setFixedSize(70, 70)
-        profile_icon.setPixmap(QPixmap("Admin1.png"))
+        profile_icon.setPixmap(QPixmap(get_image_path("Admin1.png")))
         profile_icon.setStyleSheet("background-color: white;")
         profile_icon.setScaledContents(True)
 
@@ -116,12 +123,11 @@ class Dashboard(QMainWindow):
             elif fallback_icon:
                 button.setIcon(QIcon(fallback_icon))
 
-            button.clicked.connect(lambda: self.on_sidebar_button_click(button))
             self.sidebar_buttons.append(button)
             return button
 
         dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
-        koleksi_button = create_sidebar_button("Koleksi", None, "icons8-book-64.png")
+        koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
         kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
         log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
 
@@ -136,7 +142,7 @@ class Dashboard(QMainWindow):
 
         sidebar_layout.addWidget(menu2_label)
 
-        logout_button = create_sidebar_button("Logout", None, "icons8-logout-50.png")
+        logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
 
         sidebar_layout.addWidget(logout_button)
 
@@ -165,18 +171,4 @@ class Dashboard(QMainWindow):
 
         main_layout.addLayout(content_layout)
 
-        self.setCentralWidget(main_widget)
-
-    def on_sidebar_button_click(self, clicked_button):
-        for button in self.sidebar_buttons:
-            if button != clicked_button:
-                button.setChecked(False)
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    app.setStyle('Fusion')
-
-    window = Dashboard()
-    window.show()
-
-    app.exec()
+        MainWindow.setCentralWidget(main_widget)
