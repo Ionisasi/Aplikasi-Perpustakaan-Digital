@@ -20,75 +20,79 @@ class Ui_Dashboard(object):
         MainWindow.setWindowIcon(QIcon(get_image_path("Buku.png")))
 
         # Main widget and layout
-        main_widget = QWidget()
-        main_layout = QVBoxLayout(main_widget)  # Vertical layout to accommodate the header
-        main_layout.setContentsMargins(0, 0, 0, 0)
+        self.main_widget = QWidget()
+        self.main_layout = QVBoxLayout(self.main_widget)  # Vertical layout to accommodate the header
+        self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         # Header
-        header = QWidget()
-        header.setFixedHeight(91)
-        header.setStyleSheet("background-color: rgb(0, 255, 0);")
-        header_layout = QHBoxLayout(header)
-        header_layout.setContentsMargins(10, 10, 10, 10)
+        self.header = QWidget()
+        self.header.setFixedHeight(91)
+        self.header.setStyleSheet("background-color: rgb(0, 255, 0);")
+        self.header_layout = QHBoxLayout(self.header)
+        self.header_layout.setContentsMargins(10, 10, 10, 10)
 
-        icon_label = QLabel()
-        icon_label.setFixedSize(70, 70)
-        icon_label.setPixmap(QPixmap(get_image_path("Buku.png")))
-        icon_label.setScaledContents(True)
+        self.icon_label = QLabel()
+        self.icon_label.setObjectName("iconLabel")
+        self.icon_label.setFixedSize(70, 70)
+        self.icon_label.setPixmap(QPixmap(get_image_path("Buku.png")))
+        self.icon_label.setScaledContents(True)
 
-        title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
-        title_label.setStyleSheet("font-size: 26px; font-weight: bold; color: #ffffff;")
-        title_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
+        self.title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
+        self.title_label.setStyleSheet("font-size: 26px; font-weight: bold; color: #ffffff;")
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
-        header_layout.addWidget(icon_label)
-        header_layout.addWidget(title_label)
+        self.header_layout.addWidget(self.icon_label)
+        self.header_layout.addWidget(self.title_label)
 
-        main_layout.addWidget(header)  # Add header to the main layout
+        self.main_layout.addWidget(self.header)  # Add header to the main layout
 
         # Content Layout (Sidebar and Main Content)
-        content_layout = QHBoxLayout()
+        self.content_layout = QHBoxLayout()
 
         # Sidebar
-        sidebar = QWidget()
-        sidebar.setFixedWidth(291)
-        sidebar.setStyleSheet("background-color: rgb(0, 33, 48);")
-        sidebar_layout = QVBoxLayout(sidebar)
-        sidebar_layout.setContentsMargins(10, 20, 10, 20)
+        self.sidebar = QWidget()
+        self.sidebar.setFixedWidth(291)
+        self.sidebar.setStyleSheet("background-color: rgb(0, 33, 48);")
+        self.sidebar_layout = QVBoxLayout(self.sidebar)
+        self.sidebar_layout.setContentsMargins(10, 20, 10, 20)
 
         # Profile Section
-        profile_widget = QWidget()
-        profile_layout = QHBoxLayout(profile_widget)
+        self.profile_widget = QWidget()
+        self.profile_layout = QHBoxLayout(self.profile_widget)
 
-        profile_icon = QLabel()
-        profile_icon.setFixedSize(70, 70)
-        profile_icon.setPixmap(QPixmap(get_image_path("Admin1.png")))
-        profile_icon.setStyleSheet("background-color: white;")
-        profile_icon.setScaledContents(True)
+        self.profile_icon = QLabel()
+        self.profile_icon.setObjectName("profileIcon")
+        self.profile_icon.setFixedSize(70, 70)
+        self.profile_icon.setPixmap(QPixmap(get_image_path("Admin1.png")))
+        self.profile_icon.setStyleSheet("background-color: white;")
+        self.profile_icon.setScaledContents(True)
 
-        profile_info_layout = QVBoxLayout()
+        self.profile_info_layout = QVBoxLayout()
 
-        name_label = QLabel("Admin")
-        name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
-        name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.name_label = QLabel("Admin")
+        self.name_label.setObjectName("nameLabel")
+        self.name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
+        self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        position_label = QLabel("Administrator")
-        position_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #000000; background-color: rgb(255, 255, 0);")
-        position_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.position_label = QLabel("Administrator")
+        self.position_label.setObjectName("positionLabel")
+        self.position_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #000000; background-color: rgb(255, 255, 0);")
+        self.position_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        profile_info_layout.addWidget(name_label)
-        profile_info_layout.addWidget(position_label)
+        self.profile_info_layout.addWidget(self.name_label)
+        self.profile_info_layout.addWidget(self.position_label)
 
-        profile_layout.addWidget(profile_icon)
-        profile_layout.addLayout(profile_info_layout)
+        self.profile_layout.addWidget(self.profile_icon)
+        self.profile_layout.addLayout(self.profile_info_layout)
 
-        sidebar_layout.addWidget(profile_widget)
+        self.sidebar_layout.addWidget(self.profile_widget)
 
         # Menu Items
-        menu1_label = QLabel("Main Navigation")
-        menu1_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
-        menu1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.menu1_label = QLabel("Main Navigation")
+        self.menu1_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
+        self.menu1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        sidebar_layout.addWidget(menu1_label)
+        self.sidebar_layout.addWidget(self.menu1_label)
 
         self.sidebar_buttons = []
 
@@ -125,58 +129,65 @@ class Ui_Dashboard(object):
             self.sidebar_buttons.append(button)
             return button
 
-        dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
-        koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
-        kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
-        log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
-        logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
+        self.dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
+        self.dashboard_button.setObjectName("dashboardButton")
+        self.koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
+        self.koleksi_button.setObjectName("koleksiButton")
+        self.kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
+        self.kelola_button.setObjectName("kelolaButton")
+        self.log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
+        self.log_data_button.setObjectName("logDataButton")
+        self.logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
+        self.logout_button.setObjectName("logoutButton")
 
-        sidebar_layout.addWidget(dashboard_button)
-        sidebar_layout.addWidget(koleksi_button)
-        sidebar_layout.addWidget(kelola_button)
-        sidebar_layout.addWidget(log_data_button)
+        self.sidebar_layout.addWidget(self.dashboard_button)
+        self.sidebar_layout.addWidget(self.koleksi_button)
+        self.sidebar_layout.addWidget(self.kelola_button)
+        self.sidebar_layout.addWidget(self.log_data_button)
 
-        menu2_label = QLabel("Settings")
-        menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
-        menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.menu2_label = QLabel("Settings")
+        self.menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
+        self.menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        sidebar_layout.addWidget(menu2_label)
+        self.sidebar_layout.addWidget(self.menu2_label)
 
-        logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
+        self.logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
 
-        sidebar_layout.addWidget(logout_button)
+        self.sidebar_layout.addWidget(self.logout_button)
 
         self.button_group = QButtonGroup()
-        self.button_group.setExclusive(True) 
+        self.button_group.setExclusive(True)
 
-        self.button_group.addButton(dashboard_button)
-        self.button_group.addButton(koleksi_button)
-        self.button_group.addButton(kelola_button)
-        self.button_group.addButton(log_data_button)
+        self.button_group.addButton(self.dashboard_button)
+        self.button_group.addButton(self.koleksi_button)
+        self.button_group.addButton(self.kelola_button)
+        self.button_group.addButton(self.log_data_button)
 
-        sidebar_layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
+        self.sidebar_layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
 
         # Main Content
-        content_widget = QWidget()
-        content_widget_layout = QVBoxLayout(content_widget)
-        content_widget_layout.setContentsMargins(10, 10, 10, 10)
+        self.content_widget = QWidget()
+        self.content_widget_layout = QVBoxLayout(self.content_widget)
+        self.content_widget_layout.setContentsMargins(10, 10, 10, 10)
 
-        search_bar = QLineEdit()
-        search_bar.setPlaceholderText("Search...")
-        search_bar.setStyleSheet("border-radius: 20px; padding: 10px;")
-        search_bar.setFixedHeight(40)
+        self.search_bar = QLineEdit()
+        self.search_bar.setObjectName("searchBar")
+        self.search_bar.setPlaceholderText("Search...")
+        self.search_bar.setStyleSheet("border-radius: 20px; padding: 10px;")
+        self.search_bar.setFixedHeight(40)
 
-        content_widget_layout.addWidget(search_bar)
+        self.content_widget_layout.addWidget(self.search_bar)
 
-        main_content = QLabel("Main Content Area")
-        main_content.setStyleSheet("font-size: 24px; text-align: center;")
-        main_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.main_content = QLabel("Main Content Area")
+        self.main_content.setObjectName("mainContentLabel")
+        self.main_content.setStyleSheet("font-size: 24px; text-align: center;")
+        self.main_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        content_widget_layout.addWidget(main_content)
+        self.content_widget_layout.addWidget(self.main_content)
 
-        content_layout.addWidget(sidebar)
-        content_layout.addWidget(content_widget)
+        self.content_layout.addWidget(self.sidebar)
+        self.content_layout.addWidget(self.content_widget)
 
-        main_layout.addLayout(content_layout)
+        self.main_layout.addLayout(self.content_layout)
 
-        MainWindow.setCentralWidget(main_widget)
+        MainWindow.setCentralWidget(self.main_widget)
