@@ -11,7 +11,7 @@ class Dashboard(QMainWindow):
 
         self.setWindowTitle("Perpustakaan Digital")
         self.setGeometry(100, 100, 1080, 700)
-        self.setWindowIcon(QIcon("Buku.png"))
+        self.setWindowIcon(QIcon("Asset/Icon/Buku.png"))
 
         # Main widget and layout
         main_widget = QWidget()
@@ -27,7 +27,7 @@ class Dashboard(QMainWindow):
 
         icon_label = QLabel()
         icon_label.setFixedSize(70, 70)
-        icon_label.setPixmap(QPixmap("Buku.png"))
+        icon_label.setPixmap(QPixmap("Asset/Icon/Buku.png"))
         icon_label.setScaledContents(True)
 
         title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
@@ -55,7 +55,7 @@ class Dashboard(QMainWindow):
 
         profile_icon = QLabel()
         profile_icon.setFixedSize(70, 70)
-        profile_icon.setPixmap(QPixmap("Admin1.png"))
+        profile_icon.setPixmap(QPixmap("Asset/Icon/Admin1.png"))
         profile_icon.setStyleSheet("background-color: white;")
         profile_icon.setScaledContents(True)
 
@@ -85,10 +85,13 @@ class Dashboard(QMainWindow):
         sidebar_layout.addWidget(menu1_label)
 
         self.sidebar_buttons = []
+        self.kelola_submenu = QWidget()
+        self.kelola_submenu_layout = QVBoxLayout(self.kelola_submenu)
+        self.kelola_submenu.setVisible(False)
 
         def create_sidebar_button(text, theme_icon=None, fallback_icon=None):
             button = QPushButton(text)
-            button.setCheckable(True)
+            # button.setCheckable(True)
             button.setStyleSheet("""
                 QPushButton {
                     font-size: 20px;
@@ -120,15 +123,63 @@ class Dashboard(QMainWindow):
             self.sidebar_buttons.append(button)
             return button
 
-        dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
-        koleksi_button = create_sidebar_button("Koleksi", None, "icons8-book-64.png")
-        kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
-        log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
+        dashboard_button = create_sidebar_button("Dashboard",None, "Asset/Icon/home.png")
+        koleksi_button = create_sidebar_button("Koleksi", None, "Asset/Icon/koleksi.png")
+        kelola_button = create_sidebar_button("Kelola Data", None, "Asset/Icon/open-folder.png")
+        kelola_button.clicked.connect(self.toggle_kelola_submenu)
+
+        log_data_button = create_sidebar_button("Log Data", None, "Asset/Icon/log-data.png")
 
         sidebar_layout.addWidget(dashboard_button)
         sidebar_layout.addWidget(koleksi_button)
         sidebar_layout.addWidget(kelola_button)
+        sidebar_layout.addWidget(self.kelola_submenu)
         sidebar_layout.addWidget(log_data_button)
+
+        # Submenu Buttons (using the same style as sidebar buttons)
+        data_buku_button = QPushButton("Data Buku")
+        data_buku_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:checked {
+                background-color: rgb(0, 100, 200);
+                color: #ffffff;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        data_buku_button.setIcon(QIcon("Asset/Icon/book.png"))
+        self.kelola_submenu_layout.addWidget(data_buku_button)
+
+        data_anggota_button = QPushButton("Data Anggota")
+        data_anggota_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:checked {
+                background-color: rgb(0, 100, 200);
+                color: #ffffff;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        data_anggota_button.setIcon(QIcon("Asset/Icon/user.png"))
+        self.kelola_submenu_layout.addWidget(data_anggota_button)
 
         menu2_label = QLabel("Settings")
         menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
@@ -136,7 +187,7 @@ class Dashboard(QMainWindow):
 
         sidebar_layout.addWidget(menu2_label)
 
-        logout_button = create_sidebar_button("Logout", None, "icons8-logout-50.png")
+        logout_button = create_sidebar_button("Logout", None, "Asset/Icon/logout.png")
 
         sidebar_layout.addWidget(logout_button)
 
@@ -166,6 +217,9 @@ class Dashboard(QMainWindow):
         main_layout.addLayout(content_layout)
 
         self.setCentralWidget(main_widget)
+
+    def toggle_kelola_submenu(self):
+        self.kelola_submenu.setVisible(not self.kelola_submenu.isVisible())
 
     def on_sidebar_button_click(self, clicked_button):
         for button in self.sidebar_buttons:
