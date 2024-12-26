@@ -95,6 +95,13 @@ class Ui_Dashboard(object):
         self.sidebar_layout.addWidget(self.menu1_label)
 
         self.sidebar_buttons = []
+        self.kelola_submenu = QWidget()
+        self.kelola_submenu_layout = QVBoxLayout(self.kelola_submenu)
+        self.kelola_submenu.setVisible(False)
+
+        self.koleksi_submenu = QWidget()
+        self.koleksi_submenu_layout = QVBoxLayout(self.koleksi_submenu)
+        self.koleksi_submenu.setVisible(False)
 
         def create_sidebar_button(text, theme_icon=None, fallback_icon=None):
             button = QPushButton(text)
@@ -141,9 +148,93 @@ class Ui_Dashboard(object):
         self.logout_button.setObjectName("logoutButton")
 
         self.sidebar_layout.addWidget(self.dashboard_button)
+        self.sidebar_layout.addWidget(self.koleksi_submenu)
         self.sidebar_layout.addWidget(self.koleksi_button)
         self.sidebar_layout.addWidget(self.kelola_button)
+        self.sidebar_layout.addWidget(self.kelola_submenu)
         self.sidebar_layout.addWidget(self.log_data_button)
+        
+        # Submenu Buttons (using the same style as sidebar buttons)
+        data_buku_button = QPushButton("Data Buku")
+        data_buku_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:checked {
+                background-color: rgb(0, 100, 200);
+                color: #ffffff;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        data_buku_button.setIcon(QIcon("Icon/book.png"))
+        self.kelola_submenu_layout.addWidget(data_buku_button)
+
+        data_anggota_button = QPushButton("Data Anggota")
+        data_anggota_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:checked {
+                background-color: rgb(0, 100, 200);
+                color: #ffffff;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        data_anggota_button.setIcon(QIcon("Icon/user.png"))
+        self.kelola_submenu_layout.addWidget(data_anggota_button)
+        
+        # Submenu Buttons - Koleksi
+        fiksi_button = QPushButton("Fiksi")
+        fiksi_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        fiksi_button.setIcon(QIcon("Icon/book-open.png"))
+        self.koleksi_submenu_layout.addWidget(fiksi_button)
+
+        nonfiksi_button = QPushButton("Nonfiksi")
+        nonfiksi_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        nonfiksi_button.setIcon(QIcon("Icon/book-open.png"))
+        self.koleksi_submenu_layout.addWidget(nonfiksi_button)
 
         self.menu2_label = QLabel("Settings")
         self.menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
@@ -190,4 +281,15 @@ class Ui_Dashboard(object):
 
         self.main_layout.addLayout(self.content_layout)
 
-        MainWindow.setCentralWidget(self.main_widget)
+        self.setCentralWidget(self.main_widget)
+        
+    def toggle_kelola_submenu(self):
+        self.kelola_submenu.setVisible(not self.kelola_submenu.isVisible())
+    
+    def toggle_koleksi_submenu(self):
+        self.koleksi_submenu.setVisible(not self.koleksi_submenu.isVisible())
+
+    def on_sidebar_button_click(self, clicked_button):
+        for button in self.sidebar_buttons:
+            if button != clicked_button:
+                button.setChecked(False)
