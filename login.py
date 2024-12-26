@@ -5,7 +5,7 @@ import json
 from PySide6.QtWidgets import QApplication, QMessageBox, QMainWindow
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
-from view.UIPerpustakaan import Ui_MainWindow  # Hasil konversi dari Perpustakaan.ui
+from view.UI_Perpustakaan import Ui_MainWindow
 from model.dashboard import Dashboard
 
 # Path untuk menyimpan data pengguna kemudian di konfirmasi
