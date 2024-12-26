@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QMainWindow
-from view.search import Ui_Search  # Import hasil konversi dari search.ui
+from view.search import Ui_MainWindow  # Import hasil konversi dari search.ui
 
 class SearchWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_Search()
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         
         # Tambahkan logika khusus untuk fitur pencarian
