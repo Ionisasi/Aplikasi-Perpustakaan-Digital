@@ -281,7 +281,7 @@ class Ui_Dashboard(object):
 
         self.main_layout.addLayout(self.content_layout)
 
-        self.setCentralWidget(self.main_widget)
+        MainWindow.setCentralWidget(self.main_widget)
         
     def toggle_kelola_submenu(self):
         self.kelola_submenu.setVisible(not self.kelola_submenu.isVisible())
