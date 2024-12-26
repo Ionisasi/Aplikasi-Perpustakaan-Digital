@@ -148,8 +148,8 @@ class Ui_Dashboard(object):
         self.logout_button.setObjectName("logoutButton")
 
         self.sidebar_layout.addWidget(self.dashboard_button)
-        self.sidebar_layout.addWidget(self.koleksi_submenu)
         self.sidebar_layout.addWidget(self.koleksi_button)
+        self.sidebar_layout.addWidget(self.koleksi_submenu)
         self.sidebar_layout.addWidget(self.kelola_button)
         self.sidebar_layout.addWidget(self.kelola_submenu)
         self.sidebar_layout.addWidget(self.log_data_button)
@@ -282,14 +282,3 @@ class Ui_Dashboard(object):
         self.main_layout.addLayout(self.content_layout)
 
         MainWindow.setCentralWidget(self.main_widget)
-        
-    def toggle_kelola_submenu(self):
-        self.kelola_submenu.setVisible(not self.kelola_submenu.isVisible())
-    
-    def toggle_koleksi_submenu(self):
-        self.koleksi_submenu.setVisible(not self.koleksi_submenu.isVisible())
-
-    def on_sidebar_button_click(self, clicked_button):
-        for button in self.sidebar_buttons:
-            if button != clicked_button:
-                button.setChecked(False)
