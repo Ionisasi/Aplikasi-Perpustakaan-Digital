@@ -1,29 +1,17 @@
-import os
+import sys
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import (
-    QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy,
-    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
+    QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy, QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem
 )
+from PySide6.QtGui import QPixmap, QIcon
 
-def get_image_path(filename):
-    """Mengembalikan jalur absolut ke gambar dalam folder 'asset'."""
-    # Mengambil direktori parent dari folder 'view'
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_dir, "asset", filename)
+class Dashboard(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         self.setWindowTitle("Perpustakaan Digital")
         self.setGeometry(100, 100, 1080, 700)
         self.setWindowIcon(QIcon("Asset/Icon/Buku.png"))
-========
-
-class Ui_Dashboard(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setWindowTitle("Perpustakaan Digital")
-        MainWindow.setGeometry(100, 100, 1080, 700)
-        MainWindow.setWindowIcon(QIcon(get_image_path("Buku.png")))
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
 
         # Main widget and layout
         main_widget = QWidget()
@@ -39,11 +27,7 @@ class Ui_Dashboard(object):
 
         icon_label = QLabel()
         icon_label.setFixedSize(70, 70)
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         icon_label.setPixmap(QPixmap("Asset/Icon/Buku.png"))
-========
-        icon_label.setPixmap(QPixmap(get_image_path("Buku.png")))
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
         icon_label.setScaledContents(True)
 
         title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
@@ -71,17 +55,13 @@ class Ui_Dashboard(object):
 
         profile_icon = QLabel()
         profile_icon.setFixedSize(70, 70)
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         profile_icon.setPixmap(QPixmap("Asset/Icon/Admin1.png"))
-========
-        profile_icon.setPixmap(QPixmap(get_image_path("Admin1.png")))
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
         profile_icon.setStyleSheet("background-color: white;")
         profile_icon.setScaledContents(True)
 
         profile_info_layout = QVBoxLayout()
 
-        name_label = QLabel("Admin")
+        name_label = QLabel("Ryan")
         name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
         name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -139,22 +119,16 @@ class Ui_Dashboard(object):
             elif fallback_icon:
                 button.setIcon(QIcon(fallback_icon))
 
+            button.clicked.connect(lambda: self.on_sidebar_button_click(button))
             self.sidebar_buttons.append(button)
             return button
 
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         dashboard_button = create_sidebar_button("Dashboard",None, "Asset/Icon/home.png")
         koleksi_button = create_sidebar_button("Koleksi", None, "Asset/Icon/koleksi.png")
         kelola_button = create_sidebar_button("Kelola Data", None, "Asset/Icon/open-folder.png")
         kelola_button.clicked.connect(self.toggle_kelola_submenu)
 
         log_data_button = create_sidebar_button("Log Data", None, "Asset/Icon/log-data.png")
-========
-        dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
-        koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
-        kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
-        log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
 
         sidebar_layout.addWidget(dashboard_button)
         sidebar_layout.addWidget(koleksi_button)
@@ -213,11 +187,7 @@ class Ui_Dashboard(object):
 
         sidebar_layout.addWidget(menu2_label)
 
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         logout_button = create_sidebar_button("Logout", None, "Asset/Icon/logout.png")
-========
-        logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
 
         sidebar_layout.addWidget(logout_button)
 
@@ -246,7 +216,6 @@ class Ui_Dashboard(object):
 
         main_layout.addLayout(content_layout)
 
-<<<<<<<< HEAD:Asset/UI_Dashboard_admin.py
         self.setCentralWidget(main_widget)
 
     def toggle_kelola_submenu(self):
@@ -265,6 +234,3 @@ if __name__ == "__main__":
     window.show()
 
     app.exec()
-========
-        MainWindow.setCentralWidget(main_widget)
->>>>>>>> 5c343174df8a261a8047991bdd0a2afc2096197c:view/UI_Dashboard.py
