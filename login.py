@@ -7,6 +7,7 @@ from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from view.UI_Perpustakaan import Ui_MainWindow
 from model.dashboard import Dashboard
+from model.registrasi import Registrasi
 
 # Path untuk menyimpan data pengguna kemudian di konfirmasi
 DATA_AKUN = os.path.join(os.path.dirname(__file__), "database", "users.json")
@@ -41,17 +42,6 @@ def login_action(email, password):
     else:
         return False, "Password salah. Silakan coba lagi."
 
-# Fungsi untuk menangani registrasi
-def register_action(email, password):
-    users = load_users()
-    if email in users:
-        return False, "Email sudah terdaftar. Silakan login."
-
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    users[email] = {"password": hashed_password}
-    save_users(users)
-    return True, "Registrasi berhasil! Anda sekarang dapat login."
-
 class Login(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -80,21 +70,11 @@ class Login(QMainWindow):
             QMessageBox.critical(self, "Error", message)
 
     def handle_signup(self):
-        email = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
-        password = self.ui.passwordInput.text().strip()  # Mengambil input dari QLineEdit untuk password
-
-        if not email or not password:
-            QMessageBox.warning(self, "Error", "Email dan password tidak boleh kosong!")
-            return
-
-        success, message = register_action(email, password)
-        if success:
-            QMessageBox.information(self, "Success", message)
-        else:
-            QMessageBox.critical(self, "Error", message)
+        # Buka jendela registrasi
+        self.register = Registrasi()
+        self.register.show()
 
 if __name__ == "__main__":
-    # Konfigurasi aplikasi
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
 
