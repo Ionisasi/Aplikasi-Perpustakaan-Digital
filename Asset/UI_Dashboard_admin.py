@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QPixmap, QIcon
 
-class Dashboard(QMainWindow):
+class DashboardAdmin(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -230,7 +230,9 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
 
-    window = Dashboard()
+    window = DashboardAdmin()
     window.show()
 
     app.exec()
+
+# catatan dari yanda: ni buat ui ke kode komplit
