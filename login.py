@@ -7,6 +7,7 @@ from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from view.UI_Perpustakaan import Ui_MainWindow
 from model.dashboard import Dashboard
+# from Asset.UI_Dashboard_admin import DashboardAdmin 
 from model.registrasi import Registrasi
 
 # Path ke database
