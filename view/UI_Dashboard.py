@@ -2,22 +2,17 @@ import os
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QPixmap, QIcon
 from PySide6.QtWidgets import (
-    QApplication, QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QLabel, QMainWindow, QPushButton, QSizePolicy,
+    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem,
+    QApplication, QLabel, QPushButton, QSizePolicy,
     QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem, QButtonGroup
 )
 
-def get_image_path(filename):
-    """Mengembalikan jalur absolut ke gambar dalam folder 'asset'."""
-    # Mengambil direktori parent dari folder 'view'
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_dir, "asset", filename)
-
-
-class Ui_Dashboard(object):
+class Ui_Dashboard:
     def setupUi(self, MainWindow):
         MainWindow.setWindowTitle("Perpustakaan Digital")
         MainWindow.setGeometry(100, 100, 1080, 700)
-        MainWindow.setWindowIcon(QIcon(get_image_path("Buku.png")))
+        MainWindow.setWindowIcon(QIcon("Asset/Icon/Buku.png"))
 
         # Main widget and layout
         self.main_widget = QWidget()
@@ -31,12 +26,13 @@ class Ui_Dashboard(object):
         self.header_layout = QHBoxLayout(self.header)
         self.header_layout.setContentsMargins(10, 10, 10, 10)
 
+
         self.icon_label = QLabel()
         self.icon_label.setObjectName("iconLabel")
         self.icon_label.setFixedSize(70, 70)
-        self.icon_label.setPixmap(QPixmap(get_image_path("Buku.png")))
+        self.icon_label.setPixmap(QPixmap("Asset/Icon/Buku.png"))
         self.icon_label.setScaledContents(True)
-
+        
         self.title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
         self.title_label.setStyleSheet("font-size: 26px; font-weight: bold; color: #ffffff;")
         self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
@@ -60,16 +56,17 @@ class Ui_Dashboard(object):
         self.profile_widget = QWidget()
         self.profile_layout = QHBoxLayout(self.profile_widget)
 
+
         self.profile_icon = QLabel()
         self.profile_icon.setObjectName("profileIcon")
         self.profile_icon.setFixedSize(70, 70)
-        self.profile_icon.setPixmap(QPixmap(get_image_path("Admin1.png")))
+        self.profile_icon.setPixmap(QPixmap("Asset/Icon/Admin1.png"))
         self.profile_icon.setStyleSheet("background-color: white;")
         self.profile_icon.setScaledContents(True)
 
         self.profile_info_layout = QVBoxLayout()
 
-        self.name_label = QLabel("Admin")
+        self.name_label = QLabel("Ryan")
         self.name_label.setObjectName("nameLabel")
         self.name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
         self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -105,7 +102,6 @@ class Ui_Dashboard(object):
 
         def create_sidebar_button(text, theme_icon=None, fallback_icon=None):
             button = QPushButton(text)
-            button.setCheckable(True)
             button.setStyleSheet("""
                 QPushButton {
                     font-size: 20px;
@@ -115,10 +111,6 @@ class Ui_Dashboard(object):
                     padding-left: 20px;
                     border: none;
                     height: 50px;
-                }
-                QPushButton:checked {
-                    background-color: rgb(0, 100, 200);
-                    color: #ffffff;
                 }
                 QPushButton:hover {
                     background-color: rgb(0, 50, 100);
@@ -136,16 +128,16 @@ class Ui_Dashboard(object):
             self.sidebar_buttons.append(button)
             return button
 
-        self.dashboard_button = create_sidebar_button("Dashboard", "go-home", "icons/dashboard.png")
+
+        self.dashboard_button = create_sidebar_button("Dashboard", None, "Asset/Icon/home.png")
         self.dashboard_button.setObjectName("dashboardButton")
-        self.koleksi_button = create_sidebar_button("Koleksi", None, get_image_path("icons8-book-64.png"))
+        self.koleksi_button = create_sidebar_button("Koleksi", None, "Asset/Icon/koleksi.png")
         self.koleksi_button.setObjectName("koleksiButton")
-        self.kelola_button = create_sidebar_button("Kelola Data", "folder-open", "icons/folder-open.png")
+        self.kelola_button = create_sidebar_button("Kelola Data", None, "Asset/Icon/open-folder.png")
         self.kelola_button.setObjectName("kelolaButton")
-        self.log_data_button = create_sidebar_button("Log Data", "accessories-dictionary", "icons/log-data.png")
+
+        self.log_data_button = create_sidebar_button("Log Data", None, "Asset/Icon/log-data.png")
         self.log_data_button.setObjectName("logDataButton")
-        self.logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
-        self.logout_button.setObjectName("logoutButton")
 
         self.sidebar_layout.addWidget(self.dashboard_button)
         self.sidebar_layout.addWidget(self.koleksi_button)
@@ -236,13 +228,50 @@ class Ui_Dashboard(object):
         nonfiksi_button.setIcon(QIcon("Icon/book-open.png"))
         self.koleksi_submenu_layout.addWidget(nonfiksi_button)
 
+        # Submenu Buttons
+        self.data_buku_button = QPushButton("Data Buku")
+        self.data_buku_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        self.data_buku_button.setIcon(QIcon("Asset/Icon/book.png"))
+        self.kelola_submenu_layout.addWidget(self.data_buku_button)
+
+        data_anggota_button = QPushButton("Data Anggota")
+        data_anggota_button.setStyleSheet("""
+            QPushButton {
+                font-size: 20px;
+                font-weight: bold;
+                padding-left: 40px;
+                color: #ffffff;
+                border: none;
+                height: 40px;
+                text-align: left;
+            }
+            QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+            }
+        """)
+        data_anggota_button.setIcon(QIcon("Asset/Icon/user.png"))
+        self.kelola_submenu_layout.addWidget(data_anggota_button)
+
         self.menu2_label = QLabel("Settings")
         self.menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
         self.menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.sidebar_layout.addWidget(self.menu2_label)
 
-        self.logout_button = create_sidebar_button("Logout", None, get_image_path("icons8-logout-50.png"))
+        self.logout_button = create_sidebar_button("Logout", None, "Asset/Icon/logout.png")
 
         self.sidebar_layout.addWidget(self.logout_button)
 
