@@ -9,7 +9,23 @@ class Dashboard(QMainWindow):
 
         # connect buttons
         self.ui.logout_button.clicked.connect(self.logout)
+        self.ui.kelola_button.clicked.connect(self.toggle_kelola_submenu)
+        self.ui.koleksi_button.clicked.connect(self.toggle_koleksi_submenu)
 
+        # Mengatur eksklusivitas tombol
+        for button in self.ui.sidebar_buttons:
+            button.clicked.connect(lambda checked, btn=button: self.on_sidebar_button_click(btn))
+    
+    def toggle_kelola_submenu(self):
+        self.ui.kelola_submenu.setVisible(not self.ui.kelola_submenu.isVisible())
+
+    def toggle_koleksi_submenu(self):
+        self.ui.koleksi_submenu.setVisible(not self.ui.koleksi_submenu.isVisible())
+
+    def on_sidebar_button_click(self, clicked_button):
+        for button in self.ui.sidebar_buttons:
+            if button != clicked_button:
+                button.setChecked(False)
     def logout(self):
         # Displaying a message box on logout
         message_box = QMessageBox()
