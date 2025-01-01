@@ -178,15 +178,13 @@ class Ui_Dashboard:
         data_anggota_button.setIcon(QIcon("Asset/Icon/user.png"))
         self.kelola_submenu_layout.addWidget(data_anggota_button)
 
-        menu2_label = QLabel("Settings")
-        menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
-        menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.menu2_label = QLabel("Settings")
+        self.menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
+        self.menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.sidebar_layout.addWidget(self.menu2_label)
 
-
         self.logout_button = create_sidebar_button("Logout", None, "Asset/Icon/logout.png")
-
 
         self.sidebar_layout.addWidget(self.logout_button)
 
