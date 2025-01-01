@@ -1,57 +1,39 @@
 import os
 import sys
+import sqlite3
 import hashlib
-import json
 from PySide6.QtWidgets import QApplication, QMessageBox, QMainWindow
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from view.UI_Perpustakaan import Ui_MainWindow
 from model.dashboard import Dashboard
-from Asset.UI_Dashboard_admin import DashboardAdmin 
+# from Asset.UI_Dashboard_admin import DashboardAdmin 
+from model.registrasi import Registrasi
 
-# Path untuk menyimpan data pengguna kemudian di konfirmasi
-DATA_AKUN = os.path.join(os.path.dirname(__file__), "database", "users.json")
-os.makedirs(os.path.join(os.path.dirname(__file__), "database"), exist_ok=True)
-
-# path model
-model_path = os.path.join(os.path.dirname(__file__), "model")
-if model_path not in sys.path:
-    sys.path.append(model_path)
-
-# Fungsi untuk memuat data pengguna
-def load_users():
-    if os.path.exists(DATA_AKUN):
-        with open(DATA_AKUN, "r") as file:
-            return json.load(file)
-    return {}
-
-# Fungsi untuk menyimpan data pengguna
-def save_users(users):
-    with open(DATA_AKUN, "w") as file:
-        json.dump(users, file, indent=4)
+# Path ke database
+DATABASE_PATH = os.path.join(os.path.dirname(__file__), "database", "perpusdigi.db")
 
 # Fungsi untuk menangani login
 def login_action(email, password):
-    users = load_users()
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
-    if email in users and users[email]["password"] == hashed_password:
-        return True, "Login sukses! Selamat Datang."
-    elif email not in users:
-        return False, "Email tidak ditemukan. Silakan daftar terlebih dahulu."
-    else:
-        return False, "Password salah. Silakan coba lagi."
+    try:
+        # Koneksi ke database
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
 
-# Fungsi untuk menangani registrasi
-def register_action(email, password):
-    users = load_users()
-    if email in users:
-        return False, "Email sudah terdaftar. Silakan login."
+        # Query untuk memeriksa email dan password
+        query = "SELECT * FROM anggota WHERE email = ? AND password = ?"
+        cursor.execute(query, (email, hashed_password))
+        result = cursor.fetchone()
+        conn.close()
 
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-    users[email] = {"password": hashed_password}
-    save_users(users)
-    return True, "Registrasi berhasil! Anda sekarang dapat login."
+        if result:
+            return True, "Login sukses! Selamat Datang."
+        else:
+            return False, "Email atau password salah. Silakan coba lagi."
+    except sqlite3.Error as e:
+        return False, f"Terjadi kesalahan pada database: {e}"
 
 class Login(QMainWindow):
     def __init__(self):
@@ -81,21 +63,11 @@ class Login(QMainWindow):
             QMessageBox.critical(self, "Error", message)
 
     def handle_signup(self):
-        email = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
-        password = self.ui.passwordInput.text().strip()  # Mengambil input dari QLineEdit untuk password
-
-        if not email or not password:
-            QMessageBox.warning(self, "Error", "Email dan password tidak boleh kosong!")
-            return
-
-        success, message = register_action(email, password)
-        if success:
-            QMessageBox.information(self, "Success", message)
-        else:
-            QMessageBox.critical(self, "Error", message)
+        # Buka jendela registrasi
+        self.register = Registrasi()
+        self.register.show()
 
 if __name__ == "__main__":
-    # Konfigurasi aplikasi
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
 
