@@ -39,3 +39,18 @@ class Dashboard(QMainWindow):
         from login import Login  # Local import to avoid circular import
         self.login = Login()
         self.login.show()
+        
+    def on_sidebar_button_click(self, clicked_button):
+        for button in self.ui.sidebar_buttons:
+            if button != clicked_button:
+                button.setChecked(False)
+        
+        # Ubah konten utama berdasarkan tombol yang diklik
+        if clicked_button == self.ui.dashboard_button:
+            self.ui.main_content.setText("Dashboard Content")
+        elif clicked_button == self.ui.koleksi_button:
+            self.ui.main_content.setText("Koleksi Content")
+        elif clicked_button == self.ui.kelola_button:
+            self.ui.main_content.setText("Kelola Data Content")
+        elif clicked_button == self.ui.log_data_button:
+            self.ui.main_content.setText("Log Data Content")

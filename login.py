@@ -15,6 +15,9 @@ DATABASE_PATH = os.path.join(os.path.dirname(__file__), "database", "perpusdigi.
 
 # Fungsi untuk menangani login
 def login_action(email, password):
+    if not email or not password:
+        return False, "Email dan password tidak boleh kosong."
+
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
     try:
