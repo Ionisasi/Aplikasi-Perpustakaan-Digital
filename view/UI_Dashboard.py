@@ -1,268 +1,406 @@
-import os
-from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QPixmap, QIcon
-from PySide6.QtWidgets import (
-    QLabel, QMainWindow, QPushButton, QSizePolicy,
-    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem,
-    QApplication, QLabel, QPushButton, QSizePolicy,
-    QVBoxLayout, QHBoxLayout, QWidget, QLineEdit, QSpacerItem, QButtonGroup
-)
+# -*- coding: utf-8 -*-
 
-class Ui_Dashboard:
-    def setupUi(self, MainWindow):
-        MainWindow.setWindowTitle("Perpustakaan Digital")
-        MainWindow.setGeometry(100, 100, 1080, 700)
-        MainWindow.setWindowIcon(QIcon("Asset/Icon/Buku.png"))
+################################################################################
+## Form generated from reading UI file 'Dashboard.ui'
+##
+## Created by: Qt User Interface Compiler version 6.7.2
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-        # Main widget and layout
-        self.main_widget = QWidget()
-        self.main_layout = QVBoxLayout(self.main_widget)  # Vertical layout to accommodate the header
-        self.main_layout.setContentsMargins(0, 0, 0, 0)
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
+    QLabel, QLineEdit, QMainWindow, QPushButton,
+    QScrollArea, QSizePolicy, QStackedWidget, QVBoxLayout,
+    QWidget)
 
-        # Header
-        self.header = QWidget()
-        self.header.setFixedHeight(91)
-        self.header.setStyleSheet("background-color: rgb(0, 255, 0);")
-        self.header_layout = QHBoxLayout(self.header)
-        self.header_layout.setContentsMargins(10, 10, 10, 10)
+class Ui_UI_Dashboard(object):
+    def setupUi(self, UI_Dashboard):
+        if not UI_Dashboard.objectName():
+            UI_Dashboard.setObjectName(u"UI_Dashboard")
+        UI_Dashboard.resize(1080, 700)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(UI_Dashboard.sizePolicy().hasHeightForWidth())
+        UI_Dashboard.setSizePolicy(sizePolicy)
+        self.centralwidget = QWidget(UI_Dashboard)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u".QWidget{\n"
+"background-color: rgb(0, 33, 48);\n"
+"}")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setSpacing(0)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.search = QLineEdit(self.centralwidget)
+        self.search.setObjectName(u"search")
+        self.search.setMinimumSize(QSize(0, 30))
+        self.search.setMaximumSize(QSize(16777215, 35))
+        self.search.setStyleSheet(u"QLineEdit {\n"
+" border: 2px solid gray;\n"
+" border-radius: 15px;\n"
+"}")
+
+        self.gridLayout.addWidget(self.search, 1, 1, 1, 2)
+
+        self.profileWidget = QWidget(self.centralwidget)
+        self.profileWidget.setObjectName(u"profileWidget")
+        self.profileWidget.setEnabled(True)
+        self.profileWidget.setMinimumSize(QSize(0, 70))
+        self.profileWidget.setMaximumSize(QSize(16777215, 100))
+        self.horizontalLayout_3 = QHBoxLayout(self.profileWidget)
+        self.horizontalLayout_3.setSpacing(0)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(5, 5, 5, 5)
+        self.IconProfile = QLabel(self.profileWidget)
+        self.IconProfile.setObjectName(u"IconProfile")
+        self.IconProfile.setMaximumSize(QSize(70, 70))
+        self.IconProfile.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.IconProfile.setPixmap(QPixmap(u"../Asset/Icon/Admin1.png"))
+        self.IconProfile.setScaledContents(True)
+
+        self.horizontalLayout_3.addWidget(self.IconProfile)
+
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.NamaAkun = QLabel(self.profileWidget)
+        self.NamaAkun.setObjectName(u"NamaAkun")
+        self.NamaAkun.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: center; color: #ffffff;")
+        self.NamaAkun.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.NamaAkun)
+
+        self.Role = QLabel(self.profileWidget)
+        self.Role.setObjectName(u"Role")
+        self.Role.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: center; color: #000000;\n"
+"background-color: rgb(255, 255, 0);")
+        self.Role.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_2.addWidget(self.Role)
 
 
-        self.icon_label = QLabel()
-        self.icon_label.setObjectName("iconLabel")
-        self.icon_label.setFixedSize(70, 70)
-        self.icon_label.setPixmap(QPixmap("Asset/Icon/Buku.png"))
+        self.horizontalLayout_3.addLayout(self.verticalLayout_2)
+
+
+        self.gridLayout.addWidget(self.profileWidget, 1, 0, 2, 1)
+
+        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+        self.stackedWidget.setStyleSheet(u"background-color: #ffffff;")
+        self.page1 = QWidget()
+        self.page1.setObjectName(u"page1")
+        self.stackedWidget.addWidget(self.page1)
+        self.page2 = QWidget()
+        self.page2.setObjectName(u"page2")
+        self.stackedWidget.addWidget(self.page2)
+        self.page3 = QWidget()
+        self.page3.setObjectName(u"page3")
+        self.stackedWidget.addWidget(self.page3)
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.stackedWidget.addWidget(self.page)
+        self.page4 = QWidget()
+        self.page4.setObjectName(u"page4")
+        self.stackedWidget.addWidget(self.page4)
+        self.page5 = QWidget()
+        self.page5.setObjectName(u"page5")
+        self.stackedWidget.addWidget(self.page5)
+        self.page6 = QWidget()
+        self.page6.setObjectName(u"page6")
+        self.stackedWidget.addWidget(self.page6)
+        self.page7 = QWidget()
+        self.page7.setObjectName(u"page7")
+        self.stackedWidget.addWidget(self.page7)
+
+        self.gridLayout.addWidget(self.stackedWidget, 2, 2, 2, 1)
+
+        self.HeaderLabel = QWidget(self.centralwidget)
+        self.HeaderLabel.setObjectName(u"HeaderLabel")
+        sizePolicy.setHeightForWidth(self.HeaderLabel.sizePolicy().hasHeightForWidth())
+        self.HeaderLabel.setSizePolicy(sizePolicy)
+        self.HeaderLabel.setMaximumSize(QSize(16777215, 100))
+        self.HeaderLabel.setStyleSheet(u"background-color: rgb(0, 255, 0);")
+        self.horizontalLayout = QHBoxLayout(self.HeaderLabel)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.icon_label = QLabel(self.HeaderLabel)
+        self.icon_label.setObjectName(u"icon_label")
+        self.icon_label.setMaximumSize(QSize(70, 70))
+        self.icon_label.setPixmap(QPixmap(u"../Asset/Icon/Buku.png"))
         self.icon_label.setScaledContents(True)
-        
-        self.title_label = QLabel("Perpustakaan Digital\n      Kelompok 2")
-        self.title_label.setStyleSheet("font-size: 26px; font-weight: bold; color: #ffffff;")
-        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
 
-        self.header_layout.addWidget(self.icon_label)
-        self.header_layout.addWidget(self.title_label)
+        self.horizontalLayout.addWidget(self.icon_label)
 
-        self.main_layout.addWidget(self.header)  # Add header to the main layout
+        self.title_label = QLabel(self.HeaderLabel)
+        self.title_label.setObjectName(u"title_label")
+        self.title_label.setStyleSheet(u"font-size: 26px; font-weight: bold; text-align: center; color: #ffffff;")
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
 
-        # Content Layout (Sidebar and Main Content)
-        self.content_layout = QHBoxLayout()
+        self.horizontalLayout.addWidget(self.title_label)
 
-        # Sidebar
+
+        self.gridLayout.addWidget(self.HeaderLabel, 0, 0, 1, 3)
+
+        self.scrollArea = QScrollArea(self.centralwidget)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setMinimumSize(QSize(300, 0))
+        self.scrollArea.setMaximumSize(QSize(300, 16777215))
+        self.scrollArea.setStyleSheet(u"")
+        self.scrollArea.setWidgetResizable(True)
         self.sidebar = QWidget()
-        self.sidebar.setFixedWidth(291)
-        self.sidebar.setStyleSheet("background-color: rgb(0, 33, 48);")
-        self.sidebar_layout = QVBoxLayout(self.sidebar)
-        self.sidebar_layout.setContentsMargins(10, 20, 10, 20)
+        self.sidebar.setObjectName(u"sidebar")
+        self.sidebar.setGeometry(QRect(0, 0, 298, 518))
+        self.sidebar.setMinimumSize(QSize(280, 0))
+        self.sidebar.setMaximumSize(QSize(16777215, 16777215))
+        self.sidebar.setStyleSheet(u"background-color: rgb(0, 33, 48);")
+        self.verticalLayout_3 = QVBoxLayout(self.sidebar)
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.Menu1 = QLabel(self.sidebar)
+        self.Menu1.setObjectName(u"Menu1")
+        self.Menu1.setMinimumSize(QSize(0, 40))
+        self.Menu1.setMaximumSize(QSize(16777215, 40))
+        self.Menu1.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: center; color: #555555;\n"
+"background-color: rgb(0, 24, 35);")
+        self.Menu1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        # Profile Section
-        self.profile_widget = QWidget()
-        self.profile_layout = QHBoxLayout(self.profile_widget)
+        self.verticalLayout_3.addWidget(self.Menu1)
+
+        self.home = QPushButton(self.sidebar)
+        self.buttonGroup = QButtonGroup(UI_Dashboard)
+        self.buttonGroup.setObjectName(u"buttonGroup")
+        self.buttonGroup.addButton(self.home)
+        self.home.setObjectName(u"home")
+        self.home.setMinimumSize(QSize(0, 40))
+        self.home.setMaximumSize(QSize(16777215, 40))
+        self.home.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border:tranparanted\n"
+"")
+        icon = QIcon()
+        icon.addFile(u"../Asset/Icon/home.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.home.setIcon(icon)
+        self.home.setCheckable(True)
+
+        self.verticalLayout_3.addWidget(self.home)
+
+        self.Koleksi = QPushButton(self.sidebar)
+        self.buttonGroup.addButton(self.Koleksi)
+        self.Koleksi.setObjectName(u"Koleksi")
+        self.Koleksi.setMinimumSize(QSize(0, 40))
+        self.Koleksi.setMaximumSize(QSize(16777215, 40))
+        self.Koleksi.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon1 = QIcon()
+        icon1.addFile(u"../Asset/Icon/koleksi.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Koleksi.setIcon(icon1)
+        self.Koleksi.setCheckable(True)
+
+        self.verticalLayout_3.addWidget(self.Koleksi)
+
+        self.KoleksiSubMenu = QWidget(self.sidebar)
+        self.KoleksiSubMenu.setObjectName(u"KoleksiSubMenu")
+        self.KoleksiSubMenu.setMaximumSize(QSize(16777215, 90))
+        self.verticalLayout_4 = QVBoxLayout(self.KoleksiSubMenu)
+        self.verticalLayout_4.setSpacing(0)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(30, 0, 0, 0)
+        self.Fiksi = QPushButton(self.KoleksiSubMenu)
+        self.buttonGroup.addButton(self.Fiksi)
+        self.Fiksi.setObjectName(u"Fiksi")
+        self.Fiksi.setMinimumSize(QSize(0, 40))
+        self.Fiksi.setMaximumSize(QSize(16777215, 40))
+        self.Fiksi.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon2 = QIcon()
+        icon2.addFile(u"../Asset/Icon/book.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Fiksi.setIcon(icon2)
+        self.Fiksi.setCheckable(True)
+
+        self.verticalLayout_4.addWidget(self.Fiksi)
+
+        self.NonFiksi = QPushButton(self.KoleksiSubMenu)
+        self.buttonGroup.addButton(self.NonFiksi)
+        self.NonFiksi.setObjectName(u"NonFiksi")
+        self.NonFiksi.setMinimumSize(QSize(0, 40))
+        self.NonFiksi.setMaximumSize(QSize(16777215, 40))
+        self.NonFiksi.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        self.NonFiksi.setIcon(icon2)
+        self.NonFiksi.setCheckable(True)
+
+        self.verticalLayout_4.addWidget(self.NonFiksi)
 
 
-        self.profile_icon = QLabel()
-        self.profile_icon.setObjectName("profileIcon")
-        self.profile_icon.setFixedSize(70, 70)
-        self.profile_icon.setPixmap(QPixmap("Asset/Icon/Admin1.png"))
-        self.profile_icon.setStyleSheet("background-color: white;")
-        self.profile_icon.setScaledContents(True)
+        self.verticalLayout_3.addWidget(self.KoleksiSubMenu)
 
-        self.profile_info_layout = QVBoxLayout()
+        self.Data = QPushButton(self.sidebar)
+        self.buttonGroup.addButton(self.Data)
+        self.Data.setObjectName(u"Data")
+        self.Data.setMinimumSize(QSize(0, 40))
+        self.Data.setMaximumSize(QSize(16777215, 40))
+        self.Data.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon3 = QIcon()
+        icon3.addFile(u"../Asset/Icon/open-folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Data.setIcon(icon3)
+        self.Data.setCheckable(True)
 
-        self.name_label = QLabel("Ryan")
-        self.name_label.setObjectName("nameLabel")
-        self.name_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #ffffff;")
-        self.name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout_3.addWidget(self.Data)
 
-        self.position_label = QLabel("Administrator")
-        self.position_label.setObjectName("positionLabel")
-        self.position_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #000000; background-color: rgb(255, 255, 0);")
-        self.position_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.DataSubMenu = QWidget(self.sidebar)
+        self.DataSubMenu.setObjectName(u"DataSubMenu")
+        self.DataSubMenu.setMaximumSize(QSize(16777215, 90))
+        self.verticalLayout_5 = QVBoxLayout(self.DataSubMenu)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(30, 0, 0, 0)
+        self.DataBuku = QPushButton(self.DataSubMenu)
+        self.buttonGroup.addButton(self.DataBuku)
+        self.DataBuku.setObjectName(u"DataBuku")
+        self.DataBuku.setMinimumSize(QSize(0, 40))
+        self.DataBuku.setMaximumSize(QSize(16777215, 40))
+        self.DataBuku.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        self.DataBuku.setIcon(icon2)
+        self.DataBuku.setCheckable(True)
 
-        self.profile_info_layout.addWidget(self.name_label)
-        self.profile_info_layout.addWidget(self.position_label)
+        self.verticalLayout_5.addWidget(self.DataBuku)
 
-        self.profile_layout.addWidget(self.profile_icon)
-        self.profile_layout.addLayout(self.profile_info_layout)
+        self.DataAnggota = QPushButton(self.DataSubMenu)
+        self.buttonGroup.addButton(self.DataAnggota)
+        self.DataAnggota.setObjectName(u"DataAnggota")
+        self.DataAnggota.setMinimumSize(QSize(0, 40))
+        self.DataAnggota.setMaximumSize(QSize(16777215, 40))
+        self.DataAnggota.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon4 = QIcon()
+        icon4.addFile(u"../Asset/Icon/user.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.DataAnggota.setIcon(icon4)
+        self.DataAnggota.setCheckable(True)
 
-        self.sidebar_layout.addWidget(self.profile_widget)
-
-        # Menu Items
-        self.menu1_label = QLabel("Main Navigation")
-        self.menu1_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
-        self.menu1_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.sidebar_layout.addWidget(self.menu1_label)
-
-        self.sidebar_buttons = []
-        self.kelola_submenu = QWidget()
-        self.kelola_submenu_layout = QVBoxLayout(self.kelola_submenu)
-        self.kelola_submenu.setVisible(False)
-
-        self.koleksi_submenu = QWidget()
-        self.koleksi_submenu_layout = QVBoxLayout(self.koleksi_submenu)
-        self.koleksi_submenu.setVisible(False)
-
-        def create_sidebar_button(text, theme_icon=None, fallback_icon=None):
-            button = QPushButton(text)
-            button.setStyleSheet("""
-                QPushButton {
-                    font-size: 20px;
-                    font-weight: bold;
-                    color: #ffffff;
-                    text-align: left;
-                    padding-left: 20px;
-                    border: none;
-                    height: 50px;
-                }
-                QPushButton:hover {
-                    background-color: rgb(0, 50, 100);
-                }
-            """)
-            if theme_icon:
-                icon = QIcon.fromTheme(theme_icon)
-                if not icon.isNull():
-                    button.setIcon(icon)
-                elif fallback_icon:
-                    button.setIcon(QIcon(fallback_icon))
-            elif fallback_icon:
-                button.setIcon(QIcon(fallback_icon))
-
-            self.sidebar_buttons.append(button)
-            return button
+        self.verticalLayout_5.addWidget(self.DataAnggota)
 
 
-        self.dashboard_button = create_sidebar_button("Dashboard", None, "Asset/Icon/home.png")
-        self.dashboard_button.setObjectName("dashboardButton")
-        self.koleksi_button = create_sidebar_button("Koleksi", None, "Asset/Icon/koleksi.png")
-        self.koleksi_button.setObjectName("koleksiButton")
-        self.kelola_button = create_sidebar_button("Kelola Data", None, "Asset/Icon/open-folder.png")
-        self.kelola_button.setObjectName("kelolaButton")
+        self.verticalLayout_3.addWidget(self.DataSubMenu)
 
-        self.log_data_button = create_sidebar_button("Log Data", None, "Asset/Icon/log-data.png")
-        self.log_data_button.setObjectName("logDataButton")
+        self.LogData = QPushButton(self.sidebar)
+        self.buttonGroup.addButton(self.LogData)
+        self.LogData.setObjectName(u"LogData")
+        self.LogData.setMinimumSize(QSize(0, 40))
+        self.LogData.setMaximumSize(QSize(16777215, 40))
+        self.LogData.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon5 = QIcon()
+        icon5.addFile(u"../Asset/Icon/log-data.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.LogData.setIcon(icon5)
+        self.LogData.setCheckable(True)
 
-        self.sidebar_layout.addWidget(self.dashboard_button)
-        self.sidebar_layout.addWidget(self.koleksi_button)
-        self.sidebar_layout.addWidget(self.koleksi_submenu)
-        self.sidebar_layout.addWidget(self.kelola_button)
-        self.sidebar_layout.addWidget(self.kelola_submenu)
-        self.sidebar_layout.addWidget(self.log_data_button)
-        
-        # Submenu Buttons - Koleksi
-        fiksi_button = QPushButton("Fiksi")
-        fiksi_button.setStyleSheet("""
-            QPushButton {
+        self.verticalLayout_3.addWidget(self.LogData)
+
+        self.Menu2 = QLabel(self.sidebar)
+        self.Menu2.setObjectName(u"Menu2")
+        self.Menu2.setMinimumSize(QSize(0, 40))
+        self.Menu2.setMaximumSize(QSize(16777215, 40))
+        self.Menu2.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: center; color: #555555;\n"
+"background-color: rgb(0, 24, 35);")
+        self.Menu2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.verticalLayout_3.addWidget(self.Menu2)
+
+        self.Profile = QPushButton(self.sidebar)
+        self.buttonGroup.addButton(self.Profile)
+        self.Profile.setObjectName(u"Profile")
+        self.Profile.setMinimumSize(QSize(0, 40))
+        self.Profile.setMaximumSize(QSize(16777215, 40))
+        self.Profile.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        self.Profile.setIcon(icon4)
+        self.Profile.setCheckable(True)
+
+        self.verticalLayout_3.addWidget(self.Profile)
+
+        self.Logout = QPushButton(self.sidebar)
+        self.buttonGroup.addButton(self.Logout)
+        self.Logout.setObjectName(u"Logout")
+        self.Logout.setMinimumSize(QSize(0, 40))
+        self.Logout.setMaximumSize(QSize(16777215, 40))
+        self.Logout.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        icon6 = QIcon()
+        icon6.addFile(u"../Asset/Icon/logout.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Logout.setIcon(icon6)
+        self.Logout.setCheckable(True)
+
+        self.verticalLayout_3.addWidget(self.Logout)
+
+        self.scrollArea.setWidget(self.sidebar)
+
+        self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 1)
+
+        self.KoleksiSubMenu.setVisible(False)
+        self.DataSubMenu.setVisible(False)
+
+                # style for ButtonGroup
+        styleButtonGroup = """
+        QPushButton {
                 font-size: 20px;
                 font-weight: bold;
-                padding-left: 40px;
                 color: #ffffff;
-                border: none;
-                height: 40px;
                 text-align: left;
-            }
-            QPushButton:hover {
-                background-color: rgb(0, 50, 100);
-            }
-        """)
-        fiksi_button.setIcon(QIcon("Icon/book-open.png"))
-        self.koleksi_submenu_layout.addWidget(fiksi_button)
-
-        nonfiksi_button = QPushButton("Nonfiksi")
-        nonfiksi_button.setStyleSheet("""
-            QPushButton {
-                font-size: 20px;
-                font-weight: bold;
-                padding-left: 40px;
+                padding-left: 20px;
+                border: none;
+        }
+        QPushButton:checked {
+                background-color: rgb(0, 100, 200);
                 color: #ffffff;
-                border: none;
-                height: 40px;
-                text-align: left;
-            }
-            QPushButton:hover {
+        }
+        QPushButton:hover {
                 background-color: rgb(0, 50, 100);
-            }
-        """)
-        nonfiksi_button.setIcon(QIcon("Icon/book-open.png"))
-        self.koleksi_submenu_layout.addWidget(nonfiksi_button)
+        }
+        """
 
-        # Submenu Buttons
-        self.data_buku_button = QPushButton("Data Buku")
-        self.data_buku_button.setStyleSheet("""
-            QPushButton {
-                font-size: 20px;
-                font-weight: bold;
-                padding-left: 40px;
-                color: #ffffff;
-                border: none;
-                height: 40px;
-                text-align: left;
-            }
-            QPushButton:hover {
-                background-color: rgb(0, 50, 100);
-            }
-        """)
-        self.data_buku_button.setIcon(QIcon("Asset/Icon/book.png"))
-        self.kelola_submenu_layout.addWidget(self.data_buku_button)
+        # Menerapkan QSS pada tombol di grup
+        for button in self.buttonGroup.buttons():
+                button.setStyleSheet(styleButtonGroup)
 
-        data_anggota_button = QPushButton("Data Anggota")
-        data_anggota_button.setStyleSheet("""
-            QPushButton {
-                font-size: 20px;
-                font-weight: bold;
-                padding-left: 40px;
-                color: #ffffff;
-                border: none;
-                height: 40px;
-                text-align: left;
-            }
-            QPushButton:hover {
-                background-color: rgb(0, 50, 100);
-            }
-        """)
-        data_anggota_button.setIcon(QIcon("Asset/Icon/user.png"))
-        self.kelola_submenu_layout.addWidget(data_anggota_button)
 
-        self.menu2_label = QLabel("Settings")
-        self.menu2_label.setStyleSheet("font-size: 20px; font-weight: bold; color: #555555; background-color: rgb(0, 24, 35); padding: 5px;")
-        self.menu2_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        UI_Dashboard.setCentralWidget(self.centralwidget)
 
-        self.sidebar_layout.addWidget(self.menu2_label)
+        self.retranslateUi(UI_Dashboard)
 
-        self.logout_button = create_sidebar_button("Logout", None, "Asset/Icon/logout.png")
+        self.stackedWidget.setCurrentIndex(7)
 
-        self.sidebar_layout.addWidget(self.logout_button)
 
-        self.button_group = QButtonGroup()
-        self.button_group.setExclusive(True)
+        QMetaObject.connectSlotsByName(UI_Dashboard)
+    # setupUi
 
-        self.button_group.addButton(self.dashboard_button)
-        self.button_group.addButton(self.koleksi_button)
-        self.button_group.addButton(self.kelola_button)
-        self.button_group.addButton(self.log_data_button)
+    def retranslateUi(self, UI_Dashboard):
+        UI_Dashboard.setWindowTitle(QCoreApplication.translate("UI_Dashboard", u"MainWindow", None))
+        self.search.setText("")
+        self.search.setPlaceholderText(QCoreApplication.translate("UI_Dashboard", u"search...", None))
+        self.IconProfile.setText("")
+        self.NamaAkun.setText(QCoreApplication.translate("UI_Dashboard", u"Ryan", None))
+        self.Role.setText(QCoreApplication.translate("UI_Dashboard", u"Administrator", None))
+        self.icon_label.setText("")
+        self.title_label.setText(QCoreApplication.translate("UI_Dashboard", u"Perpustakaan Digital\n"
+"      Kelompok 2", None))
+        self.Menu1.setText(QCoreApplication.translate("UI_Dashboard", u"Main Navigation", None))
+        self.home.setText(QCoreApplication.translate("UI_Dashboard", u"Home", None))
+        self.Koleksi.setText(QCoreApplication.translate("UI_Dashboard", u"Koleksi", None))
+        self.Fiksi.setText(QCoreApplication.translate("UI_Dashboard", u"Fiksi", None))
+        self.NonFiksi.setText(QCoreApplication.translate("UI_Dashboard", u"Non Fiksi", None))
+        self.Data.setText(QCoreApplication.translate("UI_Dashboard", u"Kelola Data", None))
+        self.DataBuku.setText(QCoreApplication.translate("UI_Dashboard", u"Data Buku", None))
+        self.DataAnggota.setText(QCoreApplication.translate("UI_Dashboard", u"Data Anggota", None))
+        self.LogData.setText(QCoreApplication.translate("UI_Dashboard", u"Log Data", None))
+        self.Menu2.setText(QCoreApplication.translate("UI_Dashboard", u"Settings", None))
+        self.Profile.setText(QCoreApplication.translate("UI_Dashboard", u"Profile", None))
+        self.Logout.setText(QCoreApplication.translate("UI_Dashboard", u"Logout", None))
+    # retranslateUi
 
-        self.sidebar_layout.addSpacerItem(QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding))
-
-        # Main Content
-        self.content_widget = QWidget()
-        self.content_widget_layout = QVBoxLayout(self.content_widget)
-        self.content_widget_layout.setContentsMargins(10, 10, 10, 10)
-
-        self.search_bar = QLineEdit()
-        self.search_bar.setObjectName("searchBar")
-        self.search_bar.setPlaceholderText("Search...")
-        self.search_bar.setStyleSheet("border-radius: 20px; padding: 10px;")
-        self.search_bar.setFixedHeight(40)
-
-        self.content_widget_layout.addWidget(self.search_bar)
-
-        self.main_content = QLabel("Main Content Area")
-        self.main_content.setObjectName("mainContentLabel")
-        self.main_content.setStyleSheet("font-size: 24px; text-align: center;")
-        self.main_content.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.content_widget_layout.addWidget(self.main_content)
-
-        self.content_layout.addWidget(self.sidebar)
-        self.content_layout.addWidget(self.content_widget)
-
-        self.main_layout.addLayout(self.content_layout)
-
-        MainWindow.setCentralWidget(self.main_widget)
