@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
-from model.dataAnggotaWraper import DataAnggotaPage
+from model.dataAnggota import DataAnggotaPage
 
 class Dashboard(QMainWindow):
     def __init__(self):
@@ -18,14 +18,15 @@ class Dashboard(QMainWindow):
         self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
 
     def toggle_submenu(self, submenu):
+        # menampilkan atau menyembunyikan submenu
         submenu.setVisible(not submenu.isVisible())
     
     def show_data_anggota(self):
-        
+        # menampilkan halaman data anggota
         self.ui.stackedWidget.setCurrentWidget(self.dataAnggota)
 
     def logout(self):
-        # Displaying a message box on logout
+        # Masih sementara, belum ada konfirmasi logout
         message_box = QMessageBox()
         message_box.setText("Anda telah logout")
         message_box.exec_()
@@ -33,7 +34,7 @@ class Dashboard(QMainWindow):
         # Close the dashboard window
         self.close()
         
-        # Import LoginWindow locally to avoid circular import
-        from Main import Login # Local import to avoid circular import
+        # Import LoginWindow dan tampilkan
+        from Main import Login
         self.login = Login()
         self.login.show()

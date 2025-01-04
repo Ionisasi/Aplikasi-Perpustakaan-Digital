@@ -7,7 +7,7 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-
+import os
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -20,6 +20,11 @@ from PySide6.QtWidgets import (QAbstractItemView, QApplication, QButtonGroup, QC
     QLabel, QLineEdit, QPushButton, QScrollArea,
     QSizePolicy, QTableWidget, QTableWidgetItem, QTextEdit,
     QVBoxLayout, QWidget)
+
+def get_icon_path(icon_name):
+    # Mendapatkan path absolut ke folder Icon
+    icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
+    return os.path.abspath(icon_path)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -304,7 +309,7 @@ class Ui_Form(object):
         self.searchBtn.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: rgb(0, 255, 255); padding-left: 20px;border: none;\n"
 "")
         icon = QIcon()
-        icon.addFile(u"../Asset/Icon/search.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(get_icon_path("search.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.searchBtn.setIcon(icon)
         self.searchBtn.setIconSize(QSize(20, 20))
         self.searchBtn.setCheckable(True)
@@ -318,7 +323,7 @@ class Ui_Form(object):
         self.ubahBtn.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: rgb(26, 255, 0); padding-left: 20px;border: none;\n"
 "")
         icon1 = QIcon()
-        icon1.addFile(u"../Asset/Icon/change.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(get_icon_path("change.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.ubahBtn.setIcon(icon1)
         self.ubahBtn.setIconSize(QSize(20, 20))
         self.ubahBtn.setCheckable(True)
@@ -332,7 +337,7 @@ class Ui_Form(object):
         self.deleteBtn.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: rgb(255, 0, 0); padding-left: 20px;border: none;\n"
 "")
         icon2 = QIcon()
-        icon2.addFile(u"../Asset/Icon/Delete.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(get_icon_path("Delete.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.deleteBtn.setIcon(icon2)
         self.deleteBtn.setIconSize(QSize(20, 20))
         self.deleteBtn.setCheckable(True)
@@ -349,7 +354,7 @@ class Ui_Form(object):
         self.deselectBtn.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: center; color: rgb(255, 255, 0); padding-left: 20px; border: none;\n"
 "")
         icon3 = QIcon()
-        icon3.addFile(u"../Asset/Icon/Deselect.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(get_icon_path("Deselect.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.deselectBtn.setIcon(icon3)
         self.deselectBtn.setIconSize(QSize(20, 20))
         self.deselectBtn.setCheckable(True)

@@ -7,7 +7,7 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-
+import os
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -18,6 +18,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
     QLabel, QMainWindow, QPushButton, QScrollArea,
     QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
+
+def get_icon_path(icon_name):
+    # Mendapatkan path absolut ke folder Icon
+    icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
+    return os.path.abspath(icon_path)
 
 class Ui_UI_Dashboard(object):
     def setupUi(self, UI_Dashboard):
@@ -51,7 +56,7 @@ class Ui_UI_Dashboard(object):
         self.IconProfile.setObjectName(u"IconProfile")
         self.IconProfile.setMaximumSize(QSize(70, 70))
         self.IconProfile.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.IconProfile.setPixmap(QPixmap(u"../Asset/Icon/Admin1.png"))
+        self.IconProfile.setPixmap(QPixmap(get_icon_path("Admin1.png")))
         self.IconProfile.setScaledContents(True)
 
         self.horizontalLayout_3.addWidget(self.IconProfile)
@@ -90,7 +95,7 @@ class Ui_UI_Dashboard(object):
         self.icon_label = QLabel(self.HeaderLabel)
         self.icon_label.setObjectName(u"icon_label")
         self.icon_label.setMaximumSize(QSize(70, 70))
-        self.icon_label.setPixmap(QPixmap(u"../Asset/Icon/Buku.png"))
+        self.icon_label.setPixmap(QPixmap(get_icon_path("Buku.png")))
         self.icon_label.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.icon_label)
@@ -141,7 +146,7 @@ class Ui_UI_Dashboard(object):
         self.home.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border:tranparanted\n"
 "")
         icon = QIcon()
-        icon.addFile(u"../Asset/Icon/home.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon.addFile(get_icon_path("home.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.home.setIcon(icon)
         self.home.setCheckable(True)
         self.home.setChecked(True)
@@ -156,7 +161,7 @@ class Ui_UI_Dashboard(object):
         self.Koleksi.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon1 = QIcon()
-        icon1.addFile(u"../Asset/Icon/koleksi.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon1.addFile(get_icon_path("koleksi.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Koleksi.setIcon(icon1)
         self.Koleksi.setCheckable(True)
 
@@ -177,7 +182,7 @@ class Ui_UI_Dashboard(object):
         self.Fiksi.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon2 = QIcon()
-        icon2.addFile(u"../Asset/Icon/book.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon2.addFile(get_icon_path("book.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Fiksi.setIcon(icon2)
         self.Fiksi.setCheckable(True)
 
@@ -206,7 +211,7 @@ class Ui_UI_Dashboard(object):
         self.Data.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon3 = QIcon()
-        icon3.addFile(u"../Asset/Icon/open-folder.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon3.addFile(get_icon_path("open-folder.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Data.setIcon(icon3)
         self.Data.setCheckable(True)
 
@@ -239,7 +244,7 @@ class Ui_UI_Dashboard(object):
         self.DataAnggota.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon4 = QIcon()
-        icon4.addFile(u"../Asset/Icon/user.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon4.addFile(get_icon_path("user.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.DataAnggota.setIcon(icon4)
         self.DataAnggota.setCheckable(True)
 
@@ -256,7 +261,7 @@ class Ui_UI_Dashboard(object):
         self.LogData.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon5 = QIcon()
-        icon5.addFile(u"../Asset/Icon/log-data.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon5.addFile(get_icon_path("log-data.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.LogData.setIcon(icon5)
         self.LogData.setCheckable(True)
 
@@ -292,7 +297,7 @@ class Ui_UI_Dashboard(object):
         self.Logout.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
         icon6 = QIcon()
-        icon6.addFile(u"../Asset/Icon/logout.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        icon6.addFile(get_icon_path("logout.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.Logout.setIcon(icon6)
         self.Logout.setCheckable(True)
 
