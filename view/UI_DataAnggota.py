@@ -403,7 +403,7 @@ class Ui_Form(object):
 
         self.horizontalLayout_3.addWidget(self.AnggotaTable)
 
-        self.horizontalLayout_3.setStretch(0, 1)
+        self.horizontalLayout_3.setStretch(0, 0)
         self.scrollArea.setWidget(self.MainContent)
 
         self.verticalLayout.addWidget(self.scrollArea)
