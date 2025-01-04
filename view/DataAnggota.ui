@@ -50,7 +50,7 @@
       </font>
      </property>
      <property name="styleSheet">
-      <string notr="true">color: rgb(255, 255, 255); background-color: rgb(0, 255, 0);</string>
+      <string notr="true">color: rgb(255, 255, 255); background-color: rgb(0, 24, 35);</string>
      </property>
      <property name="text">
       <string>DATA ANGGOTA</string>
@@ -87,7 +87,9 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">.QWidget{
+background-color: rgb(0, 33, 48);
+}</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
        <property name="spacing">
@@ -97,10 +99,10 @@
         <number>0</number>
        </property>
        <property name="topMargin">
-        <number>10</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
@@ -108,34 +110,35 @@
        <item>
         <widget class="QWidget" name="LeftSide" native="true">
          <property name="styleSheet">
-          <string notr="true">.QWidget{
-background-color: rgb(0, 33, 48);
-}</string>
+          <string notr="true"/>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
           <property name="spacing">
            <number>0</number>
           </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
           <property name="topMargin">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>1</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>1</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QWidget" name="EditForm" native="true">
             <layout class="QGridLayout" name="gridLayout">
              <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
               <number>10</number>
              </property>
+             <property name="topMargin">
+              <number>20</number>
+             </property>
              <property name="rightMargin">
-              <number>5</number>
+              <number>10</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
@@ -525,6 +528,18 @@ background-color: rgb(0, 33, 48);
                 </font>
                </property>
                <layout class="QHBoxLayout" name="alamat">
+                <property name="leftMargin">
+                 <number>9</number>
+                </property>
+                <property name="topMargin">
+                 <number>9</number>
+                </property>
+                <property name="rightMargin">
+                 <number>9</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>9</number>
+                </property>
                 <item>
                  <widget class="QLabel" name="alamatLabel">
                   <property name="minimumSize">
@@ -651,10 +666,55 @@ background-color: rgb(0, 33, 48);
             <property name="styleSheet">
              <string notr="true"/>
             </property>
-            <layout class="QHBoxLayout" name="Tombol">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
-              <number>40</number>
+              <number>0</number>
              </property>
+             <property name="leftMargin">
+              <number>10</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>14</number>
+             </property>
+             <property name="bottomMargin">
+              <number>10</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="searchBtn">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font-size: 20px; font-weight: bold; text-align: left; color: rgb(0, 255, 255); padding-left: 20px;border: none;
+</string>
+               </property>
+               <property name="text">
+                <string>Cari</string>
+               </property>
+               <property name="icon">
+                <iconset>
+                 <normaloff>../Asset/Icon/search.png</normaloff>../Asset/Icon/search.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>20</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <attribute name="buttonGroup">
+                <string notr="true">editBtnGroup</string>
+               </attribute>
+              </widget>
+             </item>
              <item>
               <widget class="QPushButton" name="ubahBtn">
                <property name="minimumSize">
@@ -664,7 +724,7 @@ background-color: rgb(0, 33, 48);
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">font-size: 30px; font-weight: bold; text-align: left; color: rgb(26, 255, 0); padding-left: 20px;border: none;
+                <string notr="true">font-size: 20px; font-weight: bold; text-align: left; color: rgb(26, 255, 0); padding-left: 20px;border: none;
 </string>
                </property>
                <property name="text">
@@ -676,17 +736,20 @@ background-color: rgb(0, 33, 48);
                </property>
                <property name="iconSize">
                 <size>
-                 <width>30</width>
-                 <height>30</height>
+                 <width>20</width>
+                 <height>20</height>
                 </size>
                </property>
                <property name="checkable">
                 <bool>true</bool>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">editBtnGroup</string>
+               </attribute>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="HapusBtn">
+              <widget class="QPushButton" name="deleteBtn">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -694,8 +757,7 @@ background-color: rgb(0, 33, 48);
                 </size>
                </property>
                <property name="styleSheet">
-                <string notr="true">font-size: 30px; font-weight: bold; text-align: left; color: rgb(255, 0, 0); border: none;
-
+                <string notr="true">font-size: 20px; font-weight: bold; text-align: left; color: rgb(255, 0, 0); padding-left: 20px;border: none;
 </string>
                </property>
                <property name="text">
@@ -707,13 +769,16 @@ background-color: rgb(0, 33, 48);
                </property>
                <property name="iconSize">
                 <size>
-                 <width>30</width>
-                 <height>30</height>
+                 <width>20</width>
+                 <height>20</height>
                 </size>
                </property>
                <property name="checkable">
                 <bool>true</bool>
                </property>
+               <attribute name="buttonGroup">
+                <string notr="true">editBtnGroup</string>
+               </attribute>
               </widget>
              </item>
             </layout>
@@ -732,7 +797,6 @@ background-color: rgb(0, 33, 48);
          </property>
          <property name="styleSheet">
           <string notr="true">font-size: 15px; font-weight: bold; text-align: left; color: #ffffff;
-background-color: rgb(0, 33, 48);
 </string>
          </property>
          <property name="frameShape">
@@ -824,5 +888,6 @@ background-color: rgb(0, 33, 48);
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup"/>
+  <buttongroup name="editBtnGroup"/>
  </buttongroups>
 </ui>

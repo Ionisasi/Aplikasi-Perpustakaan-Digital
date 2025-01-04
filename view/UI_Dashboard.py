@@ -16,9 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
-    QLabel, QLineEdit, QMainWindow, QPushButton,
-    QScrollArea, QSizePolicy, QStackedWidget, QVBoxLayout,
-    QWidget)
+    QLabel, QMainWindow, QPushButton, QScrollArea,
+    QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
 
 class Ui_UI_Dashboard(object):
     def setupUi(self, UI_Dashboard):
@@ -39,17 +38,6 @@ class Ui_UI_Dashboard(object):
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.search = QLineEdit(self.centralwidget)
-        self.search.setObjectName(u"search")
-        self.search.setMinimumSize(QSize(0, 30))
-        self.search.setMaximumSize(QSize(16777215, 35))
-        self.search.setStyleSheet(u"QLineEdit {\n"
-" border: 2px solid gray;\n"
-" border-radius: 15px;\n"
-"}")
-
-        self.gridLayout.addWidget(self.search, 1, 1, 1, 2)
-
         self.profileWidget = QWidget(self.centralwidget)
         self.profileWidget.setObjectName(u"profileWidget")
         self.profileWidget.setEnabled(True)
@@ -91,36 +79,6 @@ class Ui_UI_Dashboard(object):
 
         self.gridLayout.addWidget(self.profileWidget, 1, 0, 2, 1)
 
-        self.stackedWidget = QStackedWidget(self.centralwidget)
-        self.stackedWidget.setObjectName(u"stackedWidget")
-        self.stackedWidget.setStyleSheet(u"background-color: #ffffff;")
-        self.page1 = QWidget()
-        self.page1.setObjectName(u"page1")
-        self.stackedWidget.addWidget(self.page1)
-        self.page2 = QWidget()
-        self.page2.setObjectName(u"page2")
-        self.stackedWidget.addWidget(self.page2)
-        self.page3 = QWidget()
-        self.page3.setObjectName(u"page3")
-        self.stackedWidget.addWidget(self.page3)
-        self.page = QWidget()
-        self.page.setObjectName(u"page")
-        self.stackedWidget.addWidget(self.page)
-        self.page4 = QWidget()
-        self.page4.setObjectName(u"page4")
-        self.stackedWidget.addWidget(self.page4)
-        self.page5 = QWidget()
-        self.page5.setObjectName(u"page5")
-        self.stackedWidget.addWidget(self.page5)
-        self.page6 = QWidget()
-        self.page6.setObjectName(u"page6")
-        self.stackedWidget.addWidget(self.page6)
-        self.page7 = QWidget()
-        self.page7.setObjectName(u"page7")
-        self.stackedWidget.addWidget(self.page7)
-
-        self.gridLayout.addWidget(self.stackedWidget, 2, 2, 2, 1)
-
         self.HeaderLabel = QWidget(self.centralwidget)
         self.HeaderLabel.setObjectName(u"HeaderLabel")
         sizePolicy.setHeightForWidth(self.HeaderLabel.sizePolicy().hasHeightForWidth())
@@ -145,7 +103,7 @@ class Ui_UI_Dashboard(object):
         self.horizontalLayout.addWidget(self.title_label)
 
 
-        self.gridLayout.addWidget(self.HeaderLabel, 0, 0, 1, 3)
+        self.gridLayout.addWidget(self.HeaderLabel, 0, 0, 1, 2)
 
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
@@ -186,6 +144,7 @@ class Ui_UI_Dashboard(object):
         icon.addFile(u"../Asset/Icon/home.png", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
         self.home.setIcon(icon)
         self.home.setCheckable(True)
+        self.home.setChecked(True)
 
         self.verticalLayout_3.addWidget(self.home)
 
@@ -343,10 +302,15 @@ class Ui_UI_Dashboard(object):
 
         self.gridLayout.addWidget(self.scrollArea, 3, 0, 1, 1)
 
+        self.stackedWidget = QStackedWidget(self.centralwidget)
+        self.stackedWidget.setObjectName(u"stackedWidget")
+
+        self.gridLayout.addWidget(self.stackedWidget, 1, 1, 3, 1)
+        
         self.KoleksiSubMenu.setVisible(False)
         self.DataSubMenu.setVisible(False)
 
-                # style for ButtonGroup
+        # style for ButtonGroup
         styleButtonGroup = """
         QPushButton {
                 font-size: 20px;
@@ -369,7 +333,6 @@ class Ui_UI_Dashboard(object):
         for button in self.buttonGroup.buttons():
                 button.setStyleSheet(styleButtonGroup)
 
-
         UI_Dashboard.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(UI_Dashboard)
@@ -382,8 +345,6 @@ class Ui_UI_Dashboard(object):
 
     def retranslateUi(self, UI_Dashboard):
         UI_Dashboard.setWindowTitle(QCoreApplication.translate("UI_Dashboard", u"MainWindow", None))
-        self.search.setText("")
-        self.search.setPlaceholderText(QCoreApplication.translate("UI_Dashboard", u"search...", None))
         self.IconProfile.setText("")
         self.NamaAkun.setText(QCoreApplication.translate("UI_Dashboard", u"Ryan", None))
         self.Role.setText(QCoreApplication.translate("UI_Dashboard", u"Administrator", None))
