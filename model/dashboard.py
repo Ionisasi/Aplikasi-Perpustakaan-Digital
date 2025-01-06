@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
+from model.dataBuku import DataBukuPage
 
 class Dashboard(QMainWindow):
     def __init__(self):
@@ -8,14 +9,19 @@ class Dashboard(QMainWindow):
         self.ui = Ui_UI_Dashboard()
         self.ui.setupUi(self)
         
+        # setup halaman data anggota
         self.dataAnggota = DataAnggotaPage()
         self.ui.stackedWidget.addWidget(self.dataAnggota)
+        
+        self.dataBuku = DataBukuPage()
+        self.ui.stackedWidget.addWidget(self.dataBuku)
 
         # connect buttons
         self.ui.Logout.clicked.connect(self.logout)
         self.ui.Data.clicked.connect(lambda checked: self.toggle_submenu(self.ui.DataSubMenu) if checked else None)
         self.ui.Koleksi.clicked.connect(lambda checked: self.toggle_submenu(self.ui.KoleksiSubMenu) if checked else None)
         self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
+        self.ui.DataBuku.clicked.connect(self.show_data_buku)
 
     def toggle_submenu(self, submenu):
         # menampilkan atau menyembunyikan submenu
@@ -24,6 +30,10 @@ class Dashboard(QMainWindow):
     def show_data_anggota(self):
         # menampilkan halaman data anggota
         self.ui.stackedWidget.setCurrentWidget(self.dataAnggota)
+    
+    def show_data_buku(self):
+        # menampilkan halaman data buku
+        self.ui.stackedWidget.setCurrentWidget(self.dataBuku)
 
     def logout(self):
         # Masih sementara, belum ada konfirmasi logout
