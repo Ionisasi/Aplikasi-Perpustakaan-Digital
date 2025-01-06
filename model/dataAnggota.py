@@ -15,7 +15,8 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
         # Hubungkan tombol dengan fungsi
         self.ui.ubahBtn.clicked.connect(self.ubah_data)
         self.ui.searchBtn.clicked.connect(self.search_data)
-        self.ui.deselectBtn.clicked.connect(self.clearSelection)  # Menghubungkan clearSelection dengan tombol
+        self.ui.deleteBtn.clicked.connect(self.hapus_data)
+        self.ui.deselectBtn.clicked.connect(self.clearSelection)
 
     def populate_table(self):
         # Fungsi untuk mengisi tabel
@@ -83,6 +84,10 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
                 self.ui.PerempuanCheckBox.setChecked(True)
 
     def ubah_data(self):
+        # Fitur ini masih dalam pengembangan
+        QMessageBox.information(self, "Pemberitahuan", "Fitur ini masih dalam pengembangan")
+        
+    def hapus_data(self):
         # Fitur ini masih dalam pengembangan
         QMessageBox.information(self, "Pemberitahuan", "Fitur ini masih dalam pengembangan")
 
