@@ -7,36 +7,8 @@ from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from view.UI_Perpustakaan import Ui_MainWindow
 from model.dashboard import Dashboard
-# from Asset.UI_Dashboard_admin import DashboardAdmin 
+# from Asset.UI_Dashboard_admin import DashboardAdmin
 from model.registrasi import Registrasi
-
-# Path ke database
-DATABASE_PATH = os.path.join(os.path.dirname(__file__), "database", "perpusdigi.db")
-
-# Fungsi untuk menangani login
-def login_action(email, password):
-    if not email or not password:
-        return False, "Email dan password tidak boleh kosong."
-
-    hashed_password = hashlib.sha256(password.encode()).hexdigest()
-
-    try:
-        # Koneksi ke database
-        conn = sqlite3.connect(DATABASE_PATH)
-        cursor = conn.cursor()
-
-        # Query untuk memeriksa email dan password
-        query = "SELECT * FROM anggota WHERE email = ? AND password = ?"
-        cursor.execute(query, (email, hashed_password))
-        result = cursor.fetchone()
-        conn.close()
-
-        if result:
-            return True, "Login sukses! Selamat Datang."
-        else:
-            return False, "Email atau password salah. Silakan coba lagi."
-    except sqlite3.Error as e:
-        return False, f"Terjadi kesalahan pada database: {e}"
 
 class Login(QMainWindow):
     def __init__(self):
@@ -47,23 +19,52 @@ class Login(QMainWindow):
         # Hubungkan tombol login dengan fungsi
         self.ui.loginButton.clicked.connect(self.handle_login)
         self.ui.registerButton.clicked.connect(self.handle_signup)
+        
+        self.role = None
 
     def handle_login(self):
-        email = self.ui.usernameInput.text().strip()  # Mengambil input dari QLineEdit untuk username
-        password = self.ui.passwordInput.text().strip()  # Mengambil input dari QLineEdit untuk password
+        username = self.ui.usernameInput.text()
+        password = self.ui.passwordInput.text()
 
-        success, message = login_action(email, password)
-        if success:
-            QMessageBox.information(self, "Success", message)
-            
-            # Buka jendela Dashboard
-            self.dashboard = Dashboard()
-            self.dashboard.show()
-            
-            # Tutup jendela login
+        if not username or not password:
+            QMessageBox.critical(self, "Error", "Username dan password harus diisi!")
+            return
+
+        # Hash password dengan SHA-256 untuk validasi
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+        # Tentukan jalur absolut ke database
+        DATABASE_PATH = os.path.join(os.path.dirname(__file__), "database", "perpusdigi.db")
+
+        try:
+            # Koneksi ke database
+            conn = sqlite3.connect(DATABASE_PATH)
+            cursor = conn.cursor()
+
+            # Query untuk memeriksa username dan password
+            query = "SELECT Role FROM User WHERE username = ? AND password = ?"
+            cursor.execute(query, (username, hashed_password))
+            result = cursor.fetchone()
+
+            conn.close()
+
+            if result is None:
+                QMessageBox.critical(self, "Error", "Username atau password salah!")
+                return
+
+            self.role = result[0]
+
             self.close()
-        else:
-            QMessageBox.critical(self, "Error", message)
+
+            self.open_dashboard()
+
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Error", f"Terjadi kesalahan pada database: {e}")
+    
+    def open_dashboard(self):
+        # Buka dashboard
+        self.dashboard = Dashboard(self.role)
+        self.dashboard.show()  
 
     def handle_signup(self):
         # Buka jendela registrasi

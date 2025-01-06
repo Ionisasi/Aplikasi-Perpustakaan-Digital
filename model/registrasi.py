@@ -16,34 +16,26 @@ class Registrasi(QWidget):
     def connect_button(self):
         # Menghubungkan tombol
         self.ui.daftarButton.clicked.connect(self.sign_up)
-
+    
     def sign_up(self):
         # Ambil data dari input
-        self.nama = self.ui.namaInput.text()
-        self.email = self.ui.emailInput.text()
+        self.nama_lengkap = self.ui.namaInput.text()
+        self.username = self.ui.usernameInput.text()
         self.password = self.ui.passwordInput.text()
         self.alamat = self.ui.alamatInput.toPlainText()
         self.telepon = self.ui.teleponInput.text()
         self.jenis_kelamin = "L" if self.ui.lakiCheckBox.isChecked() else "P"
+        self.role = 0  # Default role untuk anggota biasa
 
-        # Validasi: pastikan field yang wajib tidak kosong
-        if not self.nama or not self.email or not self.password or not self.telepon or not self.jenis_kelamin:
+        # Validasi semua field kecuali alamat harus diisi oleh user
+        if not self.nama_lengkap or not self.username or not self.password or not self.telepon or not self.jenis_kelamin:
             QMessageBox.critical(self, "Error", "Semua field kecuali alamat harus diisi!")
             return
-
-        # Validasi email
-        def is_valid_email(email):
-            pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-            return re.match(pattern, email)
-
-        if not is_valid_email(self.email):
-            QMessageBox.critical(self, "Error", "Format email tidak valid!")
-            return
         
+        # Validasi total digit nomor telepon
         def is_valid_phone(phone):
-        # check kevalidan nomor telepon
             return phone.isdigit() and len(phone) >= 10
-    
+        
         if not is_valid_phone(self.telepon):
             QMessageBox.critical(self, "Error", "Nomor telepon tidak valid!")
             return
@@ -59,20 +51,20 @@ class Registrasi(QWidget):
             conn = sqlite3.connect(database_path)
             cursor = conn.cursor()
 
-            # Query untuk memeriksa email yang sama
-            check_query = "SELECT COUNT(*) FROM anggota WHERE email = ?"
-            cursor.execute(check_query, (self.email,))
+            # Query untuk memeriksa username yang sama
+            check_query = "SELECT COUNT(*) FROM User WHERE username = ?"
+            cursor.execute(check_query, (self.username,))
             if cursor.fetchone()[0] > 0:
-                QMessageBox.critical(self, "Error", "Email sudah terdaftar!")
+                QMessageBox.critical(self, "Error", "Username sudah terdaftar!")
                 conn.close()
                 return
 
             # Query untuk menambahkan data
             query = """
-            INSERT INTO anggota (nama, email, password, telp, jenis_kelamin, alamat)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO User (nama_lengkap, username, password, telp, jenis_kelamin, alamat, Role)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
             """
-            cursor.execute(query, (self.nama, self.email, hashed_password, self.telepon, self.jenis_kelamin, self.alamat))
+            cursor.execute(query, (self.nama_lengkap, self.username, hashed_password, self.telepon, self.jenis_kelamin, self.alamat, self.role))
 
             # Simpan perubahan dan tutup koneksi
             conn.commit()

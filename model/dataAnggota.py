@@ -27,7 +27,7 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             cursor = conn.cursor()
 
             # Query untuk mengambil data anggota
-            cursor.execute("SELECT nama, email, telp, jenis_kelamin, alamat FROM anggota")
+            cursor.execute("SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role FROM User")
             rows = cursor.fetchall()
 
             # Set jumlah baris pada tabel
@@ -35,7 +35,7 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             self.ui.AnggotaTable.setColumnCount(5)  # 5 kolom untuk setiap field (nama, email, telp, jenis_kelamin, alamat)
 
             # Set header tabel
-            self.ui.AnggotaTable.setHorizontalHeaderLabels(['Nama', 'Email', 'Telp', 'Jenis Kelamin', 'Alamat'])
+            self.ui.AnggotaTable.setHorizontalHeaderLabels(['Nama', 'Username', 'Telepon', 'Jenis Kelamin', 'Alamat', 'Role'])
 
             # Isi tabel dengan data dari database
             for row_index, row in enumerate(rows):
