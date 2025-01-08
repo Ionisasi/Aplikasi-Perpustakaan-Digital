@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="searchBar">
+    <widget class="QLineEdit" name="searchBtn">
      <property name="placeholderText">
       <string>Search for a book...</string>
      </property>
