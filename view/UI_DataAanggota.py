@@ -21,138 +21,133 @@ from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
     QWidget)
 
 class Ui_Form(object):
-    def setupUi(self, Form):
-        if not Form.objectName():
-            Form.setObjectName(u"Form")
-        Form.resize(780, 565)
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(780, 565)
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(Form.sizePolicy().hasHeightForWidth())
-        Form.setSizePolicy(sizePolicy)
-        Form.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        Form.setStyleSheet(u"")
-        self.verticalLayout = QVBoxLayout(Form)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
+        MainWindow.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        MainWindow.setStyleSheet(u"")
+        self.verticalLayout = QVBoxLayout(MainWindow)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
-        self.headerTitle = QLabel(Form)
-        self.headerTitle.setObjectName(u"headerTitle")
+        self.lblHeaderTitle = QLabel(MainWindow)
+        self.lblHeaderTitle.setObjectName(u"lblHeaderTitle")
         font = QFont()
         font.setPointSize(20)
         font.setBold(True)
-        self.headerTitle.setFont(font)
-        self.headerTitle.setStyleSheet(u"color: rgb(255, 255, 255); background-color: rgb(0, 24, 35);")
-        self.headerTitle.setTextFormat(Qt.TextFormat.AutoText)
-        self.headerTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lblHeaderTitle.setFont(font)
+        self.lblHeaderTitle.setStyleSheet(u"color: rgb(255, 255, 255); background-color: rgb(0, 24, 35);")
+        self.lblHeaderTitle.setTextFormat(Qt.TextFormat.AutoText)
+        self.lblHeaderTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.headerTitle)
+        self.verticalLayout.addWidget(self.lblHeaderTitle)
 
-        self.scrollArea = QScrollArea(Form)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
-        self.scrollArea.setStyleSheet(u"")
-        self.scrollArea.setFrameShape(QFrame.Shape.NoFrame)
-        self.scrollArea.setWidgetResizable(True)
-        self.MainContent = QWidget()
-        self.MainContent.setObjectName(u"MainContent")
-        self.MainContent.setGeometry(QRect(0, 0, 780, 521))
-        self.MainContent.setStyleSheet(u".QWidget{\n"
-"background-color: rgb(0, 33, 48);\n"
-"}")
-        self.verticalLayout_3 = QVBoxLayout(self.MainContent)
+        self.mainScrollArea = QScrollArea(MainWindow)
+        self.mainScrollArea.setObjectName(u"mainScrollArea")
+        self.mainScrollArea.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.mainScrollArea.setStyleSheet(u"")
+        self.mainScrollArea.setFrameShape(QFrame.Shape.NoFrame)
+        self.mainScrollArea.setWidgetResizable(True)
+        self.contentWidget = QWidget()
+        self.contentWidget.setObjectName(u"contentWidget")
+        self.contentWidget.setGeometry(QRect(0, 0, 780, 521))
+        self.contentWidget.setStyleSheet(u".QWidget{\n"
+                                         "background-color: rgb(0, 33, 48);\n"
+                                         "}")
+        self.verticalLayout_3 = QVBoxLayout(self.contentWidget)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.widget_2 = QWidget(self.MainContent)
-        self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setMaximumSize(QSize(800, 100))
-        self.horizontalLayout = QHBoxLayout(self.widget_2)
+        self.headerWidget = QWidget(self.contentWidget)
+        self.headerWidget.setObjectName(u"headerWidget")
+        self.headerWidget.setMaximumSize(QSize(800, 100))
+        self.horizontalLayout = QHBoxLayout(self.headerWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(self.widget_2)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMaximumSize(QSize(150, 500))
+        self.btnAddData = QPushButton(self.headerWidget)
+        self.btnAddData.setObjectName(u"btnAddData")
+        self.btnAddData.setMaximumSize(QSize(150, 500))
         font1 = QFont()
         font1.setBold(True)
-        self.pushButton.setFont(font1)
+        self.btnAddData.setFont(font1)
         icon = QIcon(QIcon.fromTheme(u"list-add"))
-        self.pushButton.setIcon(icon)
+        self.btnAddData.setIcon(icon)
 
-        self.horizontalLayout.addWidget(self.pushButton)
+        self.horizontalLayout.addWidget(self.btnAddData)
 
-        self.label = QLabel(self.widget_2)
-        self.label.setObjectName(u"label")
-        self.label.setFont(font1)
-        self.label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.lblSearch = QLabel(self.headerWidget)
+        self.lblSearch.setObjectName(u"lblSearch")
+        self.lblSearch.setFont(font1)
+        self.lblSearch.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignTrailing | Qt.AlignmentFlag.AlignVCenter)
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.lblSearch)
 
-        self.lineEdit = QLineEdit(self.widget_2)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.txtSearch = QLineEdit(self.headerWidget)
+        self.txtSearch.setObjectName(u"txtSearch")
+        self.txtSearch.setMaximumSize(QSize(200, 16777215))
+        self.txtSearch.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.txtSearch)
 
+        self.verticalLayout_3.addWidget(self.headerWidget)
 
-        self.verticalLayout_3.addWidget(self.widget_2)
-
-        self.widget = QWidget(self.MainContent)
-        self.widget.setObjectName(u"widget")
-        self.widget.setMaximumSize(QSize(800, 480))
-        self.horizontalLayout_2 = QHBoxLayout(self.widget)
+        self.tableWidgetContainer = QWidget(self.contentWidget)
+        self.tableWidgetContainer.setObjectName(u"tableWidgetContainer")
+        self.tableWidgetContainer.setMaximumSize(QSize(800, 480))
+        self.horizontalLayout_2 = QHBoxLayout(self.tableWidgetContainer)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        
-        #Qtable
-        self.tableWidget = QTableWidget(self.widget)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setRowCount(3)
-        self.tableWidget.setColumnCount(1)
-        self.tableWidget.setHorizontalHeaderLabels(["Kelola"])
-        
-         # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
-        for row in range(self.tableWidget.rowCount()):
+
+        self.tblData = QTableWidget(self.tableWidgetContainer)
+        self.tblData.setObjectName(u"tblData")
+        self.tblData.setRowCount(3)
+        self.tblData.setColumnCount(1)
+        self.tblData.setHorizontalHeaderLabels(["Kelola"])
+
+        # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
+        for row in range(self.tblData.rowCount()):
             # Buat widget untuk menampung tombol
             btn_widget = QWidget()
             btn_layout = QHBoxLayout(btn_widget)
             btn_layout.setContentsMargins(0, 0, 0, 0)
 
             # Tambahkan tombol Edit dan Hapus
-            edit_btn = QPushButton("Edit")
-            delete_btn = QPushButton("Hapus")
+            btnEdit = QPushButton("Edit")
+            btnDelete = QPushButton("Hapus")
 
             # Hubungkan tombol dengan fungsi
-            edit_btn.clicked.connect(lambda checked, r=row: print(f"Edit row {r}"))
-            delete_btn.clicked.connect(lambda checked, r=row: print(f"Delete row {r}"))
+            btnEdit.clicked.connect(lambda checked, r=row: print(f"Edit row {r}"))
+            btnDelete.clicked.connect(lambda checked, r=row: print(f"Delete row {r}"))
 
             # Tambahkan tombol ke layout
-            btn_layout.addWidget(edit_btn)
-            btn_layout.addWidget(delete_btn)
+            btn_layout.addWidget(btnEdit)
+            btn_layout.addWidget(btnDelete)
 
             # Set widget tombol ke kolom "Kelola"
-            self.tableWidget.setCellWidget(row, 0, btn_widget)
+            self.tblData.setCellWidget(row, 0, btn_widget)
 
+        self.horizontalLayout_2.addWidget(self.tblData)
 
-        self.horizontalLayout_2.addWidget(self.tableWidget)
+        self.verticalLayout_3.addWidget(self.tableWidgetContainer)
 
+        self.mainScrollArea.setWidget(self.contentWidget)
 
-        self.verticalLayout_3.addWidget(self.widget)
+        self.verticalLayout.addWidget(self.mainScrollArea)
 
-        self.scrollArea.setWidget(self.MainContent)
+        self.retranslateUi(MainWindow)
 
-        self.verticalLayout.addWidget(self.scrollArea)
+        QMetaObject.connectSlotsByName(MainWindow)
 
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Data Buku", None))
+        self.lblHeaderTitle.setText(QCoreApplication.translate("MainWindow", u"DATA ANGGOTA", None))
+        self.btnAddData.setText(QCoreApplication.translate("MainWindow", u"Tambah Data", None))
+        self.lblSearch.setText(QCoreApplication.translate("MainWindow", u"Search :", None))
 
-        self.retranslateUi(Form)
-
-        QMetaObject.connectSlotsByName(Form)
-    # setupUi
-
-    def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.headerTitle.setText(QCoreApplication.translate("Form", u"DATA ANGGOTA", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Tambah Data", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Search :", None))
     # retranslateUi
 
 if __name__ == "__main__":
