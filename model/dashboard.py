@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
+from model.dataKoleksiFiksi import KoleksiFiksi
 
 class Dashboard(QMainWindow):
     def __init__(self, role):
@@ -18,6 +19,9 @@ class Dashboard(QMainWindow):
         
         self.dataBuku = DataBukuPage()
         self.ui.stackedWidget.addWidget(self.dataBuku)
+        
+        self.dataKoleksiFiksi =  KoleksiFiksi()
+        self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
 
         # connect buttons
         self.ui.Logout.clicked.connect(self.logout)
@@ -25,6 +29,7 @@ class Dashboard(QMainWindow):
         self.ui.Koleksi.clicked.connect(lambda checked: self.toggle_submenu(self.ui.KoleksiSubMenu) if checked else None)
         self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
         self.ui.DataBuku.clicked.connect(self.show_data_buku)
+        self.ui.Fiksi.clicked.connect(self.show_fiksi)
         
         # control ui admin dan anggota
         if self.role == 0:  # Anggota
@@ -46,6 +51,11 @@ class Dashboard(QMainWindow):
     def show_data_buku(self):
         # menampilkan halaman data buku
         self.ui.stackedWidget.setCurrentWidget(self.dataBuku)
+    
+    def show_fiksi(self):
+        # menampilkan halaman koleksi buku fiksi
+        self.ui.stackedWidget.setCurrentWidget(self.KoleksiFiksi)
+        
 
     def logout(self):
         # Masih sementara, belum ada konfirmasi logout
