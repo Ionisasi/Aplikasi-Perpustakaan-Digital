@@ -62,10 +62,10 @@ class Ui_Form(object):
         self.gridLayout.setSpacing(20)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(20, 20, 20, 20)
-        self.emailLabel = QLabel(self.IsiFrame)
-        self.emailLabel.setObjectName(u"emailLabel")
+        self.usernameLabel = QLabel(self.IsiFrame)
+        self.usernameLabel.setObjectName(u"usernameLabel")
 
-        self.gridLayout.addWidget(self.emailLabel, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.usernameLabel, 3, 0, 1, 1)
 
         self.PerempuanCheckBox = QCheckBox(self.IsiFrame)
         self.jeniskelaminButtonGroup = QButtonGroup(Form)
@@ -132,10 +132,10 @@ class Ui_Form(object):
 
         self.gridLayout.addWidget(self.namaInput, 1, 2, 1, 2)
 
-        self.emailInput = QLineEdit(self.IsiFrame)
-        self.emailInput.setObjectName(u"emailInput")
+        self.usernameInput = QLineEdit(self.IsiFrame)
+        self.usernameInput.setObjectName(u"usernameInput")
 
-        self.gridLayout.addWidget(self.emailInput, 3, 2, 1, 2)
+        self.gridLayout.addWidget(self.usernameInput, 3, 2, 1, 2)
 
 
         self.verticalLayout_2.addWidget(self.IsiFrame)
@@ -183,15 +183,15 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.headerTitle.setText(QCoreApplication.translate("Form", u"REGISTRASI", None))
-        self.emailLabel.setText(QCoreApplication.translate("Form", u"Email                  :", None))
+        self.usernameLabel.setText(QCoreApplication.translate("Form", u"Username", None))
         self.PerempuanCheckBox.setText(QCoreApplication.translate("Form", u"Perempuan", None))
         self.passwordInput.setText("")
-        self.passwordLabel.setText(QCoreApplication.translate("Form", u"Password          :", None))
-        self.alamatLabel.setText(QCoreApplication.translate("Form", u"Alamat               :", None))
-        self.teleponLabel.setText(QCoreApplication.translate("Form", u"Telepon             :", None))
-        self.jeniskelaminLabel.setText(QCoreApplication.translate("Form", u"Jenis Kelamin   :", None))
+        self.passwordLabel.setText(QCoreApplication.translate("Form", u"Password", None))
+        self.alamatLabel.setText(QCoreApplication.translate("Form", u"Alamat", None))
+        self.teleponLabel.setText(QCoreApplication.translate("Form", u"Telepon", None))
+        self.jeniskelaminLabel.setText(QCoreApplication.translate("Form", u"Jenis Kelamin", None))
         self.lakiCheckBox.setText(QCoreApplication.translate("Form", u"Laki-laki", None))
-        self.namaLabel.setText(QCoreApplication.translate("Form", u"Nama Lengkap :", None))
+        self.namaLabel.setText(QCoreApplication.translate("Form", u"Nama Lengkap", None))
         self.daftarButton.setText(QCoreApplication.translate("Form", u"DAFTAR", None))
     # retranslateUi
 

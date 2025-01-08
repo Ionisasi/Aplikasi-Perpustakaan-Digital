@@ -4,10 +4,13 @@ from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
 
 class Dashboard(QMainWindow):
-    def __init__(self):
+    def __init__(self, role):
         super().__init__()
         self.ui = Ui_UI_Dashboard()
         self.ui.setupUi(self)
+
+        # set role
+        self.role = role
         
         # setup halaman data anggota
         self.dataAnggota = DataAnggotaPage()
@@ -22,6 +25,15 @@ class Dashboard(QMainWindow):
         self.ui.Koleksi.clicked.connect(lambda checked: self.toggle_submenu(self.ui.KoleksiSubMenu) if checked else None)
         self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
         self.ui.DataBuku.clicked.connect(self.show_data_buku)
+        
+        # control ui admin dan anggota
+        if self.role == 0:  # Anggota
+            self.hide_admin_features()
+    
+    def hide_admin_features(self):
+        # menyembunyikan fitur admin
+        self.ui.Data.setVisible(False)
+        self.ui.LogData.setVisible(False)
 
     def toggle_submenu(self, submenu):
         # menampilkan atau menyembunyikan submenu
