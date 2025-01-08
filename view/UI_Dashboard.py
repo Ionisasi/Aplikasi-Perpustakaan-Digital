@@ -7,7 +7,7 @@
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
-import os
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -18,12 +18,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
     QLabel, QMainWindow, QPushButton, QScrollArea,
     QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
-
+import os
 def get_icon_path(icon_name):
     # Mendapatkan path absolut ke folder Icon
     icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
     return os.path.abspath(icon_path)
-
 class Ui_UI_Dashboard(object):
     def setupUi(self, UI_Dashboard):
         if not UI_Dashboard.objectName():
@@ -43,6 +42,32 @@ class Ui_UI_Dashboard(object):
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.HeaderLabel = QWidget(self.centralwidget)
+        self.HeaderLabel.setObjectName(u"HeaderLabel")
+        sizePolicy.setHeightForWidth(self.HeaderLabel.sizePolicy().hasHeightForWidth())
+        self.HeaderLabel.setSizePolicy(sizePolicy)
+        self.HeaderLabel.setMaximumSize(QSize(16777215, 100))
+        self.HeaderLabel.setStyleSheet(u"background-color: rgb(0, 255, 0);")
+        self.horizontalLayout = QHBoxLayout(self.HeaderLabel)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.icon_label = QLabel(self.HeaderLabel)
+        self.icon_label.setObjectName(u"icon_label")
+        self.icon_label.setMaximumSize(QSize(70, 70))
+        self.icon_label.setPixmap(QPixmap(get_icon_path("Buku.png")))
+        self.icon_label.setScaledContents(True)
+
+        self.horizontalLayout.addWidget(self.icon_label)
+
+        self.title_label = QLabel(self.HeaderLabel)
+        self.title_label.setObjectName(u"title_label")
+        self.title_label.setStyleSheet(u"font-size: 26px; font-weight: bold; text-align: center; color: #ffffff;")
+        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
+
+        self.horizontalLayout.addWidget(self.title_label)
+
+
+        self.gridLayout.addWidget(self.HeaderLabel, 0, 0, 1, 3)
+
         self.profileWidget = QWidget(self.centralwidget)
         self.profileWidget.setObjectName(u"profileWidget")
         self.profileWidget.setEnabled(True)
@@ -84,32 +109,6 @@ class Ui_UI_Dashboard(object):
 
         self.gridLayout.addWidget(self.profileWidget, 1, 0, 2, 1)
 
-        self.HeaderLabel = QWidget(self.centralwidget)
-        self.HeaderLabel.setObjectName(u"HeaderLabel")
-        sizePolicy.setHeightForWidth(self.HeaderLabel.sizePolicy().hasHeightForWidth())
-        self.HeaderLabel.setSizePolicy(sizePolicy)
-        self.HeaderLabel.setMaximumSize(QSize(16777215, 100))
-        self.HeaderLabel.setStyleSheet(u"background-color: rgb(0, 255, 0);")
-        self.horizontalLayout = QHBoxLayout(self.HeaderLabel)
-        self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.icon_label = QLabel(self.HeaderLabel)
-        self.icon_label.setObjectName(u"icon_label")
-        self.icon_label.setMaximumSize(QSize(70, 70))
-        self.icon_label.setPixmap(QPixmap(get_icon_path("Buku.png")))
-        self.icon_label.setScaledContents(True)
-
-        self.horizontalLayout.addWidget(self.icon_label)
-
-        self.title_label = QLabel(self.HeaderLabel)
-        self.title_label.setObjectName(u"title_label")
-        self.title_label.setStyleSheet(u"font-size: 26px; font-weight: bold; text-align: center; color: #ffffff;")
-        self.title_label.setAlignment(Qt.AlignmentFlag.AlignLeading|Qt.AlignmentFlag.AlignLeft|Qt.AlignmentFlag.AlignVCenter)
-
-        self.horizontalLayout.addWidget(self.title_label)
-
-
-        self.gridLayout.addWidget(self.HeaderLabel, 0, 0, 1, 2)
-
         self.scrollArea = QScrollArea(self.centralwidget)
         self.scrollArea.setObjectName(u"scrollArea")
         self.scrollArea.setMinimumSize(QSize(300, 0))
@@ -122,10 +121,10 @@ class Ui_UI_Dashboard(object):
         self.sidebar.setMinimumSize(QSize(280, 0))
         self.sidebar.setMaximumSize(QSize(16777215, 16777215))
         self.sidebar.setStyleSheet(u"background-color: rgb(0, 33, 48);")
-        self.verticalLayout_3 = QVBoxLayout(self.sidebar)
-        self.verticalLayout_3.setSpacing(0)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout = QVBoxLayout(self.sidebar)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.Menu1 = QLabel(self.sidebar)
         self.Menu1.setObjectName(u"Menu1")
         self.Menu1.setMinimumSize(QSize(0, 40))
@@ -134,7 +133,7 @@ class Ui_UI_Dashboard(object):
 "background-color: rgb(0, 24, 35);")
         self.Menu1.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_3.addWidget(self.Menu1)
+        self.verticalLayout.addWidget(self.Menu1)
 
         self.home = QPushButton(self.sidebar)
         self.buttonGroup = QButtonGroup(UI_Dashboard)
@@ -151,7 +150,7 @@ class Ui_UI_Dashboard(object):
         self.home.setCheckable(True)
         self.home.setChecked(True)
 
-        self.verticalLayout_3.addWidget(self.home)
+        self.verticalLayout.addWidget(self.home)
 
         self.Koleksi = QPushButton(self.sidebar)
         self.buttonGroup.addButton(self.Koleksi)
@@ -165,7 +164,7 @@ class Ui_UI_Dashboard(object):
         self.Koleksi.setIcon(icon1)
         self.Koleksi.setCheckable(True)
 
-        self.verticalLayout_3.addWidget(self.Koleksi)
+        self.verticalLayout.addWidget(self.Koleksi)
 
         self.KoleksiSubMenu = QWidget(self.sidebar)
         self.KoleksiSubMenu.setObjectName(u"KoleksiSubMenu")
@@ -201,7 +200,19 @@ class Ui_UI_Dashboard(object):
         self.verticalLayout_4.addWidget(self.NonFiksi)
 
 
-        self.verticalLayout_3.addWidget(self.KoleksiSubMenu)
+        self.verticalLayout.addWidget(self.KoleksiSubMenu)
+
+        self.Pinjam = QPushButton(self.sidebar)
+        self.Pinjam.setObjectName(u"Pinjam")
+        self.Pinjam.setMinimumSize(QSize(0, 40))
+        self.Pinjam.setMaximumSize(QSize(16777215, 40))
+        self.Pinjam.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border:tranparanted\n"
+"")
+        self.Pinjam.setIcon(icon)
+        self.Pinjam.setCheckable(True)
+        self.Pinjam.setChecked(True)
+
+        self.verticalLayout.addWidget(self.Pinjam)
 
         self.Data = QPushButton(self.sidebar)
         self.buttonGroup.addButton(self.Data)
@@ -215,7 +226,7 @@ class Ui_UI_Dashboard(object):
         self.Data.setIcon(icon3)
         self.Data.setCheckable(True)
 
-        self.verticalLayout_3.addWidget(self.Data)
+        self.verticalLayout.addWidget(self.Data)
 
         self.DataSubMenu = QWidget(self.sidebar)
         self.DataSubMenu.setObjectName(u"DataSubMenu")
@@ -251,21 +262,7 @@ class Ui_UI_Dashboard(object):
         self.verticalLayout_5.addWidget(self.DataAnggota)
 
 
-        self.verticalLayout_3.addWidget(self.DataSubMenu)
-
-        self.LogData = QPushButton(self.sidebar)
-        self.buttonGroup.addButton(self.LogData)
-        self.LogData.setObjectName(u"LogData")
-        self.LogData.setMinimumSize(QSize(0, 40))
-        self.LogData.setMaximumSize(QSize(16777215, 40))
-        self.LogData.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
-"")
-        icon5 = QIcon()
-        icon5.addFile(get_icon_path("log-data.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.LogData.setIcon(icon5)
-        self.LogData.setCheckable(True)
-
-        self.verticalLayout_3.addWidget(self.LogData)
+        self.verticalLayout.addWidget(self.DataSubMenu)
 
         self.Menu2 = QLabel(self.sidebar)
         self.Menu2.setObjectName(u"Menu2")
@@ -275,7 +272,7 @@ class Ui_UI_Dashboard(object):
 "background-color: rgb(0, 24, 35);")
         self.Menu2.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout_3.addWidget(self.Menu2)
+        self.verticalLayout.addWidget(self.Menu2)
 
         self.Profile = QPushButton(self.sidebar)
         self.buttonGroup.addButton(self.Profile)
@@ -287,7 +284,7 @@ class Ui_UI_Dashboard(object):
         self.Profile.setIcon(icon4)
         self.Profile.setCheckable(True)
 
-        self.verticalLayout_3.addWidget(self.Profile)
+        self.verticalLayout.addWidget(self.Profile)
 
         self.Logout = QPushButton(self.sidebar)
         self.buttonGroup.addButton(self.Logout)
@@ -296,12 +293,12 @@ class Ui_UI_Dashboard(object):
         self.Logout.setMaximumSize(QSize(16777215, 40))
         self.Logout.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
 "")
-        icon6 = QIcon()
-        icon6.addFile(get_icon_path("logout.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
-        self.Logout.setIcon(icon6)
+        icon5 = QIcon()
+        icon5.addFile(get_icon_path("logout.png"), QSize(), QIcon.Mode.Normal, QIcon.State.Off)
+        self.Logout.setIcon(icon5)
         self.Logout.setCheckable(True)
 
-        self.verticalLayout_3.addWidget(self.Logout)
+        self.verticalLayout.addWidget(self.Logout)
 
         self.scrollArea.setWidget(self.sidebar)
 
@@ -309,12 +306,33 @@ class Ui_UI_Dashboard(object):
 
         self.stackedWidget = QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName(u"stackedWidget")
+        self.page1 = QWidget()
+        self.page1.setObjectName(u"page1")
+        self.stackedWidget.addWidget(self.page1)
+        self.page2 = QWidget()
+        self.page2.setObjectName(u"page2")
+        self.stackedWidget.addWidget(self.page2)
+        self.page3 = QWidget()
+        self.page3.setObjectName(u"page3")
+        self.stackedWidget.addWidget(self.page3)
+        self.page = QWidget()
+        self.page.setObjectName(u"page")
+        self.stackedWidget.addWidget(self.page)
+        self.page4 = QWidget()
+        self.page4.setObjectName(u"page4")
+        self.stackedWidget.addWidget(self.page4)
+        self.page5 = QWidget()
+        self.page5.setObjectName(u"page5")
+        self.stackedWidget.addWidget(self.page5)
+        self.page6 = QWidget()
+        self.page6.setObjectName(u"page6")
+        self.stackedWidget.addWidget(self.page6)
+        self.page7 = QWidget()
+        self.page7.setObjectName(u"page7")
+        self.stackedWidget.addWidget(self.page7)
 
         self.gridLayout.addWidget(self.stackedWidget, 1, 1, 3, 1)
         
-        self.KoleksiSubMenu.setVisible(False)
-        self.DataSubMenu.setVisible(False)
-
         # style for ButtonGroup
         styleButtonGroup = """
         QPushButton {
@@ -342,7 +360,7 @@ class Ui_UI_Dashboard(object):
 
         self.retranslateUi(UI_Dashboard)
 
-        self.stackedWidget.setCurrentIndex(7)
+        self.stackedWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(UI_Dashboard)
@@ -350,21 +368,21 @@ class Ui_UI_Dashboard(object):
 
     def retranslateUi(self, UI_Dashboard):
         UI_Dashboard.setWindowTitle(QCoreApplication.translate("UI_Dashboard", u"MainWindow", None))
-        self.IconProfile.setText("")
-        self.NamaAkun.setText(QCoreApplication.translate("UI_Dashboard", u"Ryan", None))
-        self.Role.setText(QCoreApplication.translate("UI_Dashboard", u"Administrator", None))
         self.icon_label.setText("")
         self.title_label.setText(QCoreApplication.translate("UI_Dashboard", u"Perpustakaan Digital\n"
 "      Kelompok 2", None))
+        self.IconProfile.setText("")
+        self.NamaAkun.setText(QCoreApplication.translate("UI_Dashboard", u"Ryan", None))
+        self.Role.setText(QCoreApplication.translate("UI_Dashboard", u"Administrator", None))
         self.Menu1.setText(QCoreApplication.translate("UI_Dashboard", u"Main Navigation", None))
         self.home.setText(QCoreApplication.translate("UI_Dashboard", u"Home", None))
         self.Koleksi.setText(QCoreApplication.translate("UI_Dashboard", u"Koleksi", None))
         self.Fiksi.setText(QCoreApplication.translate("UI_Dashboard", u"Fiksi", None))
         self.NonFiksi.setText(QCoreApplication.translate("UI_Dashboard", u"Non Fiksi", None))
+        self.Pinjam.setText(QCoreApplication.translate("UI_Dashboard", u"Rak Pinjam", None))
         self.Data.setText(QCoreApplication.translate("UI_Dashboard", u"Kelola Data", None))
         self.DataBuku.setText(QCoreApplication.translate("UI_Dashboard", u"Data Buku", None))
         self.DataAnggota.setText(QCoreApplication.translate("UI_Dashboard", u"Data Anggota", None))
-        self.LogData.setText(QCoreApplication.translate("UI_Dashboard", u"Log Data", None))
         self.Menu2.setText(QCoreApplication.translate("UI_Dashboard", u"Settings", None))
         self.Profile.setText(QCoreApplication.translate("UI_Dashboard", u"Profile", None))
         self.Logout.setText(QCoreApplication.translate("UI_Dashboard", u"Logout", None))

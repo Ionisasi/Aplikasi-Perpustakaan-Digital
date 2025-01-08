@@ -33,7 +33,6 @@ class Dashboard(QMainWindow):
     def hide_admin_features(self):
         # menyembunyikan fitur admin
         self.ui.Data.setVisible(False)
-        self.ui.LogData.setVisible(False)
 
     def toggle_submenu(self, submenu):
         # menampilkan atau menyembunyikan submenu
