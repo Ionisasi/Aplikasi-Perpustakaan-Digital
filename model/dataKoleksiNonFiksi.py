@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from PySide6.QtWidgets import QApplication, QMainWindow, QListWidget
-from view.UI_DataBuku import Ui_Form as UI_DataBuku
+from view.UI_KoleksiNonFiksi import Ui_Koleksi as UI_KoleksiNonFiksi
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -20,13 +20,7 @@ class MainWindow(QMainWindow):
     def load_books(self):
         conn = sqlite3.connect('perpusdigi.db')  # Ganti dengan nama database
         cursor = conn.cursor()
-
-        # Memuat buku Fiksi
-        cursor.execute("SELECT judul FROM buku WHERE kategori = 'Fiksi'")
-        books_fiksi = cursor.fetchall()
-        for book in books_fiksi:
-            self.list_fiksi.addItem(book[0])
-
+        
         # Memuat buku Non Fiksi
         cursor.execute("SELECT judul FROM buku WHERE kategori = 'Non Fiksi'")
         books_non_fiksi = cursor.fetchall()

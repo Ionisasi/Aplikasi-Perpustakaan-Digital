@@ -19,47 +19,47 @@ from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QListWidget,
     QListWidgetItem, QPushButton, QSizePolicy, QVBoxLayout,
     QWidget)
 
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(500, 400)
-        self.verticalLayout = QVBoxLayout(MainWindow)
+class Ui_Koleksi(object):
+    def setupUi(self, BukuNonFiksi):
+        if not BukuNonFiksi.objectName():
+            BukuNonFiksi.setObjectName(u"BukuNonFiksi")
+        BukuNonFiksi.resize(500, 400)
+        self.verticalLayout = QVBoxLayout(BukuNonFiksi)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(MainWindow)
+        self.label = QLabel(BukuNonFiksi)
         self.label.setObjectName(u"label")
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.verticalLayout.addWidget(self.label)
 
-        self.searchBar = QLineEdit(MainWindow)
-        self.searchBar.setObjectName(u"searchBar")
+        self.searchBtn = QLineEdit(BukuNonFiksi)
+        self.searchBtn.setObjectName(u"searchBtn")
 
-        self.verticalLayout.addWidget(self.searchBar)
+        self.verticalLayout.addWidget(self.searchBtn)
 
-        self.BukuNonFiksi = QListWidget(MainWindow)
+        self.BukuNonFiksi = QListWidget(BukuNonFiksi)
         self.BukuNonFiksi.setObjectName(u"BukuNonFiksi")
 
         self.verticalLayout.addWidget(self.BukuNonFiksi)
 
-        self.backButton = QPushButton(MainWindow)
-        self.backButton.setObjectName(u"backButton")
+        self.PushButton = QPushButton(BukuNonFiksi)
+        self.PushButton.setObjectName(u"PushButton")
 
-        self.verticalLayout.addWidget(self.backButton)
+        self.verticalLayout.addWidget(self.PushButton)
 
 
-        self.retranslateUi(MainWindow)
+        self.retranslateUi(BukuNonFiksi)
 
-        QMetaObject.connectSlotsByName(MainWindow)
+        QMetaObject.connectSlotsByName(BukuNonFiksi)
     # setupUi
 
-    def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Fiction Book Category", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"List Buku Non Fiksi", None))
-        self.searchBar.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Search for a book...", None))
+    def retranslateUi(self, BukuNonFiksi):
+        BukuNonFiksi.setWindowTitle(QCoreApplication.translate("BukuNonFiksi", u"Koleksi Buku Non Fiksi", None))
+        self.label.setText(QCoreApplication.translate("BukuNonFiksi", u"List Buku Non Fiksi", None))
+        self.searchBtn.setPlaceholderText(QCoreApplication.translate("BukuNonFiksi", u"Search for a book...", None))
 #if QT_CONFIG(tooltip)
-        self.BukuNonFiksi.setToolTip(QCoreApplication.translate("MainWindow", u"List of fiction books", None))
+        self.BukuNonFiksi.setToolTip(QCoreApplication.translate("BukuNonFiksi", u"List of fiction books", None))
 #endif // QT_CONFIG(tooltip)
-        self.backButton.setText(QCoreApplication.translate("MainWindow", u"Back", None))
+        self.PushButton.setText(QCoreApplication.translate("BukuNonFiksi", u"Back", None))
     # retranslateUi
 

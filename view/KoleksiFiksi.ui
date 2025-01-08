@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QWidget" name="MainWindow">
+ <class>BukuFiksi</class>
+ <widget class="QWidget" name="BukuFiksi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -39,7 +39,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="backButton">
+    <widget class="QPushButton" name="PushButton">
      <property name="text">
       <string>Back</string>
      </property>
