@@ -15,37 +15,47 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QListWidget,
-    QListWidgetItem, QPushButton, QSizePolicy, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QScrollArea,
+    QSizePolicy, QVBoxLayout, QWidget)
 
-class Ui_Koleksi(object):
+class Ui_BukuFiksi(object):
     def setupUi(self, BukuFiksi):
         if not BukuFiksi.objectName():
             BukuFiksi.setObjectName(u"BukuFiksi")
         BukuFiksi.resize(500, 400)
         self.verticalLayout = QVBoxLayout(BukuFiksi)
+        self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(BukuFiksi)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.headerTitle = QLabel(BukuFiksi)
+        self.headerTitle.setObjectName(u"headerTitle")
+        font = QFont()
+        font.setPointSize(20)
+        font.setBold(True)
+        self.headerTitle.setFont(font)
+        self.headerTitle.setStyleSheet(u"color: rgb(255, 255, 255); background-color: rgb(0, 24, 35);")
+        self.headerTitle.setTextFormat(Qt.TextFormat.AutoText)
+        self.headerTitle.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.headerTitle)
 
-        self.searchBtn = QLineEdit(BukuFiksi)
-        self.searchBtn.setObjectName(u"searchBtn")
+        self.search = QLineEdit(BukuFiksi)
+        self.search.setObjectName(u"search")
 
-        self.verticalLayout.addWidget(self.searchBtn)
+        self.verticalLayout.addWidget(self.search)
 
-        self.BukuFiksi = QListWidget(BukuFiksi)
-        self.BukuFiksi.setObjectName(u"BukuFiksi")
+        self.scrollArea = QScrollArea(BukuFiksi)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setStyleSheet(u".QWidget{\n"
+"background-color: rgb(0, 33, 48);\n"
+"}")
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 498, 341))
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout.addWidget(self.BukuFiksi)
-
-        self.PushButton = QPushButton(BukuFiksi)
-        self.PushButton.setObjectName(u"PushButton")
-
-        self.verticalLayout.addWidget(self.PushButton)
+        self.verticalLayout.addWidget(self.scrollArea)
 
 
         self.retranslateUi(BukuFiksi)
@@ -54,12 +64,8 @@ class Ui_Koleksi(object):
     # setupUi
 
     def retranslateUi(self, BukuFiksi):
-        BukuFiksi.setWindowTitle(QCoreApplication.translate("BukuFiksi", u"Koleksi Buku Fiksi", None))
-        self.label.setText(QCoreApplication.translate("BukuFiksi", u"List Buku Fiksi", None))
-        self.searchBtn.setPlaceholderText(QCoreApplication.translate("BukuFiksi", u"Search for a book...", None))
-#if QT_CONFIG(tooltip)
-        self.BukuFiksi.setToolTip(QCoreApplication.translate("BukuFiksi", u"List of fiction books", None))
-#endif // QT_CONFIG(tooltip)
-        self.PushButton.setText(QCoreApplication.translate("BukuFiksi", u"Back", None))
+        BukuFiksi.setWindowTitle(QCoreApplication.translate("BukuFiksi", u"Fiction Book Category", None))
+        self.headerTitle.setText(QCoreApplication.translate("BukuFiksi", u"FIKSI", None))
+        self.search.setPlaceholderText(QCoreApplication.translate("BukuFiksi", u"Search....", None))
     # retranslateUi
 

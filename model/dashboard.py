@@ -20,7 +20,7 @@ class Dashboard(QMainWindow):
         self.dataBuku = DataBukuPage()
         self.ui.stackedWidget.addWidget(self.dataBuku)
         
-        self.dataKoleksiFiksi =  KoleksiFiksi()
+        self.dataKoleksiFiksi = KoleksiFiksi()
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
 
         # connect buttons
@@ -54,8 +54,7 @@ class Dashboard(QMainWindow):
     
     def show_fiksi(self):
         # menampilkan halaman koleksi buku fiksi
-        self.ui.stackedWidget.setCurrentWidget(self.KoleksiFiksi)
-        
+        self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi)
 
     def logout(self):
         # Masih sementara, belum ada konfirmasi logout
