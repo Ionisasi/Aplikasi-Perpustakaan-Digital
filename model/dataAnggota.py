@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from PySide6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QHBoxLayout, QPushButton
-from view.UI_DataAnggota import Ui_Form as Ui_DataAnggota
+from view.UI_DataAanggota import Ui_Form as Ui_DataAnggota
 
 class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
     def __init__(self):
