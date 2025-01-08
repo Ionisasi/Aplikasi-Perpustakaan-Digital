@@ -47,15 +47,25 @@ class Dashboard(QMainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.dataBuku)
 
     def logout(self):
-        # Masih sementara, belum ada konfirmasi logout
-        message_box = QMessageBox()
-        message_box.setText("Anda telah logout")
-        message_box.exec_()
-        
-        # Close the dashboard window
-        self.close()
-        
-        # Import LoginWindow dan tampilkan
-        from Main import Login
-        self.login = Login()
-        self.login.show()
+        # Konfirmasi sebelum logout
+        reply = QMessageBox.question(
+            self,
+            "Konfirmasi Logout",
+            "Apakah Anda yakin ingin logout?",
+            QMessageBox.Yes | QMessageBox.No,
+            QMessageBox.No
+        )
+
+        if reply == QMessageBox.Yes:
+            # Menampilkan pesan logout
+            message_box = QMessageBox()
+            message_box.setText("Anda telah logout")
+            message_box.exec_()
+
+            # Tutup jendela dashboard
+            self.close()
+
+            # Import LoginWindow dan tampilkan
+            from Main import Login
+            self.login = Login()
+            self.login.show()
