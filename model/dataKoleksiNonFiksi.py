@@ -3,7 +3,7 @@ import sqlite3
 from PySide6.QtWidgets import QApplication, QMainWindow, QListWidget
 from view.UI_KoleksiNonFiksi import Ui_Koleksi as UI_KoleksiNonFiksi
 
-class MainWindow(QMainWindow):
+class KoleksiNonFiksi(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -28,8 +28,3 @@ class MainWindow(QMainWindow):
             self.list_non_fiksi.addItem(book[0])
 
         conn.close()
-
-app = QApplication([])
-window = MainWindow()
-window.show()
-app.exec_()
