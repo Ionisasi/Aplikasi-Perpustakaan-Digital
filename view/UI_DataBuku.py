@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'DataBuku.ui'
+## Form generated from reading UI file 'DataBuku_1.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.1
 ##
@@ -15,10 +15,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QButtonGroup, QFrame, QHBoxLayout,
-    QHeaderView, QLabel, QLineEdit, QPushButton,
-    QScrollArea, QSizePolicy, QTableWidget, QTableWidgetItem,
-    QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QHeaderView,
+    QLabel, QLineEdit, QPushButton, QScrollArea,
+    QSizePolicy, QTableWidget, QTableWidgetItem, QVBoxLayout,
+    QWidget)
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -102,25 +102,36 @@ class Ui_Form(object):
         self.widget.setMaximumSize(QSize(800, 480))
         self.horizontalLayout_2 = QHBoxLayout(self.widget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        
+        #Qtable
         self.tableWidget = QTableWidget(self.widget)
-        if (self.tableWidget.columnCount() < 6):
-            self.tableWidget.setColumnCount(6)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem1)
-        __qtablewidgetitem2 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(3, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(4, __qtablewidgetitem4)
-        __qtablewidgetitem5 = QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(5, __qtablewidgetitem5)
-        if (self.tableWidget.rowCount() < 10):
-            self.tableWidget.setRowCount(10)
         self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setRowCount(10)
+        self.tableWidget.setRowCount(3)
+        self.tableWidget.setColumnCount(1)
+        self.tableWidget.setHorizontalHeaderLabels(["Kelola"])
+        
+         # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
+        for row in range(self.tableWidget.rowCount()):
+            # Buat widget untuk menampung tombol
+            btn_widget = QWidget()
+            btn_layout = QHBoxLayout(btn_widget)
+            btn_layout.setContentsMargins(0, 0, 0, 0)
+
+            # Tambahkan tombol Edit dan Hapus
+            edit_btn = QPushButton("Edit")
+            delete_btn = QPushButton("Hapus")
+
+            # Hubungkan tombol dengan fungsi
+            edit_btn.clicked.connect(lambda checked, r=row: print(f"Edit row {r}"))
+            delete_btn.clicked.connect(lambda checked, r=row: print(f"Delete row {r}"))
+
+            # Tambahkan tombol ke layout
+            btn_layout.addWidget(edit_btn)
+            btn_layout.addWidget(delete_btn)
+
+            # Set widget tombol ke kolom "Kelola"
+            self.tableWidget.setCellWidget(row, 0, btn_widget)
+
 
         self.horizontalLayout_2.addWidget(self.tableWidget)
 
@@ -142,17 +153,5 @@ class Ui_Form(object):
         self.headerTitle.setText(QCoreApplication.translate("Form", u"DATA BUKU", None))
         self.pushButton.setText(QCoreApplication.translate("Form", u"Tambah Data", None))
         self.label.setText(QCoreApplication.translate("Form", u"Search :", None))
-        ___qtablewidgetitem = self.tableWidget.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("Form", u"ID Buku", None));
-        ___qtablewidgetitem1 = self.tableWidget.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("Form", u"Judul Buku", None));
-        ___qtablewidgetitem2 = self.tableWidget.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("Form", u"Pengarang", None));
-        ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(3)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("Form", u"Penerbit", None));
-        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(4)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("Form", u"Tahun", None));
-        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(5)
-        ___qtablewidgetitem5.setText(QCoreApplication.translate("Form", u"Kelola", None));
     # retranslateUi
 
