@@ -69,19 +69,11 @@ class Ui_Form(object):
         self.widget_2.setMaximumSize(QSize(800, 100))
         self.horizontalLayout = QHBoxLayout(self.widget_2)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.pushButton = QPushButton(self.widget_2)
-        self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setMaximumSize(QSize(150, 500))
-        font1 = QFont()
-        font1.setBold(True)
-        self.pushButton.setFont(font1)
-        icon = QIcon(QIcon.fromTheme(u"list-add"))
-        self.pushButton.setIcon(icon)
-
-        self.horizontalLayout.addWidget(self.pushButton)
 
         self.label = QLabel(self.widget_2)
         self.label.setObjectName(u"label")
+        font1 = QFont()
+        font1.setBold(True)
         self.label.setFont(font1)
         self.label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
@@ -91,9 +83,18 @@ class Ui_Form(object):
         self.lineEdit.setObjectName(u"lineEdit")
         self.lineEdit.setMaximumSize(QSize(200, 16777215))
         self.lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit.setPlaceholderText("Nama")
+        self.lineEdit.setStyleSheet("""
+            QLineEdit {
+                color: white;  /* Warna teks */
+                font-weight: bold;
+            }
+            QLineEdit::placeholder {
+                color: white;  /* Warna placeholder */
+            }
+        """)
 
         self.horizontalLayout.addWidget(self.lineEdit)
-
 
         self.verticalLayout_3.addWidget(self.widget_2)
 
@@ -103,44 +104,20 @@ class Ui_Form(object):
         self.horizontalLayout_2 = QHBoxLayout(self.widget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         
-        #Qtable
+        # QTable
         self.tableWidget = QTableWidget(self.widget)
         self.tableWidget.setObjectName(u"tableWidget")
         self.tableWidget.setRowCount(0)
         self.tableWidget.setColumnCount(1)
         self.tableWidget.setHorizontalHeaderLabels(["Kelola"])
         
-        # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
-        for row in range(self.tableWidget.rowCount()):
-            # Buat widget untuk menampung tombol
-            btn_widget = QWidget()
-            btn_layout = QHBoxLayout(btn_widget)
-            btn_layout.setContentsMargins(0, 0, 0, 0)
-
-            # Tambahkan tombol Edit dan Hapus
-            edit_btn = QPushButton("Edit")
-            delete_btn = QPushButton("Hapus")
-
-            # Hubungkan tombol dengan fungsi
-            edit_btn.clicked.connect(lambda checked, r=row: print(f"Edit row {r}"))
-            delete_btn.clicked.connect(lambda checked, r=row: print(f"Delete row {r}"))
-
-            # Tambahkan tombol ke layout
-            btn_layout.addWidget(edit_btn)
-            btn_layout.addWidget(delete_btn)
-
-            # Set widget tombol ke kolom "Kelola"
-            self.tableWidget.setCellWidget(row, 6, btn_widget)
-
         self.horizontalLayout_2.addWidget(self.tableWidget)
-
 
         self.verticalLayout_3.addWidget(self.widget)
 
         self.scrollArea.setWidget(self.MainContent)
 
         self.verticalLayout.addWidget(self.scrollArea)
-
 
         self.retranslateUi(Form)
 
@@ -150,15 +127,5 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.headerTitle.setText(QCoreApplication.translate("Form", u"DATA ANGGOTA", None))
-        self.pushButton.setText(QCoreApplication.translate("Form", u"Tambah Data", None))
         self.label.setText(QCoreApplication.translate("Form", u"Search :", None))
     # retranslateUi
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    MainWindow = QWidget()
-    ui = Ui_Form()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

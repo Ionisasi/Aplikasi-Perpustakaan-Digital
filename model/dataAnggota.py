@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from PySide6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QHBoxLayout, QPushButton
+from PySide6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QHBoxLayout, QPushButton,QLabel,QTableWidget,QDialog,QVBoxLayout,QLineEdit,QDialogButtonBox
 from view.UI_DataAanggota import Ui_Form as Ui_DataAnggota
 
 class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
@@ -11,9 +11,10 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
         self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
         self.populate_table()  # Panggil fungsi untuk mengisi tabel
 
-    def populate_table(self):
+    def populate_table(self, search_term=""):
         """
         Fungsi untuk mengambil data anggota dari database dan menampilkan di tabel UI.
+        Pencarian berdasarkan nama anggota jika search_term diberikan.
         """
         try:
             # Koneksi ke database
@@ -21,18 +22,19 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             cursor = conn.cursor()
 
             # Query untuk mengambil data anggota
-            try:
-                # Modifikasi: Tambahkan try-except untuk menangkap kesalahan pada query
-                cursor.execute("SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role FROM User")
-                rows = cursor.fetchall()
-            except sqlite3.Error as query_error:
-                # Tampilkan pesan jika ada kesalahan dalam query SQL
-                QMessageBox.critical(self, "Error", f"Kesalahan pada query SQL: {query_error}")
-                return  # Keluar dari fungsi jika terjadi kesalahan
+            query = "SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role FROM User"
+            if search_term:
+                query += " WHERE nama_lengkap LIKE ?"
+                cursor.execute(query, (f"%{search_term}%",))
+            else:
+                cursor.execute(query)
+            
+            rows = cursor.fetchall()
 
             # Set jumlah baris pada tabel
             self.ui.tableWidget.setRowCount(len(rows))  # Set jumlah baris
             self.ui.tableWidget.setColumnCount(7)  # Tambah 1 kolom untuk tombol
+            self.ui.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
 
             # Set header tabel
             self.ui.tableWidget.setHorizontalHeaderLabels(
@@ -78,8 +80,19 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             # Tampilkan pesan error jika gagal koneksi database
             QMessageBox.critical(self, "Error", f"Terjadi kesalahan pada database: {e}")
 
+    # Tambahkan event handler untuk lineEdit pencarian
+        self.ui.lineEdit.textChanged.connect(self.on_search)
+
+    def on_search(self):
+        """
+        Event handler untuk pencarian berdasarkan nama.
+        """
+        search_term = self.ui.lineEdit.text().strip()
+        self.populate_table(search_term)
+
+
     def edit_data(self, row):
-    # Ambil data dari tabel berdasarkan baris yang dipilih
+        # Ambil data dari tabel berdasarkan baris yang dipilih
         username = self.ui.tableWidget.item(row, 1).text()  # Ambil username sebagai kunci
         nama_lengkap = self.ui.tableWidget.item(row, 0).text()
         telp = self.ui.tableWidget.item(row, 2).text()
@@ -87,41 +100,90 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
         alamat = self.ui.tableWidget.item(row, 4).text()
         role = self.ui.tableWidget.item(row, 5).text()
 
-        # Konversi jenis kelamin ke format database ('L' atau 'P')
-        if jenis_kelamin == 'Laki-Laki':
-            jenis_kelamin = 'L'
-        elif jenis_kelamin == 'Perempuan':
-            jenis_kelamin = 'P'
+        # Konversi jenis kelamin untuk format database ('L' atau 'P')
+        jenis_kelamin = 'L' if jenis_kelamin == 'Laki-Laki' else 'P'
 
-        # Tampilkan dialog untuk mengedit data
-        result = QMessageBox.question(
-            self,
-            "Edit Data",
-            f"Apakah Anda yakin ingin mengedit data ini?",
-            QMessageBox.Yes | QMessageBox.No
-        )
+        # Dialog untuk mengedit data
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Edit Data Anggota")
+        dialog.setFixedSize(300, 350)
 
-        # Jika pengguna memilih "Yes", lakukan update ke database
-        if result == QMessageBox.Yes:
+        layout = QVBoxLayout(dialog)
+
+        # Input fields
+        username_input = QLineEdit(dialog)
+        username_input.setText(username)
+        username_input.setReadOnly(True)  # Tidak dapat diedit, sebagai kunci utama
+
+        nama_input = QLineEdit(dialog)
+        nama_input.setText(nama_lengkap)
+
+        telp_input = QLineEdit(dialog)
+        telp_input.setText(telp)
+
+        jk_input = QLineEdit(dialog)
+        jk_input.setText(jenis_kelamin)
+
+        alamat_input = QLineEdit(dialog)
+        alamat_input.setText(alamat)
+
+        role_input = QLineEdit(dialog)
+        role_input.setText(role)
+
+        # Tambahkan widget ke layout
+        layout.addWidget(QLabel("Username (Tidak dapat diubah):"))
+        layout.addWidget(username_input)
+        layout.addWidget(QLabel("Nama Lengkap:"))
+        layout.addWidget(nama_input)
+        layout.addWidget(QLabel("Telepon:"))
+        layout.addWidget(telp_input)
+        layout.addWidget(QLabel("Jenis Kelamin (L/P):"))
+        layout.addWidget(jk_input)
+        layout.addWidget(QLabel("Alamat:"))
+        layout.addWidget(alamat_input)
+        layout.addWidget(QLabel("Role:"))
+        layout.addWidget(role_input)
+
+        # Buttons
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, dialog)
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+
+        # Jika pengguna mengonfirmasi perubahan
+        if dialog.exec() == QDialog.Accepted:
+            # Ambil data yang diubah
+            nama_lengkap = nama_input.text()
+            telp = telp_input.text()
+            jenis_kelamin = jk_input.text()
+            alamat = alamat_input.text()
+            role = role_input.text()
+
+            # Validasi input
+            if not nama_lengkap or not telp or not jenis_kelamin or not alamat or not role:
+                QMessageBox.warning(self, "Input Invalid", "Semua kolom harus diisi!")
+                return
+
+            # Update data di database
             try:
-                # Koneksi ke database
                 conn = sqlite3.connect(self.database_path)
                 cursor = conn.cursor()
 
-                # Query UPDATE
                 query = """
                 UPDATE User 
                 SET nama_lengkap = ?, telp = ?, jenis_kelamin = ?, alamat = ?, Role = ?
                 WHERE username = ?
                 """
                 cursor.execute(query, (nama_lengkap, telp, jenis_kelamin, alamat, role, username))
-                conn.commit()  # Simpan perubahan
+                conn.commit()
                 conn.close()
 
                 # Tampilkan pesan sukses
-                QMessageBox.information(self, "Sukses", "Data berhasil diupdate!")
+                QMessageBox.information(self, "Sukses", "Data berhasil diupdate.")
+
+                # Perbarui tabel
+                self.populate_table()
             except sqlite3.Error as e:
-                # Tampilkan pesan error jika query gagal
                 QMessageBox.critical(self, "Error", f"Terjadi kesalahan pada database: {e}")
 
     def hapus_data(self, row):

@@ -62,7 +62,7 @@ class Dashboard(QMainWindow):
             "Konfirmasi Logout",
             "Apakah Anda yakin ingin logout?",
             QMessageBox.Yes | QMessageBox.No,
-            QMessageBox.No
+            
         )
 
         if reply == QMessageBox.Yes:
