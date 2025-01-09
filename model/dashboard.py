@@ -3,6 +3,7 @@ from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
 from model.dataKoleksiFiksi import KoleksiFiksi
+from model.dataKoleksiNonFiksi import KoleksiNonFiksi
 
 class Dashboard(QMainWindow):
     def __init__(self, role):
@@ -22,6 +23,9 @@ class Dashboard(QMainWindow):
         
         self.dataKoleksiFiksi = KoleksiFiksi()
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
+        
+        self.dataKoleksiNonFiksi = KoleksiNonFiksi()
+        self.ui.stackedWidget.addWidget(self.dataKoleksiNonFiksi)
 
         # connect buttons
         self.ui.Logout.clicked.connect(self.logout)
@@ -30,6 +34,7 @@ class Dashboard(QMainWindow):
         self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
         self.ui.DataBuku.clicked.connect(self.show_data_buku)
         self.ui.Fiksi.clicked.connect(self.show_fiksi)
+        self.ui.NonFiksi.clicked.connect(self.show_nonfiksi)
         
         # control ui admin dan anggota
         if self.role == 0:  # Anggota
@@ -54,6 +59,10 @@ class Dashboard(QMainWindow):
     def show_fiksi(self):
         # menampilkan halaman koleksi buku fiksi
         self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi)
+        
+    def show_nonfiksi(self):
+        # menampilkan halaman koleksi buku nonfiksi
+        self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiNonFiksi)
 
     def logout(self):
         # Konfirmasi sebelum logout
