@@ -34,7 +34,7 @@ class KoleksiNonFiksi(QWidget):
         # Mengambil buku fiksi dari database SQLite dengan menyaring kategori
         conn = sqlite3.connect(database_path)
         cursor = conn.cursor()
-        cursor.execute("SELECT id, judul, cover FROM buku WHERE kategori = 'NonFiksi'")
+        cursor.execute("SELECT id, judul, cover FROM buku WHERE kategori = 'Non Fiksi'")
         books = cursor.fetchall()
         conn.close()
         return books
