@@ -4,8 +4,9 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import (
     QWidget, QMessageBox, QTableWidgetItem, 
     QLabel, QAbstractItemView, QHBoxLayout, QVBoxLayout, QLineEdit, QDialog, 
-    QDialogButtonBox, QPushButton
+    QDialogButtonBox, QPushButton,QHeaderView
     )
+from PySide6.QtGui import QIcon
 from view.UI_DataAanggota import Ui_Form as Ui_DataAnggota
 
 class DataAnggotaPage(QWidget):
@@ -25,7 +26,7 @@ class DataAnggotaPage(QWidget):
         self.current_page = 0
 
         # Event handler
-        self.ui.lineEdit.textChanged.connect(self.start_search_timer)
+        self.ui.Search_action.textChanged.connect(self.start_search_timer)
 
         self.populate_table()
 
@@ -57,14 +58,18 @@ class DataAnggotaPage(QWidget):
             rows = cursor.fetchall()
 
             # Set jumlah baris pada tabel
-            self.ui.tableWidget.setRowCount(len(rows))  # Set jumlah baris
-            self.ui.tableWidget.setColumnCount(7)  # Tambah 1 kolom untuk tombol
-            self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+            self.ui.view_data.setRowCount(len(rows))  # Set jumlah baris
+            self.ui.view_data.setColumnCount(7)  # Tambah 1 kolom untuk tombol
+            self.ui.view_data.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
             # Set header tabel
-            self.ui.tableWidget.setHorizontalHeaderLabels(
+            self.ui.view_data.setHorizontalHeaderLabels(
                 ['Nama', 'Username', 'Telepon', 'Jenis Kelamin', 'Alamat', 'Role', 'Kelola']
             )
+            
+            # **Menyesuaikan ukuran kolom dengan jendela**
+            self.ui.view_data.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+            self.ui.view_data.horizontalHeader().setStretchLastSection(True)
 
             # Isi tabel dengan data dari database
             for row_index, row in enumerate(rows):
@@ -72,9 +77,12 @@ class DataAnggotaPage(QWidget):
                     # Ubah jenis kelamin menjadi 'Laki-Laki' atau 'Perempuan'
                     if col_index == 3:  # Kolom "jenis_kelamin"
                         cell_data = 'Laki-Laki' if cell_data == 'L' else 'Perempuan'
+                        
+                    if col_index == 5:  # Kolom "jenis_kelamin"
+                        cell_data = 'Administrator' if cell_data == 1 else 'Anggota'
 
                     item = QTableWidgetItem(str(cell_data))
-                    self.ui.tableWidget.setItem(row_index, col_index, item)
+                    self.ui.view_data.setItem(row_index, col_index, item)
 
                 # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
                 btn_widget = QWidget()
@@ -82,10 +90,41 @@ class DataAnggotaPage(QWidget):
                 btn_layout.setContentsMargins(0, 0, 0, 0)
 
                 # Tambahkan tombol Edit dan Hapus
-                edit_btn = QPushButton("Edit")
-                delete_btn = QPushButton("Hapus")
-
-                # Hubungkan tombol dengan fungsi
+                edit_btn = QPushButton()
+                icon_edit = QIcon('Asset/Icon/Edit.png')
+                edit_btn.setIcon(icon_edit)
+                edit_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #4CAF50; /* Warna hijau */
+                        color: white;
+                        border-radius: 5px;       /* Membuat sudut membulat */
+                        padding: 5px;
+                    }
+                    QPushButton:hover {
+                        background-color: #45a049; /* Warna hijau lebih gelap saat di-hover */
+                    }
+                    QPushButton:pressed {
+                        background-color: #388E3C; /* Warna hijau lebih gelap saat ditekan */
+                    }
+                """)
+                delete_btn = QPushButton()
+                icon_delete = QIcon('Asset/Icon/Delete.png')
+                delete_btn.setIcon(icon_delete)
+                delete_btn.setStyleSheet("""
+                    QPushButton {
+                        background-color: #F44336; /* Warna merah */
+                        color: white;
+                        border-radius: 5px;       /* Membuat sudut membulat */
+                        padding: 5px;
+                    }
+                    QPushButton:hover {
+                        background-color: #e53935; /* Warna merah lebih gelap saat di-hover */
+                    }
+                    QPushButton:pressed {
+                        background-color: #d32f2f; /* Warna merah lebih gelap saat ditekan */
+                    }
+                """)
+               # Hubungkan tombol dengan fungsi
                 edit_btn.clicked.connect(lambda checked, r=row_index: self.edit_data(r))
                 delete_btn.clicked.connect(lambda checked, r=row_index: self.hapus_data(r))
 
@@ -94,7 +133,7 @@ class DataAnggotaPage(QWidget):
                 btn_layout.addWidget(delete_btn)
 
                 # Set widget tombol ke kolom "Kelola"
-                self.ui.tableWidget.setCellWidget(row_index, 6, btn_widget)
+                self.ui.view_data.setCellWidget(row_index, 6, btn_widget)
 
             conn.close()
 
@@ -108,12 +147,12 @@ class DataAnggotaPage(QWidget):
 
     def edit_data(self, row):
         # Ambil data dari tabel berdasarkan baris yang dipilih
-        username = self.ui.tableWidget.item(row, 1).text()  # Ambil username sebagai kunci
-        nama_lengkap = self.ui.tableWidget.item(row, 0).text()
-        telp = self.ui.tableWidget.item(row, 2).text()
-        jenis_kelamin = self.ui.tableWidget.item(row, 3).text()
-        alamat = self.ui.tableWidget.item(row, 4).text()
-        role = self.ui.tableWidget.item(row, 5).text()
+        username = self.ui.view_data.item(row, 1).text()  # Ambil username sebagai kunci
+        nama_lengkap = self.ui.view_data.item(row, 0).text()
+        telp = self.ui.view_data.item(row, 2).text()
+        jenis_kelamin = self.ui.view_data.item(row, 3).text()
+        alamat = self.ui.view_data.item(row, 4).text()
+        role = self.ui.view_data.item(row, 5).text()
 
         # Konversi jenis kelamin untuk format database ('L' atau 'P')
         jenis_kelamin = 'L' if jenis_kelamin == 'Laki-Laki' else 'P'
@@ -206,7 +245,7 @@ class DataAnggotaPage(QWidget):
         Fungsi untuk menghapus data anggota berdasarkan baris yang dipilih di tabel.
         """
         # Ambil data dari tabel berdasarkan baris yang dipilih
-        nama = self.ui.tableWidget.item(row, 0).text()
+        nama = self.ui.view_data.item(row, 0).text()
 
         # Tampilkan dialog konfirmasi penghapusan
         result = QMessageBox.question(

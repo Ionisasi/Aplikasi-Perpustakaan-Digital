@@ -202,13 +202,14 @@ class Ui_UI_Dashboard(object):
 
         self.verticalLayout.addWidget(self.KoleksiSubMenu)
 
+        pinjam_icon = QIcon('Asset/Icon/bookshelf.png')
         self.Pinjam = QPushButton(self.sidebar)
         self.Pinjam.setObjectName(u"Pinjam")
         self.Pinjam.setMinimumSize(QSize(0, 40))
         self.Pinjam.setMaximumSize(QSize(16777215, 40))
         self.Pinjam.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border:tranparanted\n"
 "")
-        self.Pinjam.setIcon(icon)
+        self.Pinjam.setIcon(pinjam_icon)
         self.Pinjam.setCheckable(True)
         self.Pinjam.setChecked(True)
 
