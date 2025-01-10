@@ -1,16 +1,37 @@
 import os
 import sqlite3
-from PySide6.QtWidgets import QWidget, QMessageBox, QTableWidgetItem, QHBoxLayout, QPushButton,QLabel,QTableWidget,QDialog,QVBoxLayout,QLineEdit,QDialogButtonBox
+from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import (
+    QWidget, QMessageBox, QTableWidgetItem, 
+    QLabel, QAbstractItemView, QHBoxLayout, QVBoxLayout, QLineEdit, QDialog, 
+    QDialogButtonBox, QPushButton
+    )
 from view.UI_DataAanggota import Ui_Form as Ui_DataAnggota
 
-class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
+class DataAnggotaPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.ui = Ui_DataAnggota()  # Inisialisasi objek UI
-        self.ui.setupUi(self)  # Setup UI pada widget
+        self.ui = Ui_DataAnggota()
+        self.ui.setupUi(self)
         self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
-        self.populate_table()  # Panggil fungsi untuk mengisi tabel
+        
+        # Tambahkan QTimer untuk debouncing pencarian
+        self.search_timer = QTimer(self)
+        self.search_timer.setSingleShot(True)
+        self.search_timer.timeout.connect(self.on_search)
 
+        # Variabel untuk pagination
+        self.page_size = 50
+        self.current_page = 0
+
+        # Event handler
+        self.ui.lineEdit.textChanged.connect(self.start_search_timer)
+
+        self.populate_table()
+
+    def start_search_timer(self):
+        """Memulai timer untuk debouncing pencarian."""
+        self.search_timer.start(300)  # Tunda pencarian selama 300 ms
     def populate_table(self, search_term=""):
         """
         Fungsi untuk mengambil data anggota dari database dan menampilkan di tabel UI.
@@ -21,20 +42,24 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             conn = sqlite3.connect(self.database_path)
             cursor = conn.cursor()
 
-            # Query untuk mengambil data anggota
+            # Query untuk mengambil data anggota dengan pagination
             query = "SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role FROM User"
+            params = []
+
             if search_term:
                 query += " WHERE nama_lengkap LIKE ?"
-                cursor.execute(query, (f"%{search_term}%",))
-            else:
-                cursor.execute(query)
-            
+                params.append(f"%{search_term}%")
+
+            query += " LIMIT ? OFFSET ?"
+            params.extend([self.page_size, self.current_page * self.page_size])
+
+            cursor.execute(query, params)
             rows = cursor.fetchall()
 
             # Set jumlah baris pada tabel
             self.ui.tableWidget.setRowCount(len(rows))  # Set jumlah baris
             self.ui.tableWidget.setColumnCount(7)  # Tambah 1 kolom untuk tombol
-            self.ui.tableWidget.setEditTriggers(QTableWidget.NoEditTriggers)
+            self.ui.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
             # Set header tabel
             self.ui.tableWidget.setHorizontalHeaderLabels(
@@ -46,12 +71,9 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
                 for col_index, cell_data in enumerate(row):
                     # Ubah jenis kelamin menjadi 'Laki-Laki' atau 'Perempuan'
                     if col_index == 3:  # Kolom "jenis_kelamin"
-                        if cell_data == 'L':
-                            cell_data = 'Laki-Laki'
-                        elif cell_data == 'P':
-                            cell_data = 'Perempuan'
+                        cell_data = 'Laki-Laki' if cell_data == 'L' else 'Perempuan'
 
-                    item = QTableWidgetItem(str(cell_data))  # Buat item dari data
+                    item = QTableWidgetItem(str(cell_data))
                     self.ui.tableWidget.setItem(row_index, col_index, item)
 
                 # Tambahkan tombol "Edit" dan "Hapus" di kolom "Kelola"
@@ -77,19 +99,12 @@ class DataAnggotaPage(QWidget):  # Pastikan ini subclass QWidget
             conn.close()
 
         except sqlite3.Error as e:
-            # Tampilkan pesan error jika gagal koneksi database
             QMessageBox.critical(self, "Error", f"Terjadi kesalahan pada database: {e}")
-
-    # Tambahkan event handler untuk lineEdit pencarian
-        self.ui.lineEdit.textChanged.connect(self.on_search)
-
     def on_search(self):
-        """
-        Event handler untuk pencarian berdasarkan nama.
-        """
+        """Event handler untuk pencarian berdasarkan nama."""
+        self.current_page = 0  # Reset ke halaman pertama saat pencarian baru
         search_term = self.ui.lineEdit.text().strip()
         self.populate_table(search_term)
-
 
     def edit_data(self, row):
         # Ambil data dari tabel berdasarkan baris yang dipilih
