@@ -86,7 +86,7 @@ class Ui_Form(object):
         self.lineEdit.setPlaceholderText("Nama")
         self.lineEdit.setStyleSheet("""
             QLineEdit {
-                color: white;  /* Warna teks */
+                color: Blue;  /* Warna teks */
                 font-weight: bold;
             }
             QLineEdit::placeholder {
