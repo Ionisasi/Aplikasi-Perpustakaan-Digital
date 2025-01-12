@@ -4,6 +4,7 @@ from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
 from model.dataKoleksiFiksi import KoleksiFiksi
 from model.dataKoleksiNonFiksi import KoleksiNonFiksi
+from model.profile import profilePage 
 
 class Dashboard(QMainWindow):
     def __init__(self, role):
@@ -26,15 +27,19 @@ class Dashboard(QMainWindow):
         
         self.dataKoleksiNonFiksi = KoleksiNonFiksi()
         self.ui.stackedWidget.addWidget(self.dataKoleksiNonFiksi)
+        
+        self.profilePage = profilePage()
+        self.ui.stackedWidget.addWidget(self.profilePage)
 
         # connect buttons
         self.ui.Logout.clicked.connect(self.logout)
         self.ui.Data.clicked.connect(lambda checked: self.toggle_submenu(self.ui.DataSubMenu) if checked else None)
         self.ui.Koleksi.clicked.connect(lambda checked: self.toggle_submenu(self.ui.KoleksiSubMenu) if checked else None)
-        self.ui.DataAnggota.clicked.connect(self.show_data_anggota)
-        self.ui.DataBuku.clicked.connect(self.show_data_buku)
-        self.ui.Fiksi.clicked.connect(self.show_fiksi)
-        self.ui.NonFiksi.clicked.connect(self.show_nonfiksi)
+        self.ui.DataAnggota.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataAnggota))
+        self.ui.DataBuku.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataBuku))   
+        self.ui.Fiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi))
+        self.ui.NonFiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiNonFiksi))
+        self.ui.Profile.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.profilePage))
         
         # control ui admin dan anggota
         if self.role == 0:  # Anggota
@@ -47,22 +52,6 @@ class Dashboard(QMainWindow):
     def toggle_submenu(self, submenu):
         # menampilkan atau menyembunyikan submenu
         submenu.setVisible(not submenu.isVisible())
-    
-    def show_data_anggota(self):
-        # menampilkan halaman data anggota
-        self.ui.stackedWidget.setCurrentWidget(self.dataAnggota)
-    
-    def show_data_buku(self):
-        # menampilkan halaman data buku
-        self.ui.stackedWidget.setCurrentWidget(self.dataBuku)
-    
-    def show_fiksi(self):
-        # menampilkan halaman koleksi buku fiksi
-        self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi)
-        
-    def show_nonfiksi(self):
-        # menampilkan halaman koleksi buku nonfiksi
-        self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiNonFiksi)
 
     def logout(self):
         # Konfirmasi sebelum logout
