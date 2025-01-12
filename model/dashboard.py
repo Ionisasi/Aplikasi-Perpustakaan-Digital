@@ -4,7 +4,9 @@ from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
 from model.dataKoleksiFiksi import KoleksiFiksi
 from model.dataKoleksiNonFiksi import KoleksiNonFiksi
+from model.Home import homePage
 from model.profile import profilePage 
+
 
 class Dashboard(QMainWindow):
     def __init__(self, role):
@@ -14,14 +16,23 @@ class Dashboard(QMainWindow):
 
         # set role
         self.role = role
-        
+
         # setup halaman data anggota
+        self.homePage = homePage()
+        self.ui.stackedWidget.addWidget(self.homePage)
+
+        self.dataKoleksiFiksi = KoleksiFiksi()
+        self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
+
+        self.dataKoleksiNonFiksi = KoleksiNonFiksi()
+        self.ui.stackedWidget.addWidget(self.dataKoleksiNonFiksi)
+
         self.dataAnggota = DataAnggotaPage()
         self.ui.stackedWidget.addWidget(self.dataAnggota)
-        
+
         self.dataBuku = DataBukuPage()
         self.ui.stackedWidget.addWidget(self.dataBuku)
-        
+
         self.dataKoleksiFiksi = KoleksiFiksi()
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
         
@@ -40,14 +51,19 @@ class Dashboard(QMainWindow):
         self.ui.Fiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi))
         self.ui.NonFiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiNonFiksi))
         self.ui.Profile.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.profilePage))
+        self.ui.home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.homePage))
         
         # control ui admin dan anggota
         if self.role == 0:  # Anggota
             self.hide_admin_features()
-    
+
     def hide_admin_features(self):
         # menyembunyikan fitur admin
         self.ui.Data.setVisible(False)
+    
+    def show_homepage(self):
+        # menampilkan halaman koleksi buku nonfiksi
+        self.ui.stackedWidget.setCurrentWidget(self.homePage)
 
     def toggle_submenu(self, submenu):
         # menampilkan atau menyembunyikan submenu
@@ -60,7 +76,7 @@ class Dashboard(QMainWindow):
             "Konfirmasi Logout",
             "Apakah Anda yakin ingin logout?",
             QMessageBox.Yes | QMessageBox.No,
-            
+
         )
 
         if reply == QMessageBox.Yes:
