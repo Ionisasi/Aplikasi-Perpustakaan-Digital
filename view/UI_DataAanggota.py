@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'DataBuku_1.ui'
+## Form generated from reading UI file 'DataBuku.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.8.1
 ##
@@ -64,60 +64,74 @@ class Ui_Form(object):
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.widget_2 = QWidget(self.MainContent)
-        self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setMaximumSize(QSize(800, 100))
-        self.horizontalLayout = QHBoxLayout(self.widget_2)
+        self.Action_widget = QWidget(self.MainContent)
+        self.Action_widget.setObjectName(u"Action_widget")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.Action_widget.sizePolicy().hasHeightForWidth())
+        self.Action_widget.setSizePolicy(sizePolicy1)
+        self.Action_widget.setMaximumSize(QSize(16777215, 50))
+        self.horizontalLayout = QHBoxLayout(self.Action_widget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-
-        self.label = QLabel(self.widget_2)
-        self.label.setObjectName(u"label")
+        self.Tambah_data = QPushButton(self.Action_widget)
+        self.Tambah_data.setObjectName(u"Tambah_data")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.Tambah_data.sizePolicy().hasHeightForWidth())
+        self.Tambah_data.setSizePolicy(sizePolicy2)
+        self.Tambah_data.setMaximumSize(QSize(150, 150))
         font1 = QFont()
         font1.setBold(True)
-        self.label.setFont(font1)
-        self.label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
+        self.Tambah_data.setFont(font1)
+        icon = QIcon(QIcon.fromTheme(u"list-add"))
+        self.Tambah_data.setIcon(icon)
 
-        self.horizontalLayout.addWidget(self.label)
+        self.horizontalLayout.addWidget(self.Tambah_data)
 
-        self.lineEdit = QLineEdit(self.widget_2)
-        self.lineEdit.setObjectName(u"lineEdit")
-        self.lineEdit.setMaximumSize(QSize(200, 16777215))
-        self.lineEdit.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.lineEdit.setPlaceholderText("Nama")
-        self.lineEdit.setStyleSheet("""
-            QLineEdit {
-                color: Blue;  /* Warna teks */
-                font-weight: bold;
-            }
-            QLineEdit::placeholder {
-                color: white;  /* Warna placeholder */
-            }
-        """)
+        self.Search_label = QLabel(self.Action_widget)
+        self.Search_label.setObjectName(u"Search_label")
+        self.Search_label.setFont(font1)
+        self.Search_label.setAlignment(Qt.AlignmentFlag.AlignRight|Qt.AlignmentFlag.AlignTrailing|Qt.AlignmentFlag.AlignVCenter)
 
-        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.addWidget(self.Search_label)
 
-        self.verticalLayout_3.addWidget(self.widget_2)
+        self.Search_action = QLineEdit(self.Action_widget)
+        self.Search_action.setObjectName(u"Search_action")
+        self.Search_action.setMaximumSize(QSize(200, 16777215))
+        self.Search_action.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.widget = QWidget(self.MainContent)
-        self.widget.setObjectName(u"widget")
-        self.widget.setMaximumSize(QSize(800, 480))
-        self.horizontalLayout_2 = QHBoxLayout(self.widget)
+        self.horizontalLayout.addWidget(self.Search_action)
+
+
+        self.verticalLayout_3.addWidget(self.Action_widget)
+
+        #Table Area
+        self.Table_area = QWidget(self.MainContent)
+        self.Table_area.setObjectName(u"Table_area")
+        sizePolicy1.setHeightForWidth(self.Table_area.sizePolicy().hasHeightForWidth())
+        self.Table_area.setSizePolicy(sizePolicy1)
+        self.Table_area.setMaximumSize(QSize(16777215, 16777215))
+        self.horizontalLayout_2 = QHBoxLayout(self.Table_area)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.view_data = QTableWidget(self.Table_area)
+        self.view_data.setStyleSheet("background-color: rgb(0, 24, 35);")
+        self.view_data.setObjectName(u"view_data")
+        self.view_data.setRowCount(0)
+        self.view_data.setColumnCount(1)
+        self.view_data.setHorizontalHeaderLabels(["Kelola"])
         
-        # QTable
-        self.tableWidget = QTableWidget(self.widget)
-        self.tableWidget.setObjectName(u"tableWidget")
-        self.tableWidget.setRowCount(0)
-        self.tableWidget.setColumnCount(1)
-        self.tableWidget.setHorizontalHeaderLabels(["Kelola"])
-        
-        self.horizontalLayout_2.addWidget(self.tableWidget)
 
-        self.verticalLayout_3.addWidget(self.widget)
+        self.horizontalLayout_2.addWidget(self.view_data)
+
+
+        self.verticalLayout_3.addWidget(self.Table_area)
 
         self.scrollArea.setWidget(self.MainContent)
 
         self.verticalLayout.addWidget(self.scrollArea)
+
 
         self.retranslateUi(Form)
 
@@ -127,5 +141,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
         self.headerTitle.setText(QCoreApplication.translate("Form", u"DATA ANGGOTA", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Search :", None))
+        self.Tambah_data.setText(QCoreApplication.translate("Form", u"Tambah Data", None))
+        self.Search_label.setText(QCoreApplication.translate("Form", u"Search :", None))
     # retranslateUi
+

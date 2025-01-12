@@ -202,15 +202,16 @@ class Ui_UI_Dashboard(object):
 
         self.verticalLayout.addWidget(self.KoleksiSubMenu)
 
+        pinjam_icon = QIcon(get_icon_path('bookshelf.png'))
         self.Pinjam = QPushButton(self.sidebar)
         self.Pinjam.setObjectName(u"Pinjam")
+        self.buttonGroup.addButton(self.Pinjam)
         self.Pinjam.setMinimumSize(QSize(0, 40))
         self.Pinjam.setMaximumSize(QSize(16777215, 40))
         self.Pinjam.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border:tranparanted\n"
 "")
-        self.Pinjam.setIcon(icon)
+        self.Pinjam.setIcon(pinjam_icon)
         self.Pinjam.setCheckable(True)
-        self.Pinjam.setChecked(True)
 
         self.verticalLayout.addWidget(self.Pinjam)
 
@@ -332,6 +333,9 @@ class Ui_UI_Dashboard(object):
         self.stackedWidget.addWidget(self.page7)
 
         self.gridLayout.addWidget(self.stackedWidget, 1, 1, 3, 1)
+        
+        self.KoleksiSubMenu.setVisible(False)
+        self.DataSubMenu.setVisible(False)
         
         # style for ButtonGroup
         styleButtonGroup = """
