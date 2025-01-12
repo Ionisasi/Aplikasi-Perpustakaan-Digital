@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
     QPushButton, QHeaderView
 )
 from PySide6.QtGui import QIcon
-from view.UI_DataAanggota import Ui_Form as Ui_DataBuku
+from view.UI_DataKelola import Ui_Form as Ui_DataBuku
 class DataBukuPage(QWidget):
     def __init__(self):
         super().__init__()

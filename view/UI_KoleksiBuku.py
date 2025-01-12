@@ -18,7 +18,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QScrollArea,
     QSizePolicy, QVBoxLayout, QWidget)
 
-class Ui_BukuFiksi(object):
+class Ui_Form(object):
     def setupUi(self, BukuFiksi):
         if not BukuFiksi.objectName():
             BukuFiksi.setObjectName(u"BukuFiksi")

@@ -131,7 +131,23 @@ class Ui_Form(object):
         self.scrollArea.setWidget(self.MainContent)
 
         self.verticalLayout.addWidget(self.scrollArea)
-
+        
+                # style for ButtonGroup
+        styleButtonGroup = """
+        QPushButton {
+                font-size: 15px;
+                font-weight: bold;
+                color: #ffffff;
+                text-align: left;
+                padding-left: 20px;
+                border: none;
+        }
+        QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+        }
+        """
+        
+        self.Tambah_data.setStyleSheet(styleButtonGroup)
 
         self.retranslateUi(Form)
 

@@ -7,7 +7,7 @@ from PySide6.QtWidgets import (
     QPushButton, QHeaderView
 )
 from PySide6.QtGui import QIcon
-from view.UI_DataAanggota import Ui_Form as Ui_DataAnggota
+from view.UI_DataKelola import Ui_Form as Ui_DataAnggota
 
 class DataAnggotaPage(QWidget):
     def __init__(self):
@@ -15,6 +15,8 @@ class DataAnggotaPage(QWidget):
         self.ui = Ui_DataAnggota()
         self.ui.setupUi(self)
         self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+        
+        self.ui.Tambah_data.setVisible(False)
         
         # Setup search debouncing
         self.search_timer = QTimer(self)
