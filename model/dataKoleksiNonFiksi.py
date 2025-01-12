@@ -5,6 +5,4 @@ database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.
 
 class KoleksiNonFiksi(KoleksiBuku):
     def __init__(self):
-        super().__init__(kategori="Fiksi", ui_class=Ui_BukuNonFiksi)
-        
-        self.ui.headerTitle.setText("BUKU NON FIKSI")
+        super().__init__(kategori="Non Fiksi", ui_class=Ui_BukuNonFiksi)

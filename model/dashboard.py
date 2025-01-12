@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
+from model.dataKoleksi import KoleksiBuku
 from model.dataKoleksiFiksi import KoleksiFiksi
 from model.dataKoleksiNonFiksi import KoleksiNonFiksi
 from model.Home import homePage
@@ -22,6 +23,9 @@ class Dashboard(QMainWindow):
         self.ui.stackedWidget.addWidget(self.homePage)
         # set halaman home sebagai halaman utama
         self.ui.stackedWidget.setCurrentWidget(self.homePage) 
+        
+        self.dataKoleksi = KoleksiBuku()
+        self.ui.stackedWidget.addWidget(self.dataKoleksi)
 
         self.dataKoleksiFiksi = KoleksiFiksi()
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
@@ -44,6 +48,7 @@ class Dashboard(QMainWindow):
         # connect buttons
         self.ui.home.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.homePage))
         self.ui.Koleksi.clicked.connect(lambda checked: self.toggle_submenu(self.ui.KoleksiSubMenu) if checked else None)
+        self.ui.Koleksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksi))
         self.ui.Fiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiFiksi))
         self.ui.NonFiksi.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataKoleksiNonFiksi))
         self.ui.Pinjam.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.rakPinjam))
