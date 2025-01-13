@@ -199,6 +199,30 @@ class DataAnggotaPage(QWidget):
         dialog = QDialog(self)
         dialog.setWindowTitle("Edit Data Anggota")
         dialog.setFixedSize(300, 350)
+                # Apply styling to the dialog
+        dialog.setStyleSheet("""
+            QWidget {
+                background-color: rgb(0, 33, 48);
+                color: white;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #ffffff;
+                padding-left: 20px;
+            }
+            QLineEdit {
+                background-color: rgb(30, 30, 30);
+                color: white;
+                padding-left: 10px;
+            }
+            QPushButton {
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 5px;
+                padding: 5px;
+            }
+        """)
 
         layout = QVBoxLayout(dialog)
         fields = self._create_edit_fields(dialog, data)

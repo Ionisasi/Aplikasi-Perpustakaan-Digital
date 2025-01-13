@@ -15,9 +15,9 @@ class DataBukuPage(QWidget):
         self.ui.setupUi(self)
         self.ui.retranslateUi(self)
         self.ui.headerTitle.setText("DATA BUKU")
-        
+
         self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
-        
+
         # Setup search debouncing
         self.search_timer = QTimer(self)
         self.search_timer.setSingleShot(True)
@@ -29,7 +29,7 @@ class DataBukuPage(QWidget):
 
         # Connect event handlers
         self.ui.Search_action.textChanged.connect(self.start_search_timer)
-        
+
         # Initial table population
         self.populate_table()
 
@@ -50,7 +50,7 @@ class DataBukuPage(QWidget):
 
                 # Base query for book data
                 base_query = """
-                    SELECT id, judul, tahun_terbit, pengarang, penerbit, kategori, jumlah 
+                    SELECT id, judul, tahun_terbit, pengarang, penerbit, kategori, jumlah
                     FROM buku
                 """
                 params = []
@@ -84,7 +84,7 @@ class DataBukuPage(QWidget):
         table.setHorizontalHeaderLabels([
             'ID', 'Judul', 'Tahun Terbit', 'Pengarang', 'Penerbit', 'Kategori', 'Jumlah', 'Kelola'
         ])
-        
+
         # Configure header appearance
         header = table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
@@ -118,7 +118,7 @@ class DataBukuPage(QWidget):
 
         # Connect button signals
         edit_btn.clicked.connect(lambda checked, r=row_idx: self.edit_data(r))
-        delete_btn.clicked.connect(lambda checked, r=row_idx: self.hapus_data(r))
+        delete_btn.clicked.connect(lambda checked, r=row_idx: self.delete_data(r))
 
         btn_layout.addWidget(edit_btn)
         btn_layout.addWidget(delete_btn)
@@ -165,9 +165,34 @@ class DataBukuPage(QWidget):
         dialog.setWindowTitle("Edit Data Buku")
         dialog.setFixedSize(300, 350)
 
+        # Apply styling to the dialog
+        dialog.setStyleSheet("""
+            QWidget {
+                background-color: rgb(0, 33, 48);
+                color: white;
+                font-weight: bold;
+                font-family: Arial, sans-serif;
+            }
+            QLabel {
+                color: #ffffff;
+                padding-left: 20px;
+            }
+            QLineEdit {
+                background-color: rgb(30, 30, 30);
+                color: white;
+                padding-left: 10px;
+            }
+            QPushButton {
+                background-color: #4CAF50;
+                color: white;
+                border-radius: 5px;
+                padding: 5px;
+            }
+        """)
+
         layout = QVBoxLayout(dialog)
         fields = self._create_edit_fields(dialog, data)
-        
+
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, dialog)
         buttons.accepted.connect(dialog.accept)
         buttons.rejected.connect(dialog.reject)
@@ -211,7 +236,7 @@ class DataBukuPage(QWidget):
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
                 cursor.execute("""
-                    UPDATE buku 
+                    UPDATE buku
                     SET judul=?, tahun_terbit=?, pengarang=?, penerbit=?, kategori=?, jumlah=?
                     WHERE id=?
                 """, (
@@ -225,12 +250,12 @@ class DataBukuPage(QWidget):
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
-    def hapus_data(self, row):
+    def delete_data(self, row):
         """Delete book data after confirmation."""
         book_id = self.ui.view_data.item(row, 0).text()
-        
+
         if QMessageBox.question(
-            self, "Hapus Data", 
+            self, "Hapus Data",
             f"Apakah Anda yakin ingin menghapus buku dengan ID: {book_id}?",
             QMessageBox.Yes | QMessageBox.No
         ) == QMessageBox.Yes:

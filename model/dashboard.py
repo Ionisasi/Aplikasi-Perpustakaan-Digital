@@ -1,3 +1,5 @@
+import os
+import sqlite3
 from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
@@ -9,6 +11,7 @@ from model.Home import homePage
 from model.profile import profilePage 
 from model.rakPinjam import rakPinjamPage
 
+database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
 class Dashboard(QMainWindow):
     def __init__(self, role, user_id):
         super().__init__()
@@ -20,7 +23,25 @@ class Dashboard(QMainWindow):
 
         # set role
         self.role = role
-
+        
+        # nama akun dan role sesuai user yang login
+        try:
+            conn = sqlite3.connect(database_path)
+            cursor = conn.cursor()
+            cursor.execute("SELECT Nama_lengkap, Role FROM User WHERE id = ?", (self.user_id,))
+            result = cursor.fetchone()
+            conn.close()
+            self.ui.NamaAkun.setText(result[0])
+            self.ui.Role.setText("Administrator" if result[1] == 1 else "Anggota")
+            
+            # set style role
+            if result[1] == 0:
+                self.ui.Role.setStyleSheet((u"font-size: 20px; font-weight: bold; text-align: center; color: #000000;\n"
+"background-color: #00FFFF;"))
+                
+        except sqlite3.Error as e:
+            QMessageBox.critical(self, "Error", f"Database error: {e}")
+            
         # setup halaman data anggota
         self.homePage = homePage()
         self.ui.stackedWidget.addWidget(self.homePage)

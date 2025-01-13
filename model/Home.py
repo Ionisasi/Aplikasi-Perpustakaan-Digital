@@ -1,6 +1,6 @@
 import os
 import sqlite3
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QHBoxLayout, QMessageBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QHBoxLayout, QMessageBox, QPushButton
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 from view.UI_HomePage import Ui_Form as Ui_HomePage
@@ -18,8 +18,11 @@ class homePage(QWidget):
 
     def display_random_books(self):
         # Mendapatkan layout dari scroll area
-        scroll_layout = QHBoxLayout(self.ui.scrollAreaWidgetContents)  # Mengubah menjadi QHBoxLayout untuk horizontal
-        
+        scroll_layout = self.ui.scrollAreaWidgetContents.layout()
+        if scroll_layout is None:
+            scroll_layout = QVBoxLayout()
+            self.ui.scrollAreaWidgetContents.setLayout(scroll_layout)
+
         # Ambil 5 buku secara acak dari database
         try:
             with sqlite3.connect(database_path) as conn:
@@ -36,28 +39,32 @@ class homePage(QWidget):
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
-    def create_book_widget(self, book_id, title, cover):
-        # Membuat widget untuk setiap buku dengan cover yang bisa diklik untuk melihat detail
+    def create_book_widget(self, book_id, title, cover_path):
         widget = QWidget()
-        layout = QVBoxLayout(widget)
+        layout = QVBoxLayout()
 
-        # Label untuk cover buku (menggunakan QPixmap untuk gambar)
-        cover_label = QLabel()
-        if cover and os.path.exists(cover):
-            pixmap = QPixmap(cover)
-            cover_label.setPixmap(pixmap.scaled(100, 150, Qt.KeepAspectRatio))  # Ukuran gambar disesuaikan
-            cover_label.setAlignment(Qt.AlignCenter)
-            cover_label.mousePressEvent = lambda event, book_id=book_id: self.show_book_details(book_id)  # Klik untuk detail
-        layout.addWidget(cover_label)
+        cover_button = QPushButton(self)
+        pixmap = QPixmap(cover_path)
+        scaled_pixmap = pixmap.scaled(150, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        cover_button.setIcon(scaled_pixmap)
+        cover_button.setIconSize(scaled_pixmap.size())
+        cover_button.setFixedSize(150, 200)
+        cover_button.setStyleSheet("border: none;")
 
-        # Label untuk judul buku
+        cover_button.clicked.connect(lambda: self.show_book_details(book_id))
+
         title_label = QLabel(title)
-        title_label.setWordWrap(True)  # Aktifkan word wrap untuk judul yang panjang
-        title_label.setAlignment(Qt.AlignCenter)  # Rata tengah
-        layout.addWidget(title_label)
+        title_label.setAlignment(Qt.AlignCenter)
+        title_label.setWordWrap(True)
+        title_label.setFixedWidth(150)
+        title_label.setStyleSheet("color: white; font-weight: bold;")
 
-        # Mengatur ukuran widget agar lebih konsisten dalam tampilan horizontal
-        widget.setFixedWidth(120)  # Menjaga ukuran widget buku tetap konsisten
+        layout.addWidget(cover_button)
+        layout.addWidget(title_label)
+        layout.setSpacing(5)
+        layout.setAlignment(Qt.AlignCenter)
+        widget.setLayout(layout)
+
         return widget
 
     def show_book_details(self, book_id):
