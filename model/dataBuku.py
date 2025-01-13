@@ -226,7 +226,14 @@ class DataBukuPage(QWidget):
     def _save_edited_data(self, dialog, book_id):
         """Save edited data to database."""
         fields = dialog.findChildren(QLineEdit)
-        data = {field.objectName(): field.text() for field in fields}
+        data = {
+            'judul': fields[0].text(),
+            'tahun_terbit': fields[1].text(),
+            'pengarang': fields[2].text(),
+            'penerbit': fields[3].text(),
+            'kategori': fields[4].text(),
+            'jumlah': fields[5].text(),
+        }
 
         if not all(data.values()):
             QMessageBox.warning(self, "Input Invalid", "Semua kolom harus diisi!")
@@ -249,6 +256,7 @@ class DataBukuPage(QWidget):
             self.populate_table()
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
+
 
     def delete_data(self, row):
         """Delete book data after confirmation."""
