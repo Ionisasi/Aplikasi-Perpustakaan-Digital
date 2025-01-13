@@ -33,17 +33,33 @@ class DataAnggotaPage(QWidget):
         # Initial table population
         self.populate_table()
 
+    def showEvent(self, event):
+        # Memanggil pembaruan tabel setiap kali halaman ditampilkan
+        self.populate_table()
+        super().showEvent(event)
+
     def start_search_timer(self):
-        """Start debounce timer for search functionality."""
+        # ulangi timer jika user terus mengetik
         self.search_timer.start(300)
 
     def on_search(self):
-        """Handle search event."""
+        # menghentikan timer dan memulai pencarian
+        self.current_page = 0
         search_term = self.ui.Search_action.text().strip()
-        self.populate_table(search_term)
+
+        # Cek apakah search term untuk Role
+        if search_term.lower() == "administrator":
+            role_search = 1
+        elif search_term.lower() == "anggota":
+            role_search = 2
+        else:
+            role_search = None
+
+        # Mengisi tabel dengan data yang sudah difilter
+        self.populate_table(search_term, role_search)
 
     def populate_table(self, search_term="", role_search=None):
-        """Populate the table with user data from database."""
+        # Mengisi tabel dengan data pengguna yang sesuai
         try:
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
@@ -60,7 +76,7 @@ class DataAnggotaPage(QWidget):
                     base_query += """
                         WHERE nama_lengkap LIKE ? OR username LIKE ? OR 
                             telp LIKE ? OR jenis_kelamin LIKE ? OR 
-                            alamat LIKE ? OR CAST(Role AS TEXT) LIKE ?
+                            alamat LIKE ? OR CAST(Role AS TEXT) LIKE ? 
                     """
                     search_placeholder = f"%{search_term}%"
                     params.extend([search_placeholder] * 6)
@@ -83,9 +99,8 @@ class DataAnggotaPage(QWidget):
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
-
     def _setup_table(self):
-        """Configure table settings."""
+        # mengatur tampilan tabel
         table = self.ui.view_data
         table.setColumnCount(7)  # Include column for manage buttons
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -99,16 +114,16 @@ class DataAnggotaPage(QWidget):
         header.setStretchLastSection(True)
 
     def _populate_table_data(self, rows):
-        """Fill table with data rows."""
+        # Mengisi tabel dengan data pengguna
         table = self.ui.view_data
         table.setRowCount(len(rows))
 
         for row_idx, row_data in enumerate(rows):
             for col_idx, cell_data in enumerate(row_data):
-                # Format special columns
-                if col_idx == 3:  # Gender column
+                # Format data untuk jenis kelamin dan role
+                if col_idx == 3:  # Gender kolom
                     cell_data = 'Laki-Laki' if cell_data == 'L' else 'Perempuan'
-                elif col_idx == 5:  # Role column
+                elif col_idx == 5:  # Role kolom
                     cell_data = 'Administrator' if cell_data == 1 else 'Anggota'
 
                 item = QTableWidgetItem(str(cell_data))
@@ -116,18 +131,17 @@ class DataAnggotaPage(QWidget):
 
             self._add_action_buttons(row_idx)
 
-
     def _add_action_buttons(self, row_idx):
-        """Add edit and delete buttons to the specified row."""
+        # tambahkan tombol kelola untuk setiap baris
         btn_widget = QWidget()
         btn_layout = QHBoxLayout(btn_widget)
         btn_layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create styled buttons
+        # buat tombol edit dan hapus
         edit_btn = self._create_button('Edit', 'Asset/Icon/Edit.png', '#4CAF50')
         delete_btn = self._create_button('Delete', 'Asset/Icon/Delete.png', '#F44336')
 
-        # Connect button signals
+        # Connect button
         edit_btn.clicked.connect(lambda checked, r=row_idx: self.edit_data(r))
         delete_btn.clicked.connect(lambda checked, r=row_idx: self.hapus_data(r))
 
@@ -136,7 +150,7 @@ class DataAnggotaPage(QWidget):
         self.ui.view_data.setCellWidget(row_idx, 6, btn_widget)
 
     def _create_button(self, name, icon_path, base_color):
-        """Create a styled button with icon."""
+        # buat tombol dengan ikon dan warna yang diberikan
         btn = QPushButton()
         btn.setIcon(QIcon(icon_path))
         btn.setStyleSheet(f"""
@@ -157,28 +171,11 @@ class DataAnggotaPage(QWidget):
 
     @staticmethod
     def _darken_color(hex_color, percent):
-        """Darken a hex color by specified percentage."""
-        # Simple implementation - in practice you might want a more sophisticated color manipulation
+        # gelapkan warna dengan persentase yang diberikan
         return hex_color
 
-    def on_search(self):
-        """Handle search event."""
-        self.current_page = 0
-        search_term = self.ui.Search_action.text().strip()
-
-        # Cek apakah search term untuk Role
-        if search_term.lower() == "administrator":
-            role_search = 1
-        elif search_term.lower() == "anggota":
-            role_search = 2
-        else:
-            role_search = None
-
-        # Mengisi tabel dengan data yang sudah difilter
-        self.populate_table(search_term, role_search)
-
     def edit_data(self, row):
-        """Open dialog to edit user data."""
+        # mengambil data dari baris tabel
         data = self._get_row_data(row)
         dialog = self._create_edit_dialog(data)
 
@@ -186,7 +183,7 @@ class DataAnggotaPage(QWidget):
             self._save_edited_data(dialog, data['username'])
 
     def _get_row_data(self, row):
-        """Extract data from the specified table row."""
+        # ekstrak data dari baris tabel
         table = self.ui.view_data
         return {
             'username': table.item(row, 1).text(),
@@ -198,7 +195,7 @@ class DataAnggotaPage(QWidget):
         }
 
     def _create_edit_dialog(self, data):
-        """Create and configure edit dialog."""
+        # membuat dialog untuk mengedit data
         dialog = QDialog(self)
         dialog.setWindowTitle("Edit Data Anggota")
         dialog.setFixedSize(300, 350)
@@ -214,7 +211,7 @@ class DataAnggotaPage(QWidget):
         return dialog
 
     def _create_edit_fields(self, dialog, data):
-        """Create input fields for edit dialog."""
+        # membuat field input untuk dialog edit
         fields = {}
         layout = dialog.layout()
 
@@ -226,7 +223,7 @@ class DataAnggotaPage(QWidget):
         layout.addWidget(username_input)
         fields['username'] = username_input
 
-        # Other editable fields
+        # field input yang dapat diubah
         editable_fields = [
             ('nama_lengkap', "Nama Lengkap:"),
             ('telp', "Telepon:"),
@@ -245,7 +242,7 @@ class DataAnggotaPage(QWidget):
         return fields
 
     def _save_edited_data(self, dialog, username):
-        """Save edited data to database."""
+        # simpan data yang diedit ke database
         fields = dialog.findChildren(QLineEdit)
         data = {field.objectName(): field.text() for field in fields}
 
@@ -256,12 +253,12 @@ class DataAnggotaPage(QWidget):
         try:
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
-                cursor.execute("""
+                cursor.execute(""" 
                     UPDATE User 
-                    SET nama_lengkap=?, telp=?, jenis_kelamin=?, alamat=?, Role=?
+                    SET nama_lengkap=?, telp=?, jenis_kelamin=?, alamat=?, Role=? 
                     WHERE username=?
                 """, (
-                    data['nama_lengkap'], data['telp'], data['jenis_kelamin'],
+                    data['nama_lengkap'], data['telp'], data['jenis_kelamin'], 
                     data['alamat'], data['role'], username
                 ))
                 conn.commit()
@@ -272,12 +269,12 @@ class DataAnggotaPage(QWidget):
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
     def hapus_data(self, row):
-        """Delete user data after confirmation."""
+        # hapus data dari database
         nama = self.ui.view_data.item(row, 0).text()
         
         if QMessageBox.question(
             self, "Hapus Data", 
-            f"Apakah Anda yakin ingin menghapus data untuk: {nama}?",
+            f"Apakah Anda yakin ingin menghapus data untuk: {nama}?", 
             QMessageBox.Yes | QMessageBox.No
         ) == QMessageBox.Yes:
             try:

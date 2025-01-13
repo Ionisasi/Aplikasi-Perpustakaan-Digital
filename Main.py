@@ -41,7 +41,7 @@ class Login(QMainWindow):
             cursor = conn.cursor()
 
             # Query untuk memeriksa username dan password
-            query = "SELECT Role FROM User WHERE username = ? AND password = ?"
+            query = "SELECT Role, id FROM User WHERE username = ? AND password = ?"
             cursor.execute(query, (username, hashed_password))
             result = cursor.fetchone()
 
@@ -52,6 +52,7 @@ class Login(QMainWindow):
                 return
 
             self.role = result[0]
+            self.user_id = result[1]
 
             self.close()
 
@@ -62,7 +63,7 @@ class Login(QMainWindow):
     
     def open_dashboard(self):
         # Buka dashboard
-        self.dashboard = Dashboard(self.role)
+        self.dashboard = Dashboard(self.role, self.user_id)
         self.dashboard.show()  
 
     def handle_signup(self):

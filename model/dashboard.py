@@ -10,10 +10,13 @@ from model.profile import profilePage
 from model.rakPinjam import rakPinjamPage
 
 class Dashboard(QMainWindow):
-    def __init__(self, role):
+    def __init__(self, role, user_id):
         super().__init__()
         self.ui = Ui_UI_Dashboard()
         self.ui.setupUi(self)
+        
+        # set user_id
+        self.user_id = user_id
 
         # set role
         self.role = role
@@ -42,7 +45,7 @@ class Dashboard(QMainWindow):
         self.dataBuku = DataBukuPage()
         self.ui.stackedWidget.addWidget(self.dataBuku)
         
-        self.profilePage = profilePage()
+        self.profilePage = profilePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.profilePage)
 
         # connect buttons
