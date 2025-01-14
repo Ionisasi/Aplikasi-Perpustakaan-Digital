@@ -7,7 +7,7 @@ from datetime import datetime
 from view.UI_KoleksiBuku import Ui_Form as Ui_KoleksiBuku
 from utils import resource_path
 
-database_path = resource_path("/database/perpusdigi.db")
+database_path = resource_path("database/perpusdigi.db")
 
 class KoleksiBuku(QWidget):
     def __init__(self, user_id, kategori=None, ui_class=Ui_KoleksiBuku):

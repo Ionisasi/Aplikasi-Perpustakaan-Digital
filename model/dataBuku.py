@@ -23,7 +23,7 @@ class DataBukuPage(QWidget):
         
         self.ui.Tambah_data.setVisible(False)
 
-        self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+        self.database_path = resource_path("database/perpusdigi.db")
 
         # Setup search debouncing
         self.search_timer = QTimer(self)

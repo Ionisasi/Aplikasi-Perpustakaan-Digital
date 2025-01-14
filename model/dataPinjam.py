@@ -17,7 +17,7 @@ class DataPinjam(QWidget):
         self.ui.setupUi(self)
         self.ui.Tambah_data.setVisible(False)
         self.ui.headerTitle.setText("DATA PINJAM")
-        self.database_path = database_path = resource_path("database/perpusdigi.db")
+        self.database_path = resource_path("database/perpusdigi.db")
         
         # Setup search debouncing
         self.search_timer = QTimer(self)
