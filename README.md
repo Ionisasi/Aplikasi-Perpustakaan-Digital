@@ -2,9 +2,11 @@
 
 Aplikasi perpustakaan digital ini bertujuan untuk mengelola dan menampilkan buku-buku dalam koleksi perpustakaan, baik yang termasuk dalam kategori fiksi maupun non-fiksi. Pengguna dapat meminjam buku dan mengembalikannya, serta melihat detail buku yang tersedia.
 
-Proyek ini dibuat untuk penyelesaian UAS mata kuliah praktikum pemrograman visual dengan kami sebagai kelompok 2. Aplikasi ini memungkinkan pengelolaan buku-buku, peminjaman, pengembalian, serta pelacakan buku yang dipinjam. Dengan menggunakan PySide6 dan SQLite, aplikasi ini menyediakan antarmuka yang mudah digunakan dan interaktif.
+Proyek ini dibuat untuk penyelesaian UAS mata kuliah praktikum pemrograman visual dengan kami sebagai **Kelompok 2**. Aplikasi ini memungkinkan pengelolaan buku-buku, peminjaman, pengembalian, serta pelacakan buku yang dipinjam. Dengan menggunakan PySide6 dan SQLite, aplikasi ini menyediakan antarmuka yang mudah digunakan dan interaktif.
 
-### Fitur-Fitur Utama
+---
+
+## Fitur-Fitur Utama
 
 1. **Koleksi Fiksi dan Non-Fiksi**  
    Pengguna dapat melihat daftar buku berdasarkan kategori fiksi dan non-fiksi, yang diambil langsung dari database.
@@ -19,56 +21,57 @@ Proyek ini dibuat untuk penyelesaian UAS mata kuliah praktikum pemrograman visua
    Pengguna dapat mengembalikan buku yang telah dipinjam. Aplikasi akan memproses pengembalian dan menghitung denda jika ada keterlambatan.
 
 5. **Tampilan Buku Interaktif**  
-   Setiap buku dilengkapi dengan tampilan gambar sampul dan informasi penting seperti judul, pengarang, ,tahun terbitm dan penerbit.
+   Setiap buku dilengkapi dengan tampilan gambar sampul dan informasi penting seperti judul, pengarang, tahun terbit, dan penerbit.
 
+---
 
-## Struktur Database
+## Beta Release
 
-Database SQLite digunakan untuk menyimpan data perpustakaan. Struktur tabel yang digunakan adalah sebagai berikut:
+Versi **Beta 0.1.0** dari aplikasi ini telah dirilis dan mencakup file executable (`main.exe`) untuk memudahkan pengujian tanpa perlu menginstal dependensi Python secara manual.
 
-### Tabel `User`
-- `id`: ID pengguna (primary key).
-- `nama_lengkap`: Nama lengkap pengguna.
-- `username`: Username pengguna.
-- `password`: Password pengguna.
-- `telp`: Nomor telepon pengguna.
-- `jenis_kelamin`: Jenis kelamin pengguna (`L` atau `P`).
-- `alamat`: Alamat pengguna.
-- `Role`: Peran pengguna (misal: admin, anggota).
+Anda dapat mengunduh executable ini langsung dari halaman **Releases** di repository GitHub. Pastikan untuk membaca dokumentasi ini sebelum menggunakan aplikasi untuk memahami fitur-fiturnya.
 
-### Tabel `buku`
-- `id`: ID buku (primary key).
-- `judul`: Judul buku.
-- `tahun_terbit`: Tahun terbit buku.
-- `pengarang`: Pengarang buku.
-- `penerbit`: Penerbit buku.
-- `kategori`: Kategori buku (`Fiksi` atau `Non Fiksi`).
-- `cover`: Path ke gambar sampul buku.
-- `jumlah`: Jumlah salinan buku yang tersedia.
-- `volume_id`: ID volume buku.
+---
 
-### Tabel `peminjaman`
-- `id`: ID peminjaman (primary key).
-- `tanggal_pinjam`: Tanggal peminjaman.
-- `tanggal_kembali`: Tanggal tenggat pengembalian buku.
-- `anggota_id`: ID anggota yang meminjam (foreign key dari `User.id`).
+## Instalasi
 
-### Tabel `peminjaman_detail`
-- `peminjaman_id`: ID peminjaman (foreign key).
-- `buku_id`: ID buku (foreign key).
-- **Composite Primary Key**: (`peminjaman_id`, `buku_id`).
+### Clone Repositori
 
-### Tabel `pengembalian`
-- `id`: ID pengembalian (primary key).
-- `tanggal_pengembalian`: Tanggal pengembalian buku.
-- `denda`: Denda jika pengembalian terlambat.
-- `peminjaman_id`: ID peminjaman (foreign key).
-- `anggota_id`: ID anggota yang mengembalikan buku (foreign key).
+```bash
+git clone https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/
+```
 
-### Tabel `pengembalian_detail`
-- `pengembalian_id`: ID pengembalian (foreign key).
-- `buku_id`: ID buku yang dikembalikan (foreign key).
-- **Composite Primary Key**: (`pengembalian_id`, `buku_id`).
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Jalankan Aplikasi
+
+```bash
+python main.py
+```
+
+---
+
+## Menjalankan Aplikasi dalam Mode Executable
+
+Untuk membuat executable sendiri, gunakan PyInstaller dengan perintah berikut:
+
+1. Pastikan PyInstaller telah diinstal:
+   ```bash
+   pip install pyinstaller
+   ```
+
+2. Buat executable:
+   ```bash
+   pyinstaller --noconsole --onefile --add-data "utils.py;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "database/perpusdigi.db;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" main.py --clean
+   ```
+
+3. File executable (`main.exe`) akan tersedia di folder `dist`.
+
+---
 
 ## Struktur Proyek
 
@@ -76,35 +79,7 @@ Database SQLite digunakan untuk menyimpan data perpustakaan. Struktur tabel yang
 - **view**: UI file yang dibuat menggunakan Qt Designer, dan kemudian diubah menjadi file Python.
 - **Asset**: Folder yang menyimpan aset visual seperti ikon dan gambar sampul buku.
 
-## Instalasi
-
-1. Clone repositori ini:
-    ```bash
-    git clone https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/
-    ```
-
-2. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3. Jalankan aplikasi:
-    ```bash
-    python main.py
-    ```
-
-## Menjalankan Aplikasi dalam Mode Executable (Menggunakan PyInstaller)
-
-Untuk membuat aplikasi menjadi file executable, Anda dapat menggunakan PyInstaller. Berikut adalah perintah yang digunakan untuk membundel aplikasi menjadi satu file:
-
-Pastikan anda sudah menginstal pyinstaller, jika belum jalankan perintah ini di cmd pada folder tempat anda mengclone repository ini.
-```bash
-pip install pyinstaller
-```
-Jadikan executable:
-```bash
-pyinstaller --noconsole --onefile --add-data "utils.py;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "database/perpusdigi.db;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" main.py --clean
-```
+---
 
 ## License
 
