@@ -87,6 +87,15 @@ class Dashboard(QMainWindow):
             self.hide_admin_features()
         # if self.role == 1:  # Admin
         #     self.hide_pinjam()
+        
+        try:
+            # Tambahkan fungsi pencarian untuk search bar di semua halaman Koleksi
+            self.dataKoleksi.ui.search.textChanged.connect(self.search_koleksi)
+            self.dataKoleksiFiksi.ui.search.textChanged.connect(self.search_fiksi)
+            self.dataKoleksiNonFiksi.ui.search.textChanged.connect(self.search_nonfiksi)
+        except AttributeError as e:
+            print(f"Error pada koneksi search bar: {e}")
+        
 
     def hide_admin_features(self):
         # menyembunyikan fitur admin
@@ -127,3 +136,15 @@ class Dashboard(QMainWindow):
             from Main import Login
             self.login = Login()
             self.login.show()
+            
+    # Fungsi pencarian untuk halaman Koleksi
+    def search_koleksi(self, query):
+        self.dataKoleksi.filter_books(query)
+
+    # Fungsi pencarian untuk halaman Fiksi
+    def search_fiksi(self, query):
+        self.dataKoleksiFiksi.filter_books(query)
+
+    # Fungsi pencarian untuk halaman Non Fiksi
+    def search_nonfiksi(self, query):
+        self.dataKoleksiNonFiksi.filter_books(query)

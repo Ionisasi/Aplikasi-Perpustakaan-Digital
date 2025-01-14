@@ -19,6 +19,8 @@ class KoleksiBuku(QWidget):
         self.books_displayed = set()  # Melacak buku yang telah ditampilkan
         self.setup_timer()  # Memulai pengamat database
 
+        #menghubungkan search bar ke fungsi filter_books
+        self.ui.search.textChanged.connect(self.filter_books)
     def setup_timer(self):
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.check_for_new_books)
@@ -226,3 +228,34 @@ class KoleksiBuku(QWidget):
             layout.addWidget(close_button)
 
             dialog.exec()
+            
+    def filter_books(self, query):
+        """
+        Memfilter buku berdasarkan input pencarian.
+        """
+        # Bersihkan tampilan buku yang ada
+        if self.ui.scrollAreaWidgetContents.layout():
+            for i in reversed(range(self.ui.scrollAreaWidgetContents.layout().count())):
+                item = self.ui.scrollAreaWidgetContents.layout().takeAt(i)
+                widget = item.widget()
+                if widget:
+                    widget.deleteLater()
+        self.books_displayed.clear()
+
+        # Query pencarian buku di database
+        conn = sqlite3.connect(database_path)
+        cursor = conn.cursor()
+        search_query = f"%{query}%"
+
+        # Cari buku berdasarkan kategori jika ada
+        if self.kategori:
+            cursor.execute("SELECT id, judul, cover FROM buku WHERE kategori = ? AND judul LIKE ?", (self.kategori, search_query))
+        else:
+            cursor.execute("SELECT id, judul, cover FROM buku WHERE judul LIKE ?", (search_query,))
+        
+        books = cursor.fetchall()
+        conn.close()
+
+        # Tambahkan buku hasil pencarian ke tampilan
+        for book in books:
+            self.add_book_to_display(*book)
