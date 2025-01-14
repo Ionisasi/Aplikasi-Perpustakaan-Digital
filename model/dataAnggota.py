@@ -65,23 +65,25 @@ class DataAnggotaPage(QWidget):
                     SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role 
                     FROM User
                 """
+                params = []  # Inisialisasi params
 
                 # Tambahkan filter pencarian jika search term diberikan
                 if search_term:
                     base_query += """
-                        WHERE nama_lengkap LIKE ? OR username LIKE ? OR 
+                        WHERE (nama_lengkap LIKE ? OR username LIKE ? OR 
                             telp LIKE ? OR jenis_kelamin LIKE ? OR 
-                            alamat LIKE ? OR CAST(Role AS TEXT) LIKE ? 
+                            alamat LIKE ? OR CAST(Role AS TEXT) LIKE ?)
                     """
                     search_placeholder = f"%{search_term}%"
                     params.extend([search_placeholder] * 6)
 
                 # Tambahkan filter role jika role_search diberikan
-                if role_search:
-                    base_query += " AND Role = ?"
+                if role_search is not None:
+                    if search_term:
+                        base_query += " AND Role = ?"
+                    else:
+                        base_query += " WHERE Role = ?"
                     params.append(role_search)
-
-                params = []
 
                 cursor.execute(base_query, params)
                 rows = cursor.fetchall()

@@ -18,31 +18,48 @@ class KoleksiBuku(QWidget):
         self.ui.headerTitle.setText(f"BUKU {kategori.upper()}" if kategori else "SEMUA BUKU")
 
         self.books_displayed = set()  # Melacak buku yang telah ditampilkan
+        self.setup_search()  # Menyiapkan input pencarian
         self.setup_timer()  # Memulai pengamat database
 
-    def setup_timer(self):
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.check_for_new_books)
-        self.timer.start(2000)  # Memeriksa setiap 2 detik
-
+    def setup_search(self):
+        """Menambahkan logika untuk pencarian buku."""
+        self.ui.search.returnPressed.connect(self.perform_search)
+        
     def check_for_new_books(self):
+        """Memeriksa buku baru dari database dan memperbarui tampilan."""
         books = self.fetch_books()
         for book in books:
             book_id, title, cover_path = book
             if book_id not in self.books_displayed:
                 self.add_book_to_display(book_id, title, cover_path)
 
-        borrowed_books = self.fetch_borrowed_books()
-        for book in borrowed_books:
-            book_id, title, cover_path = book
-            if book_id not in self.books_displayed:
-                self.add_book_to_display(book_id, title, cover_path)
+    def setup_timer(self):
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.check_for_new_books)
+        self.timer.start(500)  # Memeriksa setiap 1 detik
 
-    def fetch_books(self):
+    def perform_search(self):
+        """Melakukan pencarian buku berdasarkan input pengguna."""
+        search_query = self.ui.search.text().strip()
+        if not search_query:
+            QMessageBox.warning(self, "Peringatan", "Masukkan kata kunci untuk mencari buku.")
+            return
+
+        books = self.fetch_books(search_query=search_query)
+        self.display_books(books)
+
+    def fetch_books(self, search_query=None):
         conn = sqlite3.connect(database_path)
         cursor = conn.cursor()
 
-        if self.kategori:
+        if search_query:
+            query = """
+                SELECT id, judul, cover 
+                FROM buku 
+                WHERE judul LIKE ? OR pengarang LIKE ? OR penerbit LIKE ?
+            """
+            cursor.execute(query, (f"%{search_query}%", f"%{search_query}%", f"%{search_query}%"))
+        elif self.kategori:
             cursor.execute("SELECT id, judul, cover FROM buku WHERE kategori = ?", (self.kategori,))
         else:
             cursor.execute("SELECT id, judul, cover FROM buku")  # Mengambil semua buku jika kategori None
@@ -67,6 +84,24 @@ class KoleksiBuku(QWidget):
         books = cursor.fetchall()
         conn.close()
         return books
+
+    def display_books(self, books):
+        """Menampilkan daftar buku di antarmuka."""
+        self.books_displayed.clear()
+        layout = self.ui.scrollAreaWidgetContents.layout()
+
+        if layout is None:
+            self.ui.scrollAreaWidgetContents.setLayout(QVBoxLayout())
+            layout = self.ui.scrollAreaWidgetContents.layout()
+
+        while layout.count() > 0:
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+        for book in books:
+            book_id, title, cover_path = book
+            self.add_book_to_display(book_id, title, cover_path)
 
     def add_book_to_display(self, book_id, title, cover_path):
         if self.ui.scrollAreaWidgetContents.layout() is None:
@@ -127,7 +162,7 @@ class KoleksiBuku(QWidget):
 
             # Membuat dialog baru
             dialog = QDialog(self)
-            dialog.setFixedSize(650,300)
+            dialog.setFixedSize(650, 300)
             dialog.setWindowTitle("Informasi Buku dan Peminjaman")
             dialog.setModal(True)
 

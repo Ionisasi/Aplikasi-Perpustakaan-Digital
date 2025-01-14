@@ -157,7 +157,7 @@ class DataBukuPage(QWidget):
         """Create and configure edit dialog."""
         dialog = QDialog(self)
         dialog.setWindowTitle("Edit Data Buku")
-        dialog.setFixedSize(300, 350)
+        dialog.setFixedSize(500, 500)
 
         # Apply styling to the dialog
         dialog.setStyleSheet("""
