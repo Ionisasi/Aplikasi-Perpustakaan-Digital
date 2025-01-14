@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from PySide6.QtWidgets import QMainWindow, QMessageBox
+from PySide6.QtGui import QPixmap, QIcon
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
@@ -25,24 +26,54 @@ class Dashboard(QMainWindow):
         # set role
         self.role = role
         
-        # nama akun dan role sesuai user yang login
+        # nama akun, role, dan ikon sesuai user yang login
         try:
             conn = sqlite3.connect(database_path)
             cursor = conn.cursor()
-            cursor.execute("SELECT Nama_lengkap, Role FROM User WHERE id = ?", (self.user_id,))
+            cursor.execute("SELECT Nama_lengkap, Role, jenis_kelamin FROM User WHERE id = ?", (self.user_id,))
             result = cursor.fetchone()
             conn.close()
-            self.ui.NamaAkun.setText(result[0])
-            self.ui.Role.setText("Administrator" if result[1] == 1 else "Anggota")
-            
-            # set style role
-            if result[1] == 0:
-                self.ui.Role.setStyleSheet((u"font-size: 20px; font-weight: bold; text-align: center; color: #000000;\n"
-"background-color: #00FFFF;"))
-                
+
+            if result:
+                # Set nama akun
+                if hasattr(self.ui, 'NamaAkun'):
+                    self.ui.NamaAkun.setText(result[0])
+                else:
+                    QMessageBox.warning(self, "Warning", "Element 'NamaAkun' tidak ditemukan dalam UI.")
+
+                # Set role
+                if hasattr(self.ui, 'Role'):
+                    self.ui.Role.setText("Administrator" if result[1] == 1 else "Anggota")
+                    # Set style role
+                    if result[1] == 0:
+                        self.ui.Role.setStyleSheet((
+                            "font-size: 20px; font-weight: bold; text-align: center; color: #000000;"
+                            "background-color: #00FFFF;"
+                        ))
+                else:
+                    QMessageBox.warning(self, "Warning", "Element 'Role' tidak ditemukan dalam UI.")
+
+                # Set ikon profil berdasarkan role dan gender
+                icon_path = ""
+                if result[1] == 1:  # Administrator
+                    icon_path = "Asset/Icon/Admin_male.png" if result[2].lower() == 'l' else "Asset/Icon/Admin_female.png"
+                else:  # Anggota
+                    icon_path = "Asset/Icon/anggota_male.png" if result[2].lower() == 'l' else "Asset/Icon/anggota_female.png"
+
+                # Set ikon pada QLabel IconProfile
+                if hasattr(self.ui, 'IconProfile'):
+                    profile_icon = QPixmap(icon_path)
+                    self.ui.IconProfile.setPixmap(profile_icon)
+                    self.ui.IconProfile.setScaledContents(True)
+                else:
+                    QMessageBox.warning(self, "Warning", "Element 'IconProfile' tidak ditemukan dalam UI.")
+            else:
+                QMessageBox.critical(self, "Error", "User data not found.")
+
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
-            
+
+
         # setup halaman data anggota
         self.homePage = homePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.homePage)
