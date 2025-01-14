@@ -63,10 +63,6 @@ class DataBukuPage(QWidget):
                     search_placeholder = f"%{search_term}%"
                     params.extend([search_placeholder] * 4)
 
-                # Add pagination
-                base_query += " LIMIT ? OFFSET ?"
-                params.extend([self.page_size, self.current_page * self.page_size])
-
                 cursor.execute(base_query, params)
                 rows = cursor.fetchall()
 

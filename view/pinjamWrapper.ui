@@ -32,25 +32,7 @@
         }</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>20</number>
-   </property>
-   <property name="topMargin">
-    <number>20</number>
-   </property>
-   <property name="rightMargin">
-    <number>20</number>
-   </property>
-   <property name="bottomMargin">
-    <number>20</number>
-   </property>
-   <property name="horizontalSpacing">
-    <number>20</number>
-   </property>
-   <property name="verticalSpacing">
-    <number>0</number>
-   </property>
-   <item row="0" column="0" rowspan="3">
+   <item row="0" column="0" rowspan="4">
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
       <number>0</number>
@@ -74,7 +56,7 @@
        </property>
       </widget>
      </item>
-     <item alignment="">
+     <item>
       <widget class="QLabel" name="judulBuku">
        <property name="maximumSize">
         <size>
@@ -100,6 +82,12 @@
    </item>
    <item row="0" column="1">
     <widget class="QLabel" name="LblBorrowDate">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
      </property>
@@ -113,6 +101,12 @@
    </item>
    <item row="1" column="1">
     <widget class="QLabel" name="LblDeadLine">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
      <property name="styleSheet">
       <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
      </property>
@@ -124,7 +118,45 @@
    <item row="1" column="2">
     <widget class="QDateEdit" name="tanggalDeadline"/>
    </item>
-   <item row="2" column="1" colspan="2">
+   <item row="2" column="1">
+    <widget class="QLabel" name="JumlahPinjamLabel">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string>Jumlah Dipinjam</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLabel" name="JumlahPinjamOutput">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string>99</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
     <widget class="QPushButton" name="KembalikanBtn">
      <property name="styleSheet">
       <string notr="true">font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;text-align: center;
