@@ -63,7 +63,7 @@ class Dashboard(QMainWindow):
 
                 # Set ikon pada QLabel IconProfile
                 if hasattr(self.ui, 'IconProfile'):
-                    profile_icon = QPixmap(icon_path)
+                    profile_icon = QPixmap(resource_path(icon_path))
                     self.ui.IconProfile.setPixmap(profile_icon)
                     self.ui.IconProfile.setScaledContents(True)
                 else:
@@ -154,7 +154,7 @@ class Dashboard(QMainWindow):
         if reply == QMessageBox.Yes:
             # Menampilkan pesan logout
             message_box = QMessageBox()
-            icon = QIcon('Asset/Icon/Buku.png')
+            icon = QIcon(resource_path('Asset/Icon/Buku.png'))
             message_box.setWindowIcon(icon)
             message_box.setText("Anda telah logout")
             message_box.exec_()
