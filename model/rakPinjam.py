@@ -173,19 +173,16 @@ class rakPinjamPage(QWidget):
             # Commit the changes
             conn.commit()
 
-            # Manually delete the related peminjaman_detail entries
+            # Optionally, update the peminjaman or peminjaman_detail records instead of deleting them
+            # This avoids foreign key issues and allows keeping the historical records intact
             query = """
-            DELETE FROM peminjaman_detail WHERE peminjaman_id = ?;
+            UPDATE peminjaman
+            SET tanggal_kembali = ?
+            WHERE id = ?;
             """
-            cursor.execute(query, (peminjaman_id,))
+            cursor.execute(query, (today.toString("yyyy-MM-dd"), peminjaman_id))
 
-            # Now delete the peminjaman record
-            query = """
-            DELETE FROM peminjaman WHERE id = ?;
-            """
-            cursor.execute(query, (peminjaman_id,))
-
-            # Commit the changes
+            # Commit the changes and clean up the UI
             conn.commit()
 
             # Remove the book widget from the display

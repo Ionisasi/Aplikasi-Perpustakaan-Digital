@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
+from model.dataPinjam import DataPinjam
 from model.dataKoleksi import KoleksiBuku
 from model.dataKoleksiFiksi import KoleksiFiksi
 from model.dataKoleksiNonFiksi import KoleksiNonFiksi
@@ -66,6 +67,9 @@ class Dashboard(QMainWindow):
         self.dataBuku = DataBukuPage()
         self.ui.stackedWidget.addWidget(self.dataBuku)  
         
+        self.dataPinjam = DataPinjam()
+        self.ui.stackedWidget.addWidget(self.dataPinjam)
+        
         self.profilePage = profilePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.profilePage)
 
@@ -79,6 +83,7 @@ class Dashboard(QMainWindow):
         self.ui.Data.clicked.connect(lambda checked: self.toggle_submenu(self.ui.DataSubMenu) if checked else None)
         self.ui.DataBuku.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataBuku))   
         self.ui.DataAnggota.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataAnggota))
+        self.ui.DataPinjam.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataPinjam))
         self.ui.Profile.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.profilePage))
         self.ui.Logout.clicked.connect(self.logout)
         

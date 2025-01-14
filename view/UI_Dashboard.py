@@ -263,7 +263,7 @@ class Ui_UI_Dashboard(object):
         self.verticalLayout_5.addWidget(self.DataAnggota)
         
         self.DataPinjam = QPushButton(self.DataSubMenu)
-        self.buttonGroup.addButton(self.DataBuku)
+        self.buttonGroup.addButton(self.DataPinjam)
         self.DataPinjam.setObjectName(u"DataBuku")
         self.DataPinjam.setMinimumSize(QSize(0, 40))
         self.DataPinjam.setMaximumSize(QSize(16777215, 40))
@@ -399,6 +399,7 @@ class Ui_UI_Dashboard(object):
         self.Data.setText(QCoreApplication.translate("UI_Dashboard", u"Kelola Data", None))
         self.DataBuku.setText(QCoreApplication.translate("UI_Dashboard", u"Data Buku", None))
         self.DataAnggota.setText(QCoreApplication.translate("UI_Dashboard", u"Data Anggota", None))
+        self.DataPinjam.setText(QCoreApplication.translate("UI_Dashboard", u"Data Pinjaman", None))
         self.Menu2.setText(QCoreApplication.translate("UI_Dashboard", u"Settings", None))
         self.Profile.setText(QCoreApplication.translate("UI_Dashboard", u"Profile", None))
         self.Logout.setText(QCoreApplication.translate("UI_Dashboard", u"Logout", None))
