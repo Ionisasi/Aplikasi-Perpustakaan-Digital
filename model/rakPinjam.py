@@ -3,38 +3,38 @@ import sqlite3
 from PySide6.QtCore import QDate, Qt, QTimer
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PySide6.QtGui import QPixmap
-from view.UI_KoleksiBuku import Ui_Form as UI_rakPinjam  # Main UI
+from view.UI_KoleksiBuku import Ui_Form as UI_rakPinjam  # UI Utama
 
 database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
 
 class rakPinjamPage(QWidget):
     def __init__(self, user_id):
         super().__init__()
-        self.ui = UI_rakPinjam()  # Main UI
+        self.ui = UI_rakPinjam()  # UI Utama
         self.ui.setupUi(self)
-        self.user_id = user_id  # Store the user ID
+        self.user_id = user_id  # Simpan ID pengguna
         self.ui.headerTitle.setText("RAK PINJAM")
         self.ui.search.setVisible(False)
 
-        # Track displayed books
+        # Melacak buku yang telah ditampilkan
         self.books_displayed = {}
 
-        # Setup layout for books
+        # Atur tata letak untuk buku
         if self.ui.scrollAreaWidgetContents.layout() is None:
             self.ui.scrollAreaWidgetContents.setLayout(QVBoxLayout())
 
         self.book_layout = self.ui.scrollAreaWidgetContents.layout()
 
-        # Set up a timer to refresh the book display every 5 seconds
+        # Atur timer untuk menyegarkan tampilan buku setiap 5 detik
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.tampilkan_buku_dipinjam)
-        self.timer.start(5000)  # Refresh every 5 seconds
+        self.timer.start(5000)  # Segarkan setiap 5 detik
 
-        # Initial display of borrowed books
+        # Tampilkan awal buku yang dipinjam
         self.tampilkan_buku_dipinjam()
 
     def tampilkan_buku_dipinjam(self):
-        # Fetch books from the database
+        # Ambil buku dari database
         conn = sqlite3.connect(database_path)
         cursor = conn.cursor()
 
@@ -43,17 +43,19 @@ class rakPinjamPage(QWidget):
         FROM peminjaman_detail pd
         JOIN peminjaman p ON pd.peminjaman_id = p.id
         JOIN buku b ON pd.buku_id = b.id
-        WHERE p.anggota_id = ?;
+        LEFT JOIN pengembalian_detail pgd ON pd.buku_id = pgd.buku_id
+        LEFT JOIN pengembalian pg ON pgd.pengembalian_id = pg.id
+        WHERE p.anggota_id = ? AND pg.id IS NULL;
         """
         try:
             cursor.execute(query, (self.user_id,))
             results = cursor.fetchall()
 
-            # Dictionary to store count of each borrowed book
+            # Kamus untuk menyimpan jumlah setiap buku yang dipinjam
             borrowed_books = {}
 
             for book_id, title, cover_path, tanggal_pinjam, tanggal_kembali in results:
-                # Count how many times this book was borrowed
+                # Hitung berapa kali buku ini dipinjam
                 if book_id not in borrowed_books:
                     borrowed_books[book_id] = {
                         "title": title,
@@ -62,24 +64,24 @@ class rakPinjamPage(QWidget):
                         "tanggal_kembali": tanggal_kembali,
                         "count": 0
                     }
-                borrowed_books[book_id]["count"] += 1  # Increment the borrow count
+                borrowed_books[book_id]["count"] += 1  # Tingkatkan jumlah peminjaman
 
-            # Add books to display based on the counted borrow occurrences
+            # Tambah buku ke tampilan berdasarkan jumlah peminjaman yang dihitung
             for book_id, book_info in borrowed_books.items():
                 if book_id not in self.books_displayed:
                     self.add_book_to_display(book_id, book_info)
 
         except sqlite3.Error as e:
-            print(f"Database error: {e}")
+            print(f"Kesalahan database: {e}")
         finally:
             conn.close()
 
     def add_book_to_display(self, book_id, book_info):
-        # Only add the book if it hasn't been displayed yet
+        # Tambahkan buku hanya jika belum ditampilkan
         if book_id in self.books_displayed:
             return
 
-        # Add the book to the display layout
+        # Tambahkan buku ke tata letak tampilan
         book_widget = self.create_book_widget(
             book_id,
             book_info["title"],
@@ -89,17 +91,17 @@ class rakPinjamPage(QWidget):
             book_info["count"]
         )
         self.book_layout.addWidget(book_widget)
-        self.books_displayed[book_id] = book_widget  # Track displayed book by ID
+        self.books_displayed[book_id] = book_widget  # Lacak buku yang ditampilkan berdasarkan ID
 
     def create_book_widget(self, book_id, title, cover_path, tanggal_pinjam, tanggal_kembali, borrow_count):
         widget = QWidget()
 
-        # Use Ui_Form from pinjamWrapper for setting up the individual book widget
+        # Gunakan Ui_Form dari pinjamWrapper untuk mengatur widget buku individu
         from view.pinjamWrapper import Ui_Form
         book_ui = Ui_Form()
         book_ui.setupUi(widget)
 
-        # Set up the elements in the individual book widget
+        # Atur elemen dalam widget buku individu
         book_ui.coverImg.setPixmap(QPixmap(cover_path) if os.path.exists(cover_path) else QPixmap())
         book_ui.judulBuku.setText(title)
         book_ui.tanggalPeminjaman.setDate(
@@ -109,21 +111,21 @@ class rakPinjamPage(QWidget):
             QDate.fromString(tanggal_kembali, "yyyy-MM-dd") if tanggal_kembali else QDate.currentDate().addDays(7)
         )
 
-        # Set the borrowed count in the individual book widget
-        book_ui.JumlahPinjamOutput.setText(str(borrow_count))  # Show the correct count
+        # Atur jumlah pinjaman dalam widget buku individu
+        book_ui.JumlahPinjamOutput.setText(str(borrow_count))  # Tampilkan jumlah yang benar
 
         book_ui.KembalikanBtn.clicked.connect(lambda: self.return_book(book_id, widget))
 
         return widget
-
+    
     def return_book(self, book_id, widget):
-        # Fetch peminjaman_id and the corresponding return date for the book
+        # Ambil peminjaman_id dan tanggal pengembalian yang sesuai untuk buku
         conn = sqlite3.connect(database_path)
-        conn.execute("PRAGMA foreign_keys = ON;")  # Ensure foreign keys are enabled
+        conn.execute("PRAGMA foreign_keys = OFF;")  # Nonaktifkan sementara pemeriksaan kunci asing
         cursor = conn.cursor()
 
         try:
-            # Check if the book is part of an ongoing borrowing record (not yet returned)
+            # Periksa apakah buku merupakan bagian dari catatan peminjaman yang sedang berlangsung (belum dikembalikan)
             query = """
             SELECT p.id, p.tanggal_pinjam, p.tanggal_kembali
             FROM peminjaman p
@@ -139,7 +141,7 @@ class rakPinjamPage(QWidget):
 
             peminjaman_id, tanggal_pinjam, tanggal_kembali = peminjaman
 
-            # Calculate the current date and check for late returns (tenggat)
+            # Hitung tanggal saat ini dan periksa pengembalian terlambat (tenggat)
             today = QDate.currentDate()
             denda = 0
             if tanggal_kembali is not None:
@@ -147,22 +149,22 @@ class rakPinjamPage(QWidget):
                 if today > tenggat_kembali:
                     denda = (today.toPyDate() - tenggat_kembali.toPyDate()).days * 1000  # Denda 1000 per hari keterlambatan
 
-            # Add return entry to pengembalian table
+            # Tambah entri pengembalian ke tabel pengembalian
             query = """
             INSERT INTO pengembalian (tanggal_pengembalian, denda, peminjaman_id, anggota_id)
             VALUES (?, ?, ?, ?);
             """
             cursor.execute(query, (today.toString("yyyy-MM-dd"), denda, peminjaman_id, self.user_id))
-            pengembalian_id = cursor.lastrowid  # Get the last inserted pengembalian_id
+            pengembalian_id = cursor.lastrowid  # Dapatkan pengembalian_id yang baru dimasukkan
 
-            # Add entry to pengembalian_detail
+            # Tambahkan entri ke pengembalian_detail
             query = """
             INSERT INTO pengembalian_detail (pengembalian_id, buku_id)
             VALUES (?, ?);
             """
             cursor.execute(query, (pengembalian_id, book_id))
 
-            # Update the quantity of the book after return
+            # Perbarui jumlah buku setelah pengembalian
             query = """
             UPDATE buku
             SET jumlah = jumlah + 1
@@ -170,30 +172,18 @@ class rakPinjamPage(QWidget):
             """
             cursor.execute(query, (book_id,))
 
-            # Commit the changes
+            # Komit perubahan
             conn.commit()
 
-            # Optionally, update the peminjaman or peminjaman_detail records instead of deleting them
-            # This avoids foreign key issues and allows keeping the historical records intact
-            query = """
-            UPDATE peminjaman
-            SET tanggal_kembali = ?
-            WHERE id = ?;
-            """
-            cursor.execute(query, (today.toString("yyyy-MM-dd"), peminjaman_id))
-
-            # Commit the changes and clean up the UI
-            conn.commit()
-
-            # Remove the book widget from the display
+            # Hapus widget buku dari tampilan
             self.book_layout.removeWidget(widget)
             widget.deleteLater()
 
-            QMessageBox.information(self, "Sukses", "Buku berhasil dikembalikan.")
+            QMessageBox.information(self, "Sukses", "Buku berhasil dikembalikan dan data peminjaman dihapus.")
 
         except sqlite3.Error as e:
-            conn.rollback()  # Rollback on error
-            print(f"Database error: {e}")
+            conn.rollback()  # Kembalikan pada kesalahan
+            print(f"Kesalahan database: {e}")
             QMessageBox.critical(self, "Error", "Terjadi kesalahan dalam pengembalian buku.")
         finally:
             conn.close()

@@ -126,6 +126,7 @@ class Ui_Form(object):
 
         self.passwordInput = QLineEdit(self.IsiFrame)
         self.passwordInput.setObjectName(u"passwordInput")
+        self.passwordInput.setReadOnly(True)
         self.passwordInput.setFrame(True)
 
         self.gridLayout.addWidget(self.passwordInput, 2, 1, 1, 2)

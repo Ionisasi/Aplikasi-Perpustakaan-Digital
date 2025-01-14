@@ -48,7 +48,7 @@ class DataPinjam(QWidget):
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
 
-                # Query untuk mengambil data peminjaman dan pengembalian (termasuk yang belum dikembalikan)
+                # Query untuk semua peminjaman (baik yang sedang berlangsung maupun yang selesai)
                 query = """
                     SELECT 
                         u.nama_lengkap,
@@ -56,39 +56,31 @@ class DataPinjam(QWidget):
                         p.tanggal_pinjam,
                         p.tanggal_kembali,
                         pg.tanggal_pengembalian,
-                        pg.denda
+                        COALESCE(pg.denda, 0) AS denda,
+                        CASE 
+                            WHEN pg.tanggal_pengembalian IS NULL THEN 'Belum Kembali'
+                            ELSE 'Sudah Kembali'
+                        END AS status
                     FROM peminjaman p
                     LEFT JOIN peminjaman_detail pd ON p.id = pd.peminjaman_id
                     LEFT JOIN buku b ON pd.buku_id = b.id
                     LEFT JOIN User u ON p.anggota_id = u.id
                     LEFT JOIN pengembalian pg ON p.id = pg.peminjaman_id
-                    
-                    UNION
-                    
-                    SELECT 
-                        u.nama_lengkap,
-                        b.judul,
-                        NULL AS tanggal_pinjam,
-                        NULL AS tanggal_kembali,
-                        pg.tanggal_pengembalian,
-                        pg.denda
-                    FROM pengembalian pg
-                    LEFT JOIN peminjaman p ON pg.peminjaman_id = p.id
-                    LEFT JOIN peminjaman_detail pd ON p.id = pd.peminjaman_id
-                    LEFT JOIN buku b ON pd.buku_id = b.id
-                    LEFT JOIN User u ON p.anggota_id = u.id
                 """
 
                 if search_term:
-                    query += " WHERE u.nama_lengkap LIKE ? OR b.judul LIKE ?"
+                    # Menambahkan filter pencarian
                     search_placeholder = f"%{search_term}%"
+                    query += " WHERE u.nama_lengkap LIKE ? OR b.judul LIKE ?"
                     params = [search_placeholder, search_placeholder]
                 else:
                     params = []
 
+                # Eksekusi query
                 cursor.execute(query, params)
                 rows = cursor.fetchall()
 
+                # Setel tabel dan masukkan data
                 self._setup_table()
                 self._populate_table_data(rows)
 
@@ -98,13 +90,12 @@ class DataPinjam(QWidget):
     def _setup_table(self):
         # Mengatur tampilan tabel
         table = self.ui.view_data
-        table.setColumnCount(7)  # Include column for denda and pengembalian
+        table.setColumnCount(7)
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setHorizontalHeaderLabels([
-            'Nama Anggota', 'Judul Buku', 'Tanggal Pinjam', 'Tanggal Kembali', 'Tanggal Pengembalian', 'Denda', 'Status'
+            'Nama Anggota', 'Judul Buku', 'Tanggal Pinjam', 'Tenggat Kembali', 
+            'Tanggal Pengembalian', 'Denda', 'Status'
         ])
-        
-        # Configure header appearance
         header = table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
         header.setStretchLastSection(True)
@@ -116,18 +107,17 @@ class DataPinjam(QWidget):
 
         for row_idx, row_data in enumerate(rows):
             for col_idx, cell_data in enumerate(row_data):
-                # Format tanggal dan status denda
-                if col_idx == 3 or col_idx == 4 or col_idx == 5:
+                if col_idx == 3 or col_idx == 4:
+                    # Format tanggal (tanggal kembali atau pengembalian)
                     if cell_data is None:
-                        cell_data = 'Belum Kembali' if col_idx == 4 else 'Tidak Ada Denda'
-                if col_idx == 6 and cell_data is None:
-                    cell_data = 'Tidak Ada Denda'
+                        cell_data = 'Belum Kembali' if col_idx == 4 else 'Tidak Ada Tenggat'
+                elif col_idx == 5:
+                    # Format denda
+                    cell_data = f"Rp {cell_data:,}" if cell_data != 'Tidak Ada Denda' else cell_data
 
+                # Masukkan data ke dalam tabel
                 item = QTableWidgetItem(str(cell_data))
                 table.setItem(row_idx, col_idx, item)
-
-            # Kolom Status untuk menampilkan informasi pengembalian
-            self._add_status_column(row_idx)
 
     def _add_status_column(self, row_idx):
         # Menambahkan kolom status yang menunjukkan pengembalian
