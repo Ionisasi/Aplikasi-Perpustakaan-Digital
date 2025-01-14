@@ -8,6 +8,11 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QIcon
 from view.UI_DataKelola import Ui_Form as Ui_DataBuku
+from utils import resource_path
+
+def get_icon_path(icon_name):
+        return resource_path(f"Asset/Icon/{icon_name}")
+
 class DataBukuPage(QWidget):
     def __init__(self):
         super().__init__()
@@ -107,8 +112,8 @@ class DataBukuPage(QWidget):
         btn_layout.setContentsMargins(0, 0, 0, 0)
 
         # Create styled buttons
-        edit_btn = self._create_button('Edit', 'Asset/Icon/Edit.png', '#4CAF50')
-        delete_btn = self._create_button('Delete', 'Asset/Icon/Delete.png', '#F44336')
+        edit_btn = self._create_button('Edit', get_icon_path('Edit.png'), '#4CAF50')
+        delete_btn = self._create_button('Delete', get_icon_path('Delete.png'), '#F44336')
 
         # Connect button signals
         edit_btn.clicked.connect(lambda checked, r=row_idx: self.edit_data(r))

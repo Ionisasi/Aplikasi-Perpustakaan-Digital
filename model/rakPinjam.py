@@ -4,8 +4,9 @@ from PySide6.QtCore import QDate, Qt, QTimer
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PySide6.QtGui import QPixmap
 from view.UI_KoleksiBuku import Ui_Form as UI_rakPinjam  # UI Utama
+from utils import resource_path
 
-database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+database_path = resource_path("database/perpusdigi.db")
 
 class rakPinjamPage(QWidget):
     def __init__(self, user_id):
@@ -102,7 +103,7 @@ class rakPinjamPage(QWidget):
         book_ui.setupUi(widget)
 
         # Atur elemen dalam widget buku individu
-        book_ui.coverImg.setPixmap(QPixmap(cover_path) if os.path.exists(cover_path) else QPixmap())
+        book_ui.coverImg.setPixmap(QPixmap(resource_path(cover_path)) if os.path.exists(cover_path) else QPixmap())
         book_ui.judulBuku.setText(title)
         book_ui.tanggalPeminjaman.setDate(
             QDate.fromString(tanggal_pinjam, "yyyy-MM-dd") if tanggal_pinjam else QDate.currentDate()

@@ -18,11 +18,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QButtonGroup, QGridLayout, QHBoxLayout,
     QLabel, QMainWindow, QPushButton, QScrollArea,
     QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
-import os
+from utils import resource_path
+
 def get_icon_path(icon_name):
-    # Mendapatkan path absolut ke folder Icon
-    icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
-    return os.path.abspath(icon_path)
+        return resource_path(f"Asset/Icon/{icon_name}")
+
 class Ui_UI_Dashboard(object):
     def setupUi(self, UI_Dashboard):
         if not UI_Dashboard.objectName():

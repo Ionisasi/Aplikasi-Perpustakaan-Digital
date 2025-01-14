@@ -12,8 +12,9 @@ from model.dataKoleksiNonFiksi import KoleksiNonFiksi
 from model.Home import homePage
 from model.profile import profilePage 
 from model.rakPinjam import rakPinjamPage
+from utils import resource_path
 
-database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+database_path = resource_path("database/perpusdigi.db")
 class Dashboard(QMainWindow):
     def __init__(self, role, user_id):
         super().__init__()

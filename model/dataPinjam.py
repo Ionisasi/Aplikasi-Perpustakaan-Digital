@@ -8,6 +8,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QIcon
 from view.UI_DataKelola import Ui_Form as Ui_dataPinjam
+from utils import resource_path
 
 class DataPinjam(QWidget):
     def __init__(self):
@@ -16,7 +17,7 @@ class DataPinjam(QWidget):
         self.ui.setupUi(self)
         self.ui.Tambah_data.setVisible(False)
         self.ui.headerTitle.setText("DATA PINJAM")
-        self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+        self.database_path = database_path = resource_path("database/perpusdigi.db")
         
         # Setup search debouncing
         self.search_timer = QTimer(self)

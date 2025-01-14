@@ -4,8 +4,9 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QScrollArea, QHBoxLa
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt,QDate
 from view.UI_HomePage import Ui_Form as Ui_HomePage
+from utils import resource_path
 
-database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+database_path = resource_path("database/perpusdigi.db")
 
 class homePage(QWidget):
     def __init__(self, user_id):
@@ -45,7 +46,7 @@ class homePage(QWidget):
         layout = QVBoxLayout()
 
         cover_button = QPushButton(self)
-        pixmap = QPixmap(cover_path)
+        pixmap = QPixmap(resource_path(cover_path))
         scaled_pixmap = pixmap.scaled(150, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         cover_button.setIcon(scaled_pixmap)
         cover_button.setIconSize(scaled_pixmap.size())

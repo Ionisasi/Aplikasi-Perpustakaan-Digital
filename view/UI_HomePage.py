@@ -3,13 +3,10 @@ from PySide6.QtCore import (QCoreApplication, QMetaObject, QObject, QRect,
 from PySide6.QtGui import (QFont, QPixmap)
 from PySide6.QtWidgets import (QApplication, QLabel, QScrollArea, QSizePolicy,
                                QVBoxLayout, QHBoxLayout, QWidget)
-import os
+from utils import resource_path
 
 def get_icon_path(icon_name):
-    # Mendapatkan path absolut ke folder Icon
-    icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
-    return os.path.abspath(icon_path)
-
+        return resource_path(f"Asset/Icon/{icon_name}")
 class Ui_Form(object):
     def setupUi(self, HomePage):
         if not HomePage.objectName():

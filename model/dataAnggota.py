@@ -8,13 +8,17 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QIcon
 from view.UI_DataKelola import Ui_Form as Ui_DataAnggota
+from utils import resource_path
 
+def get_icon_path(icon_name):
+        return resource_path(f"Asset/Icon/{icon_name}")
+    
 class DataAnggotaPage(QWidget):
     def __init__(self):
         super().__init__()
         self.ui = Ui_DataAnggota()
         self.ui.setupUi(self)
-        self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+        self.database_path = resource_path("database/perpusdigi.db")
         
         self.ui.Tambah_data.setVisible(False)
         
@@ -133,8 +137,8 @@ class DataAnggotaPage(QWidget):
         btn_layout.setContentsMargins(0, 0, 0, 0)
 
         # Buat tombol edit dan hapus
-        edit_btn = self._create_button('Edit', 'Asset/Icon/Edit.png', '#4CAF50')
-        delete_btn = self._create_button('Delete', 'Asset/Icon/Delete.png', '#F44336')
+        edit_btn = self._create_button('Edit', get_icon_path('Edit.png'), '#4CAF50')
+        delete_btn = self._create_button('Delete', get_icon_path('Delete.png'), '#F44336')
 
         # Hubungkan tombol
         edit_btn.clicked.connect(lambda checked, r=row_idx: self.edit_data(r))

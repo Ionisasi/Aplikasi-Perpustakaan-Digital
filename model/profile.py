@@ -2,9 +2,9 @@ import os
 import sqlite3
 from view.UI_Profile import Ui_Form
 from PySide6.QtWidgets import QApplication, QWidget, QMessageBox
+from utils import resource_path
 
-# Tentukan jalur absolut ke database
-DATABASE_PATH = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+database_path = resource_path("database/perpusdigi.db")
 
 class profilePage(QWidget):
     def __init__(self, user_id):
@@ -26,7 +26,7 @@ class profilePage(QWidget):
     def load_user_profile(self):
         """Muat profil pengguna dari database berdasarkan user_id."""
         try:
-            conn = sqlite3.connect(DATABASE_PATH)
+            conn = sqlite3.connect(database_path)
             cursor = conn.cursor()
 
             # Ambil data pengguna
@@ -79,7 +79,7 @@ class profilePage(QWidget):
                 return
 
             # Koneksi ke database
-            conn = sqlite3.connect(DATABASE_PATH)
+            conn = sqlite3.connect(database_path)
             cursor = conn.cursor()
 
             # Perbarui data pengguna

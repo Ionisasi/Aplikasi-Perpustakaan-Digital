@@ -5,8 +5,9 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QL
 from PySide6.QtGui import QPixmap
 from datetime import datetime
 from view.UI_KoleksiBuku import Ui_Form as Ui_KoleksiBuku
+from utils import resource_path
 
-database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
+database_path = resource_path("/database/perpusdigi.db")
 
 class KoleksiBuku(QWidget):
     def __init__(self, user_id, kategori=None, ui_class=Ui_KoleksiBuku):
@@ -115,7 +116,10 @@ class KoleksiBuku(QWidget):
 
         row_layout = layout.itemAt(layout.count() - 1).layout()
 
-        book_widget = self.create_book_widget(book_id, title, cover_path)
+        # Resolve the cover path with resource_path
+        cover_path_resolved = resource_path(cover_path)
+
+        book_widget = self.create_book_widget(book_id, title, cover_path_resolved)
         row_layout.addWidget(book_widget)
         self.books_displayed.add(book_id)
 
@@ -125,6 +129,11 @@ class KoleksiBuku(QWidget):
 
         cover_button = QPushButton(self)
         pixmap = QPixmap(cover_path)
+
+        # Ensure the pixmap is valid
+        if pixmap.isNull():
+            pixmap = QPixmap(resource_path("Asset/cover-img/default-cover.jpg"))  # Default cover
+
         scaled_pixmap = pixmap.scaled(150, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         cover_button.setIcon(scaled_pixmap)
         cover_button.setIconSize(scaled_pixmap.size())

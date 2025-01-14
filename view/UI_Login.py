@@ -19,11 +19,10 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QLineEdit,
     QMainWindow, QPushButton, QSizePolicy, QVBoxLayout,
     QWidget)
 import os
+from utils import resource_path
 
 def get_icon_path(icon_name):
-    # Mendapatkan path absolut ke folder Icon
-    icon_path = os.path.join(os.path.dirname(__file__), '..', 'Asset', 'Icon', icon_name)
-    return os.path.abspath(icon_path)
+        return resource_path(f"Asset/Icon/{icon_name}")
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -108,7 +107,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        w_icon = QIcon('Asset/Icon/Buku.png')
+        w_icon = get_icon_path('Buku.png')
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Perpustakaan Digital", None))
         MainWindow.setWindowIcon(w_icon)
         self.label.setText("")

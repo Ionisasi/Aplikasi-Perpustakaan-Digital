@@ -4,6 +4,7 @@ import hashlib
 import re
 from PySide6.QtWidgets import QWidget, QMessageBox
 from view.UI_RegistrasiAnggota import Ui_Form
+from utils import resource_path
 
 class Registrasi(QWidget):
     def __init__(self):
@@ -43,9 +44,8 @@ class Registrasi(QWidget):
         # Hash password menggunakan SHA-256
         hashed_password = hashlib.sha256(self.password.encode()).hexdigest()
 
-        # Tentukan jalur absolut ke database
-        database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
-
+        database_path = resource_path("database/perpusdigi.db")
+        
         try:
             # Koneksi ke database
             conn = sqlite3.connect(database_path)
