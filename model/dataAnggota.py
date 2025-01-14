@@ -18,19 +18,15 @@ class DataAnggotaPage(QWidget):
         
         self.ui.Tambah_data.setVisible(False)
         
-        # Setup search debouncing
+        # Atur debouncing pencarian
         self.search_timer = QTimer(self)
         self.search_timer.setSingleShot(True)
         self.search_timer.timeout.connect(self.on_search)
 
-        # Pagination settings
-        self.page_size = 50
-        self.current_page = 0
-
-        # Connect event handlers
+        # Hubungkan handler event
         self.ui.Search_action.textChanged.connect(self.start_search_timer)
         
-        # Initial table population
+        # Populasi tabel awal
         self.populate_table()
 
     def showEvent(self, event):
@@ -39,11 +35,11 @@ class DataAnggotaPage(QWidget):
         super().showEvent(event)
 
     def start_search_timer(self):
-        # ulangi timer jika user terus mengetik
+        # Ulangi timer jika pengguna terus mengetik
         self.search_timer.start(300)
 
     def on_search(self):
-        # menghentikan timer dan memulai pencarian
+        # Menghentikan timer dan memulai pencarian
         self.current_page = 0
         search_term = self.ui.Search_action.text().strip()
 
@@ -64,14 +60,13 @@ class DataAnggotaPage(QWidget):
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
 
-                # Base query for user data
+                # Query dasar untuk data pengguna
                 base_query = """
                     SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role 
                     FROM User
                 """
-                params = []
 
-                # Add search filter if search term provided
+                # Tambahkan filter pencarian jika search term diberikan
                 if search_term:
                     base_query += """
                         WHERE nama_lengkap LIKE ? OR username LIKE ? OR 
@@ -81,14 +76,12 @@ class DataAnggotaPage(QWidget):
                     search_placeholder = f"%{search_term}%"
                     params.extend([search_placeholder] * 6)
 
-                # Add role filter if role_search is provided
+                # Tambahkan filter role jika role_search diberikan
                 if role_search:
                     base_query += " AND Role = ?"
                     params.append(role_search)
 
-                # Add pagination
-                base_query += " LIMIT ? OFFSET ?"
-                params.extend([self.page_size, self.current_page * self.page_size])
+                params = []
 
                 cursor.execute(base_query, params)
                 rows = cursor.fetchall()
@@ -100,15 +93,15 @@ class DataAnggotaPage(QWidget):
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
     def _setup_table(self):
-        # mengatur tampilan tabel
+        # Mengatur tampilan tabel
         table = self.ui.view_data
-        table.setColumnCount(7)  # Include column for manage buttons
+        table.setColumnCount(7)  # Sertakan kolom untuk tombol kelola
         table.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table.setHorizontalHeaderLabels([
             'Nama', 'Username', 'Telepon', 'Jenis Kelamin', 'Alamat', 'Role', 'Kelola'
         ])
         
-        # Configure header appearance
+        # Konfigurasikan tampilan header
         header = table.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
         header.setStretchLastSection(True)
@@ -121,9 +114,9 @@ class DataAnggotaPage(QWidget):
         for row_idx, row_data in enumerate(rows):
             for col_idx, cell_data in enumerate(row_data):
                 # Format data untuk jenis kelamin dan role
-                if col_idx == 3:  # Gender kolom
+                if col_idx == 3:  # Kolom jenis kelamin
                     cell_data = 'Laki-Laki' if cell_data == 'L' else 'Perempuan'
-                elif col_idx == 5:  # Role kolom
+                elif col_idx == 5:  # Kolom role
                     cell_data = 'Administrator' if cell_data == 1 else 'Anggota'
 
                 item = QTableWidgetItem(str(cell_data))
@@ -132,16 +125,16 @@ class DataAnggotaPage(QWidget):
             self._add_action_buttons(row_idx)
 
     def _add_action_buttons(self, row_idx):
-        # tambahkan tombol kelola untuk setiap baris
+        # Tambahkan tombol kelola untuk setiap baris
         btn_widget = QWidget()
         btn_layout = QHBoxLayout(btn_widget)
         btn_layout.setContentsMargins(0, 0, 0, 0)
 
-        # buat tombol edit dan hapus
+        # Buat tombol edit dan hapus
         edit_btn = self._create_button('Edit', 'Asset/Icon/Edit.png', '#4CAF50')
         delete_btn = self._create_button('Delete', 'Asset/Icon/Delete.png', '#F44336')
 
-        # Connect button
+        # Hubungkan tombol
         edit_btn.clicked.connect(lambda checked, r=row_idx: self.edit_data(r))
         delete_btn.clicked.connect(lambda checked, r=row_idx: self.hapus_data(r))
 
@@ -150,7 +143,7 @@ class DataAnggotaPage(QWidget):
         self.ui.view_data.setCellWidget(row_idx, 6, btn_widget)
 
     def _create_button(self, name, icon_path, base_color):
-        # buat tombol dengan ikon dan warna yang diberikan
+        # Buat tombol dengan ikon dan warna yang diberikan
         btn = QPushButton()
         btn.setIcon(QIcon(icon_path))
         btn.setStyleSheet(f"""
@@ -171,11 +164,11 @@ class DataAnggotaPage(QWidget):
 
     @staticmethod
     def _darken_color(hex_color, percent):
-        # gelapkan warna dengan persentase yang diberikan
+        # Gelapkan warna dengan persentase yang diberikan
         return hex_color
 
     def edit_data(self, row):
-        # mengambil data dari baris tabel
+        # Mengambil data dari baris tabel
         data = self._get_row_data(row)
         dialog = self._create_edit_dialog(data)
 
@@ -183,7 +176,7 @@ class DataAnggotaPage(QWidget):
             self._save_edited_data(dialog, data['username'])
 
     def _get_row_data(self, row):
-        # ekstrak data dari baris tabel
+        # Ekstrak data dari baris tabel
         table = self.ui.view_data
         return {
             'username': table.item(row, 1).text(),
@@ -195,11 +188,11 @@ class DataAnggotaPage(QWidget):
         }
 
     def _create_edit_dialog(self, data):
-        # membuat dialog untuk mengedit data
+        # Membuat dialog untuk mengedit data
         dialog = QDialog(self)
         dialog.setWindowTitle("Edit Data Anggota")
         dialog.setFixedSize(300, 350)
-                # Apply styling to the dialog
+        # Terapkan styling ke dialog
         dialog.setStyleSheet("""
             QWidget {
                 background-color: rgb(0, 33, 48);
@@ -235,11 +228,11 @@ class DataAnggotaPage(QWidget):
         return dialog
 
     def _create_edit_fields(self, dialog, data):
-        # membuat field input untuk dialog edit
+        # Membuat field input untuk dialog edit
         fields = {}
         layout = dialog.layout()
 
-        # Username field (read-only)
+        # Field username (read-only)
         username_input = QLineEdit(dialog)
         username_input.setText(data['username'])
         username_input.setReadOnly(True)
@@ -247,7 +240,7 @@ class DataAnggotaPage(QWidget):
         layout.addWidget(username_input)
         fields['username'] = username_input
 
-        # field input yang dapat diubah
+        # Field input yang dapat diubah
         editable_fields = [
             ('nama_lengkap', "Nama Lengkap:"),
             ('telp', "Telepon:"),
@@ -266,7 +259,7 @@ class DataAnggotaPage(QWidget):
         return fields
 
     def _save_edited_data(self, dialog, username):
-        # simpan data yang diedit ke database
+        # Simpan data yang diedit ke database
         fields = dialog.findChildren(QLineEdit)
         data = {field.objectName(): field.text() for field in fields}
 
@@ -293,7 +286,7 @@ class DataAnggotaPage(QWidget):
             QMessageBox.critical(self, "Error", f"Database error: {e}")
 
     def hapus_data(self, row):
-        # hapus data dari database
+        # Hapus data dari database
         nama = self.ui.view_data.item(row, 0).text()
         
         if QMessageBox.question(

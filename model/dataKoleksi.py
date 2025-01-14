@@ -9,13 +9,14 @@ from view.UI_KoleksiBuku import Ui_Form as Ui_KoleksiBuku
 database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
 
 class KoleksiBuku(QWidget):
-    def __init__(self, kategori=None, ui_class=Ui_KoleksiBuku):
+    def __init__(self, user_id, kategori=None, ui_class=Ui_KoleksiBuku):
         super().__init__()
+        self.user_id = user_id  # Simpan user_id
         self.kategori = kategori  # Kategori buku (Fiksi/Non Fiksi)
         self.ui = ui_class()
         self.ui.setupUi(self)  # Setup UI dari widget
-        self.ui.headerTitle.setText(f"BUKU {kategori.upper() if kategori else 'SEMUA'}")
-        
+        self.ui.headerTitle.setText(f"BUKU {kategori.upper()}" if kategori else "SEMUA BUKU")
+
         self.books_displayed = set()  # Melacak buku yang telah ditampilkan
         self.setup_timer()  # Memulai pengamat database
 
@@ -62,7 +63,7 @@ class KoleksiBuku(QWidget):
             JOIN buku b ON pd.buku_id = b.id
             WHERE p.tanggal_kembali IS NULL  -- Buku yang belum dikembalikan
         """)
-        
+
         books = cursor.fetchall()
         conn.close()
         return books
@@ -144,15 +145,6 @@ class KoleksiBuku(QWidget):
             info_label.setStyleSheet("font-size: 14px;")
             layout.addWidget(info_label)
 
-            # Input untuk jumlah peminjaman
-            borrow_label = QLabel("Masukkan jumlah buku yang ingin dipinjam:")
-            borrow_label.setStyleSheet("margin-top: 15px;")
-            layout.addWidget(borrow_label)
-
-            borrow_input = QLineEdit(dialog)
-            borrow_input.setPlaceholderText("Jumlah buku")
-            layout.addWidget(borrow_input)
-
             # Tanggal peminjaman (otomatis tanggal hari ini)
             borrow_date_label = QLabel("Tanggal Peminjaman:")
             layout.addWidget(borrow_date_label)
@@ -179,44 +171,40 @@ class KoleksiBuku(QWidget):
 
             # Fungsi untuk memproses peminjaman
             def process_borrow():
-                try:
-                    borrow_count = int(borrow_input.text())
-                    if borrow_count > 0 and borrow_count <= quantity:
-                        # Tanggal peminjaman dan pengembalian
-                        borrow_date_str = borrow_date.date().toString("yyyy-MM-dd")
-                        return_date_str = return_date.date().toString("yyyy-MM-dd")
+                if quantity > 0:  # Pastikan ada stok buku yang tersedia
+                    # Tanggal peminjaman dan pengembalian
+                    borrow_date_str = borrow_date.date().toString("yyyy-MM-dd")
+                    return_date_str = return_date.date().toString("yyyy-MM-dd")
 
-                        # Simpan ke database
-                        conn = sqlite3.connect(database_path)
-                        cursor = conn.cursor()
+                    # Simpan ke database
+                    conn = sqlite3.connect(database_path)
+                    cursor = conn.cursor()
 
-                        # Insert ke tabel peminjaman
-                        cursor.execute(
-                            "INSERT INTO peminjaman (tanggal_pinjam, tanggal_kembali, anggota_id) VALUES (?, ?, ?)",
-                            (borrow_date_str, return_date_str, 1),  # Anggota ID: 1 sebagai contoh
-                        )
-                        peminjaman_id = cursor.lastrowid
+                    # Insert ke tabel peminjaman
+                    cursor.execute(
+                        "INSERT INTO peminjaman (tanggal_pinjam, tanggal_kembali, anggota_id) VALUES (?, ?, ?)",
+                        (borrow_date_str, return_date_str, self.user_id),
+                    )
+                    peminjaman_id = cursor.lastrowid
 
-                        # Insert ke tabel peminjaman_detail
-                        cursor.execute(
-                            "INSERT INTO peminjaman_detail (peminjaman_id, buku_id) VALUES (?, ?)",
-                            (peminjaman_id, book_id),
-                        )
+                    # Insert ke tabel peminjaman_detail
+                    cursor.execute(
+                        "INSERT INTO peminjaman_detail (peminjaman_id, buku_id) VALUES (?, ?)",
+                        (peminjaman_id, book_id),
+                    )
 
-                        # Update jumlah buku
-                        cursor.execute(
-                            "UPDATE buku SET jumlah = jumlah - ? WHERE id = ?",
-                            (borrow_count, book_id),
-                        )
-                        conn.commit()
-                        conn.close()
+                    # Update jumlah buku
+                    cursor.execute(
+                        "UPDATE buku SET jumlah = jumlah - 1 WHERE id = ?",
+                        (book_id,),
+                    )
+                    conn.commit()
+                    conn.close()
 
-                        QMessageBox.information(dialog, "Berhasil", f"{borrow_count} buku berhasil dipinjam.")
-                        dialog.accept()
-                    else:
-                        QMessageBox.warning(dialog, "Gagal", "Jumlah yang dimasukkan tidak valid atau melebihi stok.")
-                except ValueError:
-                    QMessageBox.warning(dialog, "Gagal", "Masukkan jumlah yang valid.")
+                    QMessageBox.information(dialog, "Berhasil", f"Buku berhasil dipinjam.")
+                    dialog.accept()
+                else:
+                    QMessageBox.warning(dialog, "Gagal", "Buku tidak tersedia.")
 
             borrow_button.clicked.connect(process_borrow)
 

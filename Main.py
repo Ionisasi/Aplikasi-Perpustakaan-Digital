@@ -41,7 +41,7 @@ class Login(QMainWindow):
             cursor = conn.cursor()
 
             # Query untuk memeriksa username dan password
-            query = "SELECT Role, id FROM User WHERE username = ? AND password = ?"
+            query = "SELECT id, Role FROM User WHERE username = ? AND password = ?"
             cursor.execute(query, (username, hashed_password))
             result = cursor.fetchone()
 
@@ -51,9 +51,9 @@ class Login(QMainWindow):
                 QMessageBox.critical(self, "Error", "Username atau password salah!")
                 return
 
-            self.role = result[0]
-            self.user_id = result[1]
-
+            self.user_id = result[0]
+            self.role = result[1]
+            
             self.close()
 
             self.open_dashboard()

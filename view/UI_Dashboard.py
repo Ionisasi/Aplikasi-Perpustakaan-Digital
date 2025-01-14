@@ -231,7 +231,7 @@ class Ui_UI_Dashboard(object):
 
         self.DataSubMenu = QWidget(self.sidebar)
         self.DataSubMenu.setObjectName(u"DataSubMenu")
-        self.DataSubMenu.setMaximumSize(QSize(16777215, 90))
+        self.DataSubMenu.setMaximumSize(QSize(16777215, 135))
         self.verticalLayout_5 = QVBoxLayout(self.DataSubMenu)
         self.verticalLayout_5.setSpacing(0)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -261,6 +261,18 @@ class Ui_UI_Dashboard(object):
         self.DataAnggota.setCheckable(True)
 
         self.verticalLayout_5.addWidget(self.DataAnggota)
+        
+        self.DataPinjam = QPushButton(self.DataSubMenu)
+        self.buttonGroup.addButton(self.DataPinjam)
+        self.DataPinjam.setObjectName(u"DataBuku")
+        self.DataPinjam.setMinimumSize(QSize(0, 40))
+        self.DataPinjam.setMaximumSize(QSize(16777215, 40))
+        self.DataPinjam.setStyleSheet(u"font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;padding-left: 20px;border: none;\n"
+"")
+        self.DataPinjam.setIcon(icon2)
+        self.DataPinjam.setCheckable(True)
+
+        self.verticalLayout_5.addWidget(self.DataPinjam)
 
 
         self.verticalLayout.addWidget(self.DataSubMenu)
@@ -387,6 +399,7 @@ class Ui_UI_Dashboard(object):
         self.Data.setText(QCoreApplication.translate("UI_Dashboard", u"Kelola Data", None))
         self.DataBuku.setText(QCoreApplication.translate("UI_Dashboard", u"Data Buku", None))
         self.DataAnggota.setText(QCoreApplication.translate("UI_Dashboard", u"Data Anggota", None))
+        self.DataPinjam.setText(QCoreApplication.translate("UI_Dashboard", u"Data Pinjaman", None))
         self.Menu2.setText(QCoreApplication.translate("UI_Dashboard", u"Settings", None))
         self.Profile.setText(QCoreApplication.translate("UI_Dashboard", u"Profile", None))
         self.Logout.setText(QCoreApplication.translate("UI_Dashboard", u"Logout", None))

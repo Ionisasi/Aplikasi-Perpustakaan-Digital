@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from view.UI_Dashboard import Ui_UI_Dashboard
 from model.dataAnggota import DataAnggotaPage
 from model.dataBuku import DataBukuPage
+from model.dataPinjam import DataPinjam
 from model.dataKoleksi import KoleksiBuku
 from model.dataKoleksiFiksi import KoleksiFiksi
 from model.dataKoleksiNonFiksi import KoleksiNonFiksi
@@ -43,28 +44,31 @@ class Dashboard(QMainWindow):
             QMessageBox.critical(self, "Error", f"Database error: {e}")
             
         # setup halaman data anggota
-        self.homePage = homePage()
+        self.homePage = homePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.homePage)
         # set halaman home sebagai halaman utama
         self.ui.stackedWidget.setCurrentWidget(self.homePage) 
         
-        self.dataKoleksi = KoleksiBuku()
+        self.dataKoleksi = KoleksiBuku(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksi)
 
-        self.dataKoleksiFiksi = KoleksiFiksi()
+        self.dataKoleksiFiksi = KoleksiFiksi(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
 
-        self.dataKoleksiNonFiksi = KoleksiNonFiksi()
+        self.dataKoleksiNonFiksi = KoleksiNonFiksi(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksiNonFiksi)
         
-        self.rakPinjam = rakPinjamPage()
+        self.rakPinjam = rakPinjamPage(self.user_id)
         self.ui.stackedWidget.addWidget(self.rakPinjam)
 
         self.dataAnggota = DataAnggotaPage()
         self.ui.stackedWidget.addWidget(self.dataAnggota)
 
         self.dataBuku = DataBukuPage()
-        self.ui.stackedWidget.addWidget(self.dataBuku)
+        self.ui.stackedWidget.addWidget(self.dataBuku)  
+        
+        self.dataPinjam = DataPinjam()
+        self.ui.stackedWidget.addWidget(self.dataPinjam)
         
         self.profilePage = profilePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.profilePage)
@@ -79,6 +83,7 @@ class Dashboard(QMainWindow):
         self.ui.Data.clicked.connect(lambda checked: self.toggle_submenu(self.ui.DataSubMenu) if checked else None)
         self.ui.DataBuku.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataBuku))   
         self.ui.DataAnggota.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataAnggota))
+        self.ui.DataPinjam.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.dataPinjam))
         self.ui.Profile.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.profilePage))
         self.ui.Logout.clicked.connect(self.logout)
         
