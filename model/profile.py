@@ -91,9 +91,6 @@ class profilePage(QWidget):
             cursor.execute(query, (nama, username, telepon, alamat, jenis_kelamin, self.user_id))
             conn.commit()
             conn.close()
-
-            # Perbarui header title
-            self.ui.headerTitle.setText("Data Berhasil Disimpan!")
             
             # Tampilkan pesan sukses
             QMessageBox.information(self, "Sukses", 
