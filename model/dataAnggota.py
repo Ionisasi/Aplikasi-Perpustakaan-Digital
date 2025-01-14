@@ -41,20 +41,20 @@ class DataAnggotaPage(QWidget):
         search_term = self.ui.Search_action.text().strip()
         self.populate_table(search_term)
 
-    def populate_table(self, search_term=""):
-        """Populate the table with member data from the database."""
+    def populate_table(self, search_term="", role_search=None):
+        # Mengisi tabel dengan data pengguna yang sesuai
         try:
             with sqlite3.connect(self.database_path) as conn:
                 cursor = conn.cursor()
 
-                # Base query for member data from User table
+                # Query dasar untuk data pengguna
                 base_query = """
-                    SELECT id, nama_lengkap, username, telp, jenis_kelamin, alamat, Role
+                    SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role 
                     FROM User
                 """
                 params = []  # Inisialisasi params
 
-                # Add search filter if search term provided
+                # Tambahkan filter pencarian jika search term diberikan
                 if search_term:
                     base_query += """
                         WHERE (nama_lengkap LIKE ? OR username LIKE ? OR 
@@ -80,6 +80,7 @@ class DataAnggotaPage(QWidget):
 
         except sqlite3.Error as e:
             QMessageBox.critical(self, "Error", f"Database error: {e}")
+
 
     def _setup_table(self):
         """Configure table settings."""
