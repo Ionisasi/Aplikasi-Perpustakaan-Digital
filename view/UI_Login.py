@@ -108,7 +108,9 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Login, Logout & Register", None))
+        w_icon = QIcon('Asset/Icon/Buku.png')
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Perpustakaan Digital", None))
+        MainWindow.setWindowIcon(w_icon)
         self.label.setText("")
         self.titleLabel.setText(QCoreApplication.translate("MainWindow", u"Perpustakaan Digital", None))
         self.usernameInput.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Enter your username", None))

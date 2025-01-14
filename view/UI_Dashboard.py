@@ -383,7 +383,9 @@ class Ui_UI_Dashboard(object):
     # setupUi
 
     def retranslateUi(self, UI_Dashboard):
-        UI_Dashboard.setWindowTitle(QCoreApplication.translate("UI_Dashboard", u"MainWindow", None))
+        w_icon = QIcon('Asset/Icon/Buku.png')
+        UI_Dashboard.setWindowTitle(QCoreApplication.translate("UI_Dashboard", u"Perpustakaan Digital", None))
+        UI_Dashboard.setWindowIcon(w_icon)
         self.icon_label.setText("")
         self.title_label.setText(QCoreApplication.translate("UI_Dashboard", u"Perpustakaan Digital\n"
 "      Kelompok 2", None))

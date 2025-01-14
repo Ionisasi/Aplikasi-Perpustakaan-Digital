@@ -127,6 +127,7 @@ class KoleksiBuku(QWidget):
 
             # Membuat dialog baru
             dialog = QDialog(self)
+            dialog.setFixedSize(650,300)
             dialog.setWindowTitle("Informasi Buku dan Peminjaman")
             dialog.setModal(True)
 
@@ -162,6 +163,7 @@ class KoleksiBuku(QWidget):
             return_date = QDateEdit(dialog)
             return_date.setDate(QDate.currentDate().addDays(7))  # Default 7 hari ke depan
             return_date.setCalendarPopup(True)
+            return_date.setEnabled(False)
             layout.addWidget(return_date)
 
             # Tombol untuk melakukan peminjaman
