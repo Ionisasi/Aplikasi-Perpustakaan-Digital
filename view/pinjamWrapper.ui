@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>780</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+				background-color: rgb(0, 255, 0);
+                font-size: 20px;
+                font-weight: bold;
+                color: #ffffff;
+                text-align: left;
+                padding-left: 20px;
+                border: none;
+        }
+        QPushButton:checked {
+                background-color: rgb(0, 100, 200);
+                color: #ffffff;
+        }
+        QPushButton:hover {
+                background-color: rgb(0, 50, 100);
+        }</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
+   <property name="horizontalSpacing">
+    <number>20</number>
+   </property>
+   <property name="verticalSpacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0" rowspan="3">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="coverImg">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>../Asset/cover-img/_Pi0YRcQESAC.png</pixmap>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item alignment="">
+      <widget class="QLabel" name="judulBuku">
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font-size: 12px; font-weight: bold; text-align: center; color: #ffffff;</string>
+       </property>
+       <property name="text">
+        <string>Judul Buku</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="LblBorrowDate">
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string>Tanggal Peminjaman</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QDateEdit" name="tanggalPeminjaman"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="LblDeadLine">
+     <property name="styleSheet">
+      <string notr="true">font-size: 15px; font-weight: bold; text-align: center; color: #ffffff;</string>
+     </property>
+     <property name="text">
+      <string>Tenggat Pengembalian</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QDateEdit" name="tanggalDeadline"/>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QPushButton" name="KembalikanBtn">
+     <property name="styleSheet">
+      <string notr="true">font-size: 20px; font-weight: bold; text-align: left; color: #ffffff;text-align: center;
+border:transparent;</string>
+     </property>
+     <property name="text">
+      <string>Kembalikan</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

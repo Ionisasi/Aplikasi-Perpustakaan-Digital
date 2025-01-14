@@ -8,7 +8,7 @@ from view.UI_HomePage import Ui_Form as Ui_HomePage
 database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
 
 class homePage(QWidget):
-    def __init__(self):
+    def __init__(self, user_id):
         super().__init__()
         self.ui = Ui_HomePage()
         self.ui.setupUi(self)

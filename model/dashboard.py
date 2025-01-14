@@ -43,28 +43,28 @@ class Dashboard(QMainWindow):
             QMessageBox.critical(self, "Error", f"Database error: {e}")
             
         # setup halaman data anggota
-        self.homePage = homePage()
+        self.homePage = homePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.homePage)
         # set halaman home sebagai halaman utama
         self.ui.stackedWidget.setCurrentWidget(self.homePage) 
         
-        self.dataKoleksi = KoleksiBuku()
+        self.dataKoleksi = KoleksiBuku(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksi)
 
-        self.dataKoleksiFiksi = KoleksiFiksi()
+        self.dataKoleksiFiksi = KoleksiFiksi(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksiFiksi)
 
-        self.dataKoleksiNonFiksi = KoleksiNonFiksi()
+        self.dataKoleksiNonFiksi = KoleksiNonFiksi(self.user_id)
         self.ui.stackedWidget.addWidget(self.dataKoleksiNonFiksi)
         
-        self.rakPinjam = rakPinjamPage()
+        self.rakPinjam = rakPinjamPage(self.user_id)
         self.ui.stackedWidget.addWidget(self.rakPinjam)
 
         self.dataAnggota = DataAnggotaPage()
         self.ui.stackedWidget.addWidget(self.dataAnggota)
 
         self.dataBuku = DataBukuPage()
-        self.ui.stackedWidget.addWidget(self.dataBuku)
+        self.ui.stackedWidget.addWidget(self.dataBuku)  
         
         self.profilePage = profilePage(self.user_id)
         self.ui.stackedWidget.addWidget(self.profilePage)
