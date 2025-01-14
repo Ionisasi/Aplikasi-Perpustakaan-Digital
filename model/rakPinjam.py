@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from PySide6.QtCore import QDate, Qt, QTimer
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QMessageBox
 from PySide6.QtGui import QPixmap
 from view.UI_KoleksiBuku import Ui_Form as UI_rakPinjam  # Main UI
 
@@ -117,4 +117,86 @@ class rakPinjamPage(QWidget):
         return widget
 
     def return_book(self, book_id, widget):
-        pass
+        # Fetch peminjaman_id and the corresponding return date for the book
+        conn = sqlite3.connect(database_path)
+        conn.execute("PRAGMA foreign_keys = ON;")  # Ensure foreign keys are enabled
+        cursor = conn.cursor()
+
+        try:
+            # Check if the book is part of an ongoing borrowing record (not yet returned)
+            query = """
+            SELECT p.id, p.tanggal_pinjam, p.tanggal_kembali
+            FROM peminjaman p
+            JOIN peminjaman_detail pd ON p.id = pd.peminjaman_id
+            WHERE pd.buku_id = ? AND p.anggota_id = ?;
+            """
+            cursor.execute(query, (book_id, self.user_id))
+            peminjaman = cursor.fetchone()
+
+            if peminjaman is None:
+                QMessageBox.warning(self, "Error", "Buku ini tidak dalam status peminjaman.")
+                return
+
+            peminjaman_id, tanggal_pinjam, tanggal_kembali = peminjaman
+
+            # Calculate the current date and check for late returns (tenggat)
+            today = QDate.currentDate()
+            denda = 0
+            if tanggal_kembali is not None:
+                tenggat_kembali = QDate.fromString(tanggal_kembali, "yyyy-MM-dd")
+                if today > tenggat_kembali:
+                    denda = (today.toPyDate() - tenggat_kembali.toPyDate()).days * 1000  # Denda 1000 per hari keterlambatan
+
+            # Add return entry to pengembalian table
+            query = """
+            INSERT INTO pengembalian (tanggal_pengembalian, denda, peminjaman_id, anggota_id)
+            VALUES (?, ?, ?, ?);
+            """
+            cursor.execute(query, (today.toString("yyyy-MM-dd"), denda, peminjaman_id, self.user_id))
+            pengembalian_id = cursor.lastrowid  # Get the last inserted pengembalian_id
+
+            # Add entry to pengembalian_detail
+            query = """
+            INSERT INTO pengembalian_detail (pengembalian_id, buku_id)
+            VALUES (?, ?);
+            """
+            cursor.execute(query, (pengembalian_id, book_id))
+
+            # Update the quantity of the book after return
+            query = """
+            UPDATE buku
+            SET jumlah = jumlah + 1
+            WHERE id = ?;
+            """
+            cursor.execute(query, (book_id,))
+
+            # Commit the changes
+            conn.commit()
+
+            # Manually delete the related peminjaman_detail entries
+            query = """
+            DELETE FROM peminjaman_detail WHERE peminjaman_id = ?;
+            """
+            cursor.execute(query, (peminjaman_id,))
+
+            # Now delete the peminjaman record
+            query = """
+            DELETE FROM peminjaman WHERE id = ?;
+            """
+            cursor.execute(query, (peminjaman_id,))
+
+            # Commit the changes
+            conn.commit()
+
+            # Remove the book widget from the display
+            self.book_layout.removeWidget(widget)
+            widget.deleteLater()
+
+            QMessageBox.information(self, "Sukses", "Buku berhasil dikembalikan.")
+
+        except sqlite3.Error as e:
+            conn.rollback()  # Rollback on error
+            print(f"Database error: {e}")
+            QMessageBox.critical(self, "Error", "Terjadi kesalahan dalam pengembalian buku.")
+        finally:
+            conn.close()

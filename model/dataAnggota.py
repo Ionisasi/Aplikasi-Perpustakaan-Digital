@@ -23,10 +23,6 @@ class DataAnggotaPage(QWidget):
         self.search_timer.setSingleShot(True)
         self.search_timer.timeout.connect(self.on_search)
 
-        # Pagination settings
-        self.page_size = 50
-        self.current_page = 0
-
         # Connect event handlers
         self.ui.Search_action.textChanged.connect(self.start_search_timer)
         
@@ -69,7 +65,7 @@ class DataAnggotaPage(QWidget):
                     SELECT nama_lengkap, username, telp, jenis_kelamin, alamat, Role 
                     FROM User
                 """
-                params = []
+
 
                 # Add search filter if search term provided
                 if search_term:
@@ -85,10 +81,8 @@ class DataAnggotaPage(QWidget):
                 if role_search:
                     base_query += " AND Role = ?"
                     params.append(role_search)
-
-                # Add pagination
-                base_query += " LIMIT ? OFFSET ?"
-                params.extend([self.page_size, self.current_page * self.page_size])
+                
+                params = []
 
                 cursor.execute(base_query, params)
                 rows = cursor.fetchall()

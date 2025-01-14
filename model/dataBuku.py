@@ -15,6 +15,8 @@ class DataBukuPage(QWidget):
         self.ui.setupUi(self)
         self.ui.retranslateUi(self)
         self.ui.headerTitle.setText("DATA BUKU")
+        
+        self.ui.Tambah_data.setVisible(False)
 
         self.database_path = os.path.join(os.path.dirname(__file__), "../database/perpusdigi.db")
 
@@ -22,11 +24,7 @@ class DataBukuPage(QWidget):
         self.search_timer = QTimer(self)
         self.search_timer.setSingleShot(True)
         self.search_timer.timeout.connect(self.on_search)
-
-        # Pagination settings
-        self.page_size = 50
-        self.current_page = 0
-
+        
         # Connect event handlers
         self.ui.Search_action.textChanged.connect(self.start_search_timer)
 
