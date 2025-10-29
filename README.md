@@ -27,7 +27,7 @@ Proyek ini dibuat untuk penyelesaian UAS mata kuliah praktikum pemrograman visua
 
 ## Beta Release
 
-Versi **Beta 0.1.0** dari aplikasi ini telah dirilis dan mencakup file executable (`main.exe`) untuk memudahkan pengujian tanpa perlu menginstal dependensi Python secara manual.
+Versi **Beta 0.1.0** dari aplikasi ini telah dirilis dan mencakup file executable (`https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases`) untuk memudahkan pengujian tanpa perlu menginstal dependensi Python secara manual.
 
 Anda dapat mengunduh executable ini langsung dari halaman **Releases** di repository GitHub. Pastikan untuk membaca dokumentasi ini sebelum menggunakan aplikasi untuk memahami fitur-fiturnya.
 
@@ -38,19 +38,19 @@ Anda dapat mengunduh executable ini langsung dari halaman **Releases** di reposi
 ### Clone Repositori
 
 ```bash
-git clone https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/
+git clone https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
 ```
 
 ### Install Dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install -r https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
 ```
 
 ### Jalankan Aplikasi
 
 ```bash
-python main.py
+python https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
 ```
 
 ---
@@ -66,10 +66,10 @@ Untuk membuat executable sendiri, gunakan PyInstaller dengan perintah berikut:
 
 2. Buat executable:
    ```bash
-   pyinstaller --noconsole --onefile --add-data "utils.py;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "database/perpusdigi.db;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" main.py --clean
+   pyinstaller --noconsole --onefile --add-data "https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases --clean
    ```
 
-3. File executable (`main.exe`) akan tersedia di folder `dist`.
+3. File executable (`https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases`) akan tersedia di folder `dist`.
 
 ---
 
